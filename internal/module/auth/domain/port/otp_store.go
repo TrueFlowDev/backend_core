@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain"
-	shared "github.com/TrueFlowDev/Backend/internal/shared/domain/value_object"
+	shared "github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
 )
 
 type OTPStore interface {

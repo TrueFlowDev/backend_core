@@ -6,7 +6,6 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
 	user "github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
-	shared "github.com/TrueFlowDev/Backend/internal/shared/domain/value_object"
 )
 
 type RegisterUserInput struct {
@@ -34,7 +33,7 @@ func NewRegisterUserUsecase(
 }
 
 func (u *RegisterUserUsecase) Execute(ctx context.Context, input RegisterUserInput) (RegisterUserOutput, error) {
-	newUserPhone, err := shared.NewPhone(input.Phone)
+	newUserPhone, err := user.NewPhone(input.Phone)
 	if err != nil {
 		return RegisterUserOutput{}, err
 	}
