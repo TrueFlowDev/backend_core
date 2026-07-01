@@ -31,7 +31,7 @@ func NewRegisterUserUsecase(
 	}
 }
 
-func (u *RegisterUserUsecase) execute(input RegisterUserInput) (RegisterUserOutput, error) {
+func (u *RegisterUserUsecase) Execute(input RegisterUserInput) (RegisterUserOutput, error) {
 	newUserPhone, err := shared.NewPhone(input.Phone)
 	if err != nil {
 		return RegisterUserOutput{}, err
