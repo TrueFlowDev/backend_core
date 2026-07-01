@@ -11,5 +11,4 @@ type UserRepository interface {
 
 	FindByID(id user.UserID) (*entity.User, error)
 	FindByPhone(phone shared.Phone) (*entity.User, error)
-	ExistsByPhone(phone shared.Phone) (bool, error)
 }
