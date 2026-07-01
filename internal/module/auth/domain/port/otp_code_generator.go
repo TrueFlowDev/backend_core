@@ -1,5 +1,5 @@
 package port
 
 type OtpCodeGenerator interface {
-	Generate() (string, error)
+	Generate() string
 }
