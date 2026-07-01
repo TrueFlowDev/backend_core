@@ -1,9 +1,14 @@
 package main
 
-import "go.uber.org/fx"
+import (
+	"github.com/TrueFlowDev/Backend/internal/module/user"
+	"go.uber.org/fx"
+)
 
 func main() {
 	fx.
-		New().
+		New(
+			user.Module,
+		).
 		Run()
 }
