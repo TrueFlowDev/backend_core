@@ -46,7 +46,10 @@ func (u *SendOtpUsecase) Execute(ctx context.Context, input SendOtpInput) error 
 		return err
 	}
 
-	otpCode := u.otpCodeGenerator.Generate()
+	otpCode, err := u.otpCodeGenerator.Generate()
+	if err != nil {
+		return err
+	}
 
 	otpExpiresAt := time.Now().UTC().Add(u.otpTTL)
 	otp, err := entity.NewOTP(otpCode, otpExpiresAt)

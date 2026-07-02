@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/infrastructure/adapter"
 	"go.uber.org/fx"
@@ -17,5 +18,11 @@ var Module = fx.Module(
 			adapter.NewPasswordHasher,
 			fx.As(new(port.PasswordHasher)),
 		),
+		fx.Annotate(
+			adapter.NewOtpCodeGenerator,
+			fx.As(new(port.OtpCodeGenerator)),
+		),
+		usecase.NewSendOtpUsecase,
+		usecase.NewVerifyOTPAndRegisterUsecase,
 	),
 )
