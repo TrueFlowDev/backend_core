@@ -9,7 +9,7 @@ vars:
   OUT: "{{.BIN_DIR}}/{{.APP_NAME}}"
   SWAGGER_DOCS_DIR: docs/swagger
   MAIN_PATH: cmd/server/main.go
-  DB_URL: 'postgres://{{.POSTGRES_USER}}:{{.POSTGRES_PASSWORD}}@{{.POSTGRES_HOST}}:{{.POSTGRES_PORT}}/{{.POSTGRES_DB}}?sslmode={{.POSTGRES_SSLMODE}}'
+  DB_URL: 'postgres://{{.DB_POSTGRES_USER}}:{{.DB_POSTGRES_PASSWORD}}@{{.DB_POSTGRES_HOST}}:{{.DB_POSTGRES_PORT}}/{{.DB_POSTGRES_DB}}?sslmode=disable'
 
 tasks:
   default:
