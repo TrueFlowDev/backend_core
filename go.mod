@@ -6,6 +6,7 @@ require (
 	github.com/Ali127Dev/xerr v1.2.1
 	github.com/avast/retry-go/v5 v5.0.0
 	github.com/golang-jwt/jwt/v5 v5.3.1
+	github.com/google/uuid v1.6.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/nyaruka/phonenumbers v1.8.0
