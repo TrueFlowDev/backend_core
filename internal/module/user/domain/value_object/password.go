@@ -1,12 +1,13 @@
 package value_object
 
 import (
-	"errors"
 	"strings"
+
+	"github.com/Ali127Dev/xerr"
 )
 
 var (
-	ErrHashedPasswordRequired = errors.New("hashed password is required")
+	ErrHashedPasswordRequired = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("hashed_password", "required"))
 )
 
 type HashedPassword struct {
