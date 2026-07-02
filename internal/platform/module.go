@@ -7,6 +7,9 @@ import (
 
 var Module = fx.Module(
 	"platform",
+	fx.Provide(
+		config.NewConfig,
+	),
 	fx.Invoke(
 		config.LoadFromEnvFile,
 	),
