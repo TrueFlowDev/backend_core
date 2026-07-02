@@ -4,6 +4,7 @@ go 1.26
 
 require (
 	github.com/Ali127Dev/xerr v1.2.1
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/nyaruka/phonenumbers v1.8.0

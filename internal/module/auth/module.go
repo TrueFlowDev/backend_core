@@ -22,6 +22,10 @@ var Module = fx.Module(
 			adapter.NewOtpCodeGenerator,
 			fx.As(new(port.OtpCodeGenerator)),
 		),
+		fx.Annotate(
+			adapter.NewJwtProvider,
+			fx.As(new(port.AccessTokenProvider)),
+		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
 	),
