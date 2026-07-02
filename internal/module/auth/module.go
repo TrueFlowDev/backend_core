@@ -13,5 +13,9 @@ var Module = fx.Module(
 			adapter.NewSmsOtpSenderAdapter,
 			fx.As(new(port.SmsOtpSender)),
 		),
+		fx.Annotate(
+			adapter.NewPasswordHasher,
+			fx.As(new(port.PasswordHasher)),
+		),
 	),
 )
