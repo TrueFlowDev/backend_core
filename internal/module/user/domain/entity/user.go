@@ -29,6 +29,22 @@ func NewUser(
 	}, nil
 }
 
+func RestoreUser(
+	id value_object.UserID,
+	phone value_object.Phone,
+	createdAt time.Time,
+	updatedAt time.Time,
+	deletedAt *time.Time,
+) *User {
+	return &User{
+		id:        id,
+		phone:     phone,
+		createdAt: createdAt,
+		updatedAt: updatedAt,
+		deletedAt: deletedAt,
+	}
+}
+
 // <-- Getters -->
 
 func (u *User) ID() value_object.UserID               { return u.id }
