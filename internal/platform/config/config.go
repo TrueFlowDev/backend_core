@@ -23,6 +23,7 @@ type CacheConfig struct {
 	RedisHost     string `env:"REDIS_HOST" env-default:"localhost"`
 	RedisPort     int    `env:"REDIS_PORT" env-default:"6379"`
 	RedisPassword string `env:"REDIS_PASSWORD" env-required:"true"`
+	RedisDb       int    `env:"REDIS_DB" env-default:"0"`
 }
 
 type JWTConfig struct {
