@@ -8,11 +8,11 @@ import (
 )
 
 var (
-	ErrOTPExpired        = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", "expired"))
-	ErrOTPLocked         = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", "locked"))
-	ErrOTPInvalidCode    = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", "invalid"))
-	ErrCodeIsRequired    = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", "required"))
-	ErrInvalidExpireTime = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("expire_time", "invalid"))
+	ErrOTPExpired        = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonExpired))
+	ErrOTPLocked         = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonExpired))
+	ErrOTPMismatchCode   = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonMismatch))
+	ErrCodeIsRequired    = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonRequired))
+	ErrInvalidExpireTime = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("expire_time", xerr.ErrorReasonExpired))
 )
 
 const MaxOtpAttempts = 5
@@ -59,7 +59,7 @@ func (o *OTP) Verify(code string) error {
 
 	if o.code != code {
 		o.attempts++
-		return ErrOTPInvalidCode
+		return ErrOTPMismatchCode
 	}
 
 	return nil

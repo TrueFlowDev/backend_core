@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrHashedPasswordRequired = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("hashed_password", "required"))
+	ErrHashedPasswordRequired = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("password", xerr.ErrorReasonRequired))
 )
 
 type HashedPassword struct {

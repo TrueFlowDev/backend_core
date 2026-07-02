@@ -3,7 +3,7 @@ module github.com/TrueFlowDev/Backend
 go 1.26
 
 require (
-	github.com/Ali127Dev/xerr v1.2.0
+	github.com/Ali127Dev/xerr v1.2.1
 	github.com/nyaruka/phonenumbers v1.8.0
 	go.uber.org/fx v1.24.0
 	golang.org/x/crypto v0.53.0

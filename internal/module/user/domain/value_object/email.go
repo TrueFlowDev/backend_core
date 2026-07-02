@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	ErrEmailRequired      = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", "required"))
-	ErrEmailInvalidFormat = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", "invalid"))
+	ErrEmailRequired      = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", xerr.ErrorReasonRequired))
+	ErrEmailInvalidFormat = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", xerr.ErrorReasonInvalidFormat))
 )
 
 type Email struct {
