@@ -7,6 +7,8 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/platform/config"
+	"go.uber.org/fx"
 )
 
 type SendOtpInput struct {
@@ -17,17 +19,24 @@ type SendOtpUsecase struct {
 	otpCodeGenerator port.OtpCodeGenerator
 	otpStore         port.OTPStore
 	otpSender        port.SmsOtpSender
+	otpTTL           time.Duration
 }
 
-func NewSendOtpUsecase(
-	otpCodeGenerator port.OtpCodeGenerator,
-	otpStore port.OTPStore,
-	otpSender port.SmsOtpSender,
-) *SendOtpUsecase {
+type SendOtpParams struct {
+	fx.In
+
+	Config           *config.Config
+	OtpCodeGenerator port.OtpCodeGenerator
+	OtpStore         port.OTPStore
+	OtpSender        port.SmsOtpSender
+}
+
+func NewSendOtpUsecase(p SendOtpParams) *SendOtpUsecase {
 	return &SendOtpUsecase{
-		otpCodeGenerator: otpCodeGenerator,
-		otpStore:         otpStore,
-		otpSender:        otpSender,
+		otpCodeGenerator: p.OtpCodeGenerator,
+		otpStore:         p.OtpStore,
+		otpSender:        p.OtpSender,
+		otpTTL:           p.Config.OTP.TTL,
 	}
 }
 
@@ -39,15 +48,13 @@ func (u *SendOtpUsecase) Execute(ctx context.Context, input SendOtpInput) error 
 
 	otpCode := u.otpCodeGenerator.Generate()
 
-	// TODO: this value must come from app configs
-	duration := 5 * time.Minute
-	otpExpiresAt := time.Now().UTC().Add(duration)
+	otpExpiresAt := time.Now().UTC().Add(u.otpTTL)
 	otp, err := entity.NewOTP(otpCode, otpExpiresAt)
 	if err != nil {
 		return err
 	}
 
-	if err := u.otpStore.Set(ctx, phone, otp, duration); err != nil {
+	if err := u.otpStore.Set(ctx, phone, otp, u.otpTTL); err != nil {
 		return err
 	}
 

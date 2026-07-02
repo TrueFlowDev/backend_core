@@ -6,6 +6,8 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/platform/config"
+	"go.uber.org/fx"
 )
 
 type VerifyOTPAndRegisterInput struct {
@@ -23,19 +25,26 @@ type VerifyOTPAndRegisterUsecase struct {
 	userRegisterer      port.UserRegisterer
 	accessTokenProvider port.AccessTokenProvider
 	passwordHasher      port.PasswordHasher
+	accessTokenDuration time.Duration
 }
 
-func NewVerifyOTPAndRegisterUsecase(
-	otpStore port.OTPStore,
-	userRegisterer port.UserRegisterer,
-	accessTokenProvider port.AccessTokenProvider,
-	passwordHasher port.PasswordHasher,
-) *VerifyOTPAndRegisterUsecase {
+type VerifyOTPAndRegisterParams struct {
+	fx.In
+
+	Config              *config.Config
+	OtpStore            port.OTPStore
+	UserRegisterer      port.UserRegisterer
+	AccessTokenProvider port.AccessTokenProvider
+	PasswordHasher      port.PasswordHasher
+}
+
+func NewVerifyOTPAndRegisterUsecase(p VerifyOTPAndRegisterParams) *VerifyOTPAndRegisterUsecase {
 	return &VerifyOTPAndRegisterUsecase{
-		otpStore:            otpStore,
-		userRegisterer:      userRegisterer,
-		accessTokenProvider: accessTokenProvider,
-		passwordHasher:      passwordHasher,
+		otpStore:            p.OtpStore,
+		userRegisterer:      p.UserRegisterer,
+		accessTokenProvider: p.AccessTokenProvider,
+		passwordHasher:      p.PasswordHasher,
+		accessTokenDuration: p.Config.JWT.AccessTTL,
 	}
 }
 
@@ -67,10 +76,8 @@ func (u *VerifyOTPAndRegisterUsecase) Execute(ctx context.Context, input VerifyO
 		return VerifyOTPAndRegisterOutput{}, err
 	}
 
-	// TODO: this value must come from app configs
-	duration := time.Hour
 	now := time.Now().UTC()
-	expiresAt := now.Add(duration)
+	expiresAt := now.Add(u.accessTokenDuration)
 	tokenClaims := value_object.NewAccessTokenClaims(output.ID, now, expiresAt)
 
 	accessToken, err := u.accessTokenProvider.Generate(tokenClaims)
