@@ -79,17 +79,17 @@ tasks:
   # Database
   # ---------------------------------------------------------------------------
 
-  migrate-up:
+  mig:up:
     desc: Apply all database migrations
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" up
 
-  migrate-down:
+  mig:down:
     desc: Roll back the last migration
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" down
 
-  migrate-new:
+  mig:new:
     desc: Create a new migration (task migrate-new NAME=create_users)
     requires:
       vars:
@@ -97,7 +97,7 @@ tasks:
     cmds:
       - goose -dir ./migrations create {{.NAME}} sql
 
-  migrate-status:
+  mig:status:
     desc: Show migration status
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" status
