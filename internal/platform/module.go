@@ -16,7 +16,5 @@ var Module = fx.Module(
 	),
 	fx.Invoke(
 		config.LoadFromEnvFile,
-		database.ConnectPostgres,
-		cache.ConnectRedis,
 	),
 )

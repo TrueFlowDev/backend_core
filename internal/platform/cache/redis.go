@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
+	"github.com/avast/retry-go/v5"
 	"github.com/redis/go-redis/v9"
+	"go.uber.org/fx"
 )
 
 type Redis struct {
@@ -18,13 +20,37 @@ type Redis struct {
 	db       int
 }
 
-func NewRedis(cfg *config.Config) *Redis {
-	return &Redis{
+func NewRedis(lc fx.Lifecycle, cfg *config.Config) (*redis.Client, error) {
+	rdb := &Redis{
 		host:     cfg.Cache.RedisHost,
 		port:     cfg.Cache.RedisPort,
 		password: cfg.Cache.RedisPassword,
 		db:       cfg.Cache.RedisDb,
 	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	err := retry.New(
+		retry.Context(ctx),
+		retry.Attempts(10),
+		retry.MaxDelay(30*time.Second),
+		retry.Delay(time.Second),
+		retry.LastErrorOnly(true),
+	).Do(func() error {
+		return rdb.Connect(ctx)
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	lc.Append(fx.Hook{
+		OnStop: func(ctx context.Context) error {
+			return rdb.Close()
+		},
+	})
+
+	return rdb.client, nil
 }
 
 func (r *Redis) Connect(ctx context.Context) error {
