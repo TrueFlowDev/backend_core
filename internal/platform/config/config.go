@@ -35,12 +35,17 @@ type OTPConfig struct {
 	Length int           `env:"LENGTH" env-default:"6"`
 }
 
+type LoggerConfig struct {
+	Level string `env:"LEVEL" env-default:"info"`
+}
+
 type Config struct {
-	App   AppConfig   `env-prefix:"APP_"`
-	DB    DBConfig    `env-prefix:"DB_"`
-	Cache CacheConfig `env-prefix:"CACHE_"`
-	JWT   JWTConfig   `env-prefix:"JWT_"`
-	OTP   OTPConfig   `env-prefix:"OTP_"`
+	App    AppConfig    `env-prefix:"APP_"`
+	DB     DBConfig     `env-prefix:"DB_"`
+	Cache  CacheConfig  `env-prefix:"CACHE_"`
+	JWT    JWTConfig    `env-prefix:"JWT_"`
+	OTP    OTPConfig    `env-prefix:"OTP_"`
+	Logger LoggerConfig `env-prefix:"LOGGER_"`
 }
 
 func NewConfig() (*Config, error) {
