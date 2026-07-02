@@ -19,16 +19,13 @@ type User struct {
 func NewUser(
 	id value_object.UserID,
 	phone value_object.Phone,
-	password value_object.HashedPassword,
 ) (*User, error) {
 	now := time.Now().UTC()
 	return &User{
 		id:        id,
 		phone:     phone,
-		password:  password,
 		createdAt: now,
 		updatedAt: now,
-		deletedAt: nil,
 	}, nil
 }
 

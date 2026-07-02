@@ -45,9 +45,12 @@ func (u *RegisterUserUsecase) Execute(ctx context.Context, input RegisterUserInp
 
 	newUserID := u.userIdGenerator.Generate()
 
-	newUser, err := entity.NewUser(newUserID, newUserPhone, newUserHashedPassword)
+	newUser, err := entity.NewUser(newUserID, newUserPhone)
 	if err != nil {
 		return RegisterUserOutput{}, err
+	}
+	if newUser != nil {
+		newUser.ChangePassword(newUserHashedPassword)
 	}
 
 	if err := u.userRepository.Create(ctx, newUser); err != nil {
