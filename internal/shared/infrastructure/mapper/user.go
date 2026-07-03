@@ -42,7 +42,7 @@ func UserEntityToModel(entity *entity.User) *model.User {
 
 	return &model.User{
 		ID:        entity.ID().Value(),
-		Phone:     entity.Password().Value(),
+		Phone:     entity.Phone().Value(),
 		Password:  userPassword,
 		CreatedAt: entity.CreatedAt(),
 		UpdatedAt: entity.UpdatedAt(),
