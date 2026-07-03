@@ -3,6 +3,7 @@ package adapter
 import (
 	"fmt"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
@@ -39,7 +40,7 @@ func (p *JwtProvider) Generate(
 
 	signedToken, err := token.SignedString(p.secret)
 	if err != nil {
-		return "", fmt.Errorf("%w:%w", port.ErrFailedToSignToken, err)
+		return "", xerr.Wrap(err, port.ErrFailedToSignToken.Code())
 	}
 
 	return signedToken, nil
@@ -53,14 +54,14 @@ func (p *JwtProvider) Verify(
 		&tokenClaims{},
 		func(token *jwt.Token) (any, error) {
 			if token.Method != jwt.SigningMethodHS256 {
-				return nil, fmt.Errorf("%w: invalid signing method", port.InvalidToken)
+				return nil, xerr.Wrap(fmt.Errorf("invalid method: %v", token.Method), port.InvalidToken.Code())
 			}
 			return p.secret, nil
 		},
 	)
 
 	if err != nil {
-		return value_object.AccessTokenClaims{}, fmt.Errorf("%w: %w", port.InvalidToken, err)
+		return value_object.AccessTokenClaims{}, xerr.Wrap(err, port.InvalidToken.Code())
 	}
 
 	c, ok := token.Claims.(*tokenClaims)

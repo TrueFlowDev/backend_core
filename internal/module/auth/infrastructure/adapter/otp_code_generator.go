@@ -2,9 +2,9 @@ package adapter
 
 import (
 	"crypto/rand"
-	"fmt"
 	"math/big"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 )
@@ -22,7 +22,7 @@ func (g *OtpCodeGenerator) Generate() (string, error) {
 	for i := range code {
 		n, err := rand.Int(rand.Reader, big.NewInt(int64(len(digits))))
 		if err != nil {
-			return "", fmt.Errorf("%w: %w", port.ErrFailedToGenerateOtp, err)
+			return "", xerr.Wrap(err, port.ErrFailedToGenerateOtp.Code())
 		}
 		code[i] = digits[n.Int64()]
 	}

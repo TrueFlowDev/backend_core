@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"golang.org/x/crypto/argon2"
 )
@@ -36,7 +37,7 @@ func NewPasswordHasher() *PasswordHasher { return &PasswordHasher{params: defaul
 func (p *PasswordHasher) Hash(password string) (string, error) {
 	salt := make([]byte, p.params.saltLength)
 	if _, err := rand.Read(salt); err != nil {
-		return "", fmt.Errorf("%w: %w", port.ErrInvalidHash, err)
+		return "", xerr.Wrap(err, port.ErrInvalidHash.Code())
 	}
 
 	hash := argon2.IDKey(
@@ -67,7 +68,7 @@ func (p *PasswordHasher) Hash(password string) (string, error) {
 func (p *PasswordHasher) Validate(password string, hashedPassword string) (bool, error) {
 	params, salt, hash, err := decodeHash(hashedPassword)
 	if err != nil {
-		return false, fmt.Errorf("%w: %w", port.ErrInvalidHash, err)
+		return false, xerr.Wrap(err, port.ErrInvalidHash.Code())
 	}
 
 	computedHash := argon2.IDKey(

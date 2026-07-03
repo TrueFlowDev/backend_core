@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
@@ -25,7 +26,7 @@ func (a *SmsOtpSenderAdapter) Send(ctx context.Context, phone value_object.Phone
 		Phone:   phone.Value(),
 		Message: message,
 	}); err != nil {
-		return fmt.Errorf("%w: %w", port.ErrSmsOtpSendFailed, err)
+		return xerr.Wrap(err, port.ErrSmsOtpSendFailed.Code())
 	}
 
 	return nil
