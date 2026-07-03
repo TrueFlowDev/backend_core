@@ -37,6 +37,7 @@ var Module = fx.Module(
 		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
+		usecase.NewLoginUsecase,
 		http.NewSendOtpController,
 		http.NewVerifyOTPAndRegisterController,
 	),
