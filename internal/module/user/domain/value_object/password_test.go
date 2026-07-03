@@ -29,7 +29,7 @@ func TestNewHashedPassword(t *testing.T) {
 			hash, err := value_object.NewHashedPassword(tt.input)
 
 			if !errors.Is(err, tt.wantErr) {
-				t.Fatalf("expected error %v, got %v", tt.wantErr, err)
+				t.Fatalf("expected error_handling %v, got %v", tt.wantErr, err)
 			}
 
 			if err == nil && hash.Value() != tt.want {

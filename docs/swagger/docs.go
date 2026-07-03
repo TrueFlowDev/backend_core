@@ -177,7 +177,7 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": {
-                        "error": "invalid_length",
+                        "error_handling": "invalid_length",
                         "field": "username"
                     }
                 }

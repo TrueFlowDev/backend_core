@@ -33,7 +33,7 @@ func TestNewPhone(t *testing.T) {
 			phone, err := value_object.NewPhone(tt.input)
 
 			if !errors.Is(err, tt.wantError) {
-				t.Fatalf("expected error %v, got %v", tt.wantError, err)
+				t.Fatalf("expected error_handling %v, got %v", tt.wantError, err)
 			}
 
 			if err == nil && phone.Value() != tt.want {
