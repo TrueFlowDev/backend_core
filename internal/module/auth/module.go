@@ -12,7 +12,7 @@ var Module = fx.Module(
 	"auth",
 	fx.Provide(
 		fx.Annotate(
-			adapter.NewSmsOtpSenderAdapter,
+			adapter.NewSmsOtpSender,
 			fx.As(new(port.SmsOtpSender)),
 		),
 		fx.Annotate(
@@ -30,6 +30,10 @@ var Module = fx.Module(
 		fx.Annotate(
 			adapter.NewOTPStore,
 			fx.As(new(port.OTPStore)),
+		),
+		fx.Annotate(
+			adapter.NewUserRegisterer,
+			fx.As(new(port.UserRegisterer)),
 		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,

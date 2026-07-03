@@ -1,6 +1,8 @@
 package port
 
-import "context"
+import (
+	"context"
+)
 
 type UserRegistererInput struct {
 	Phone          string
