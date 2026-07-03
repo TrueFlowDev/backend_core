@@ -4,6 +4,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/infrastructure/adapter"
+	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http"
 	"go.uber.org/fx"
 )
 
@@ -28,5 +29,9 @@ var Module = fx.Module(
 		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
+		http.NewSendOtpController,
+	),
+	fx.Invoke(
+		http.RegisterSendOtpController,
 	),
 )
