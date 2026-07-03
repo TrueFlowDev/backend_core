@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
@@ -60,6 +61,10 @@ func (u *VerifyOTPAndRegisterUsecase) Execute(ctx context.Context, input VerifyO
 	}
 
 	if err := otp.Verify(input.Code); err != nil {
+		if setErr := u.otpStore.Set(ctx, phone, otp); setErr != nil {
+			return VerifyOTPAndRegisterOutput{}, errors.Join(err, setErr)
+		}
+
 		return VerifyOTPAndRegisterOutput{}, err
 	}
 

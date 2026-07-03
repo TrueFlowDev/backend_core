@@ -15,12 +15,30 @@ definitions:
           field: username
         type: object
     type: object
-  SendOtpControllerInput:
+  SendOtpInput:
     properties:
       phone:
         type: string
     required:
     - phone
+    type: object
+  VerifyOTPAndRegisterInput:
+    properties:
+      code:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - code
+    - password
+    - phone
+    type: object
+  VerifyOTPAndRegisterOutput:
+    properties:
+      accessToken:
+        type: string
     type: object
 info:
   contact:
@@ -46,7 +64,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/SendOtpControllerInput'
+          $ref: '#/definitions/SendOtpInput'
       produces:
       - application/json
       responses:
@@ -61,6 +79,36 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       summary: Send OTP
+      tags:
+      - Authentication
+  /auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verifies OTP, registers the user and returns an access token.
+      parameters:
+      - description: Register request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/VerifyOTPAndRegisterInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/VerifyOTPAndRegisterOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      summary: Register user
       tags:
       - Authentication
 securityDefinitions:

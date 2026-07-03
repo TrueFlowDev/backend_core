@@ -12,14 +12,14 @@ import (
 
 type SendOtpControllerInput struct {
 	Phone string `json:"phone" binding:"required"`
-} //	@name	SendOtpControllerInput
+} //	@name	SendOtpInput
 
 type SendOtpController struct {
-	sendOtpUsecase *usecase.SendOtpUsecase
+	usecase *usecase.SendOtpUsecase
 }
 
-func NewSendOtpController(sendOtpUsecase *usecase.SendOtpUsecase) *SendOtpController {
-	return &SendOtpController{sendOtpUsecase: sendOtpUsecase}
+func NewSendOtpController(usecase *usecase.SendOtpUsecase) *SendOtpController {
+	return &SendOtpController{usecase: usecase}
 }
 
 func RegisterSendOtpController(r *gin.Engine, sendOtpController *SendOtpController) {
@@ -49,8 +49,7 @@ func (receiver *SendOtpController) SendOTP(c *gin.Context) {
 		return
 	}
 
-	sendOtpUsecaseInput := usecase.SendOtpInput{Phone: input.Phone}
-	err := receiver.sendOtpUsecase.Execute(c.Request.Context(), sendOtpUsecaseInput)
+	err := receiver.usecase.Execute(c.Request.Context(), usecase.SendOtpInput{Phone: input.Phone})
 	if err != nil {
 		_ = c.Error(err)
 		return

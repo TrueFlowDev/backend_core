@@ -34,13 +34,59 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/SendOtpControllerInput"
+                            "$ref": "#/definitions/SendOtpInput"
                         }
                     }
                 ],
                 "responses": {
                     "204": {
                         "description": "OTP sent successfully"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/verify-otp": {
+            "post": {
+                "description": "Verifies OTP, registers the user and returns an access token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register user",
+                "parameters": [
+                    {
+                        "description": "Register request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VerifyOTPAndRegisterInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VerifyOTPAndRegisterOutput"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -82,13 +128,40 @@
                 }
             }
         },
-        "SendOtpControllerInput": {
+        "SendOtpInput": {
             "type": "object",
             "required": [
                 "phone"
             ],
             "properties": {
                 "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "VerifyOTPAndRegisterInput": {
+            "type": "object",
+            "required": [
+                "code",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "VerifyOTPAndRegisterOutput": {
+            "type": "object",
+            "properties": {
+                "accessToken": {
                     "type": "string"
                 }
             }
