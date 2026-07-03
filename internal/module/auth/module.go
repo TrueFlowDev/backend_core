@@ -35,6 +35,10 @@ var Module = fx.Module(
 			adapter.NewUserRegisterer,
 			fx.As(new(port.UserRegisterer)),
 		),
+		fx.Annotate(
+			adapter.NewUserFinderByPhone,
+			fx.As(new(port.UserFinderByPhone)),
+		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
 		usecase.NewLoginUsecase,
