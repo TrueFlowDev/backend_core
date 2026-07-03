@@ -4,6 +4,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 type ZapLogger struct {
@@ -15,6 +16,11 @@ func NewZapLogger(cfg *config.Config) (*ZapLogger, error) {
 
 	if cfg.App.Mode == "dev" {
 		zapConfig = zap.NewDevelopmentConfig()
+		zapConfig.Encoding = "console"
+
+		zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+		zapConfig.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout("15:04:05")
+		zapConfig.EncoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
 	} else {
 		zapConfig = zap.NewProductionConfig()
 	}
