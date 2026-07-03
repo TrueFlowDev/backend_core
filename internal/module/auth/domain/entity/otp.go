@@ -1,17 +1,18 @@
 package entity
 
 import (
-	"errors"
 	"strings"
 	"time"
+
+	"github.com/Ali127Dev/xerr"
 )
 
 var (
-	ErrOTPExpired        = errors.New("otp expired")
-	ErrOTPLocked         = errors.New("otp locked")
-	ErrOTPInvalidCode    = errors.New("otp code is invalid")
-	ErrCodeIsRequired    = errors.New("code is required")
-	ErrInvalidExpireTime = errors.New("expire time is invalid")
+	ErrOTPExpired        = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonExpired))
+	ErrOTPLocked         = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonExpired))
+	ErrOTPMismatchCode   = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonMismatch))
+	ErrCodeIsRequired    = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("otp", xerr.ErrorReasonRequired))
+	ErrInvalidExpireTime = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("expire_time", xerr.ErrorReasonExpired))
 )
 
 const MaxOtpAttempts = 5
@@ -58,7 +59,7 @@ func (o *OTP) Verify(code string) error {
 
 	if o.code != code {
 		o.attempts++
-		return ErrOTPInvalidCode
+		return ErrOTPMismatchCode
 	}
 
 	return nil

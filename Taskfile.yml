@@ -9,7 +9,8 @@ vars:
   OUT: "{{.BIN_DIR}}/{{.APP_NAME}}"
   SWAGGER_DOCS_DIR: docs/swagger
   MAIN_PATH: cmd/server/main.go
-  DB_URL: 'postgres://{{.POSTGRES_USER}}:{{.POSTGRES_PASSWORD}}@{{.POSTGRES_HOST}}:{{.POSTGRES_PORT}}/{{.POSTGRES_DB}}?sslmode={{.POSTGRES_SSLMODE}}'
+  DAO_GEN_PATH: cmd/gorm_gen/main.go
+  DB_URL: 'postgres://{{.DB_POSTGRES_USER}}:{{.DB_POSTGRES_PASSWORD}}@{{.DB_POSTGRES_HOST}}:{{.DB_POSTGRES_PORT}}/{{.DB_POSTGRES_DB}}?sslmode=disable'
 
 tasks:
   default:
@@ -79,17 +80,17 @@ tasks:
   # Database
   # ---------------------------------------------------------------------------
 
-  migrate-up:
+  mig:up:
     desc: Apply all database migrations
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" up
 
-  migrate-down:
+  mig:down:
     desc: Roll back the last migration
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" down
 
-  migrate-new:
+  mig:new:
     desc: Create a new migration (task migrate-new NAME=create_users)
     requires:
       vars:
@@ -97,10 +98,19 @@ tasks:
     cmds:
       - goose -dir ./migrations create {{.NAME}} sql
 
-  migrate-status:
+  mig:status:
     desc: Show migration status
     cmds:
       - goose -dir ./migrations postgres "{{.DB_URL}}" status
+
+  # ---------------------------------------------------------------------------
+  # Models
+  # ---------------------------------------------------------------------------
+
+  gen:
+    desc: Generates dao
+    cmds:
+      - go run {{.DAO_GEN_PATH}}
 
   # ---------------------------------------------------------------------------
   # Documentation

@@ -1,14 +1,15 @@
 package value_object
 
 import (
-	"errors"
 	"net/mail"
 	"strings"
+
+	"github.com/Ali127Dev/xerr"
 )
 
 var (
-	ErrEmailRequired      = errors.New("email is required")
-	ErrEmailInvalidFormat = errors.New("email format is invalid")
+	ErrEmailRequired      = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", xerr.ErrorReasonRequired))
+	ErrEmailInvalidFormat = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("email", xerr.ErrorReasonInvalidFormat))
 )
 
 type Email struct {

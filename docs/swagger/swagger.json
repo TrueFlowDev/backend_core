@@ -1,0 +1,25 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "TrueFlow is a modern human resource management (HRM) platform designed to integrate organizational processes, manage teams, control access, and increase organizational productivity.",
+        "title": "TrueFlow Api Document",
+        "contact": {
+            "name": "API Support",
+            "url": "https://trueflow.ir/support",
+            "email": "support@trueflow.ir"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "paths": {},
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Enter the JWT token with the `Bearer ` prefix",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

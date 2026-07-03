@@ -1,0 +1,20 @@
+info:
+  contact:
+    email: support@trueflow.ir
+    name: API Support
+    url: https://trueflow.ir/support
+  description: TrueFlow is a modern human resource management (HRM) platform designed
+    to integrate organizational processes, manage teams, control access, and increase
+    organizational productivity.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: TrueFlow Api Document
+paths: {}
+securityDefinitions:
+  BearerAuth:
+    description: Enter the JWT token with the `Bearer ` prefix
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

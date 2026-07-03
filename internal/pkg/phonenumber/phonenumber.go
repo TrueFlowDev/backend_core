@@ -1,15 +1,15 @@
 package phonenumber
 
 import (
-	"errors"
 	"strings"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/nyaruka/phonenumbers"
 )
 
 var (
-	ErrRequired      = errors.New("phone is required")
-	ErrInvalidFormat = errors.New("phone format is invalid")
+	ErrRequired      = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("phone", xerr.ErrorReasonRequired))
+	ErrInvalidFormat = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("phone", xerr.ErrorReasonInvalidFormat))
 )
 
 func NormalizePhone(raw string) (string, error) {

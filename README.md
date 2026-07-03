@@ -14,6 +14,10 @@ TrueFlow is a modern platform for HR management, task tracking, team collaborati
 companies bring structure, speed, and clarity to how they manage people, projects, and daily operations — all in one
 connected ecosystem.
 
+TrueFlow is licensed under the Apache License 2.0.
+
+The name "TrueFlow" and its logo are trademarks of the project owners. See TRADEMARK.md for details.
+
 ## What We Build
 
 - **Employee Management** — from onboarding to org structure
