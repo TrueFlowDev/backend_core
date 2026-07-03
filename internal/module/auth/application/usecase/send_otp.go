@@ -57,7 +57,7 @@ func (u *SendOtpUsecase) Execute(ctx context.Context, input SendOtpInput) error 
 		return err
 	}
 
-	if err := u.otpStore.Set(ctx, phone, otp, u.otpTTL); err != nil {
+	if err := u.otpStore.Set(ctx, phone, otp); err != nil {
 		return err
 	}
 

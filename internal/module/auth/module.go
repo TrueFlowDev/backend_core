@@ -27,6 +27,10 @@ var Module = fx.Module(
 			adapter.NewJwtProvider,
 			fx.As(new(port.AccessTokenProvider)),
 		),
+		fx.Annotate(
+			adapter.NewOTPStore,
+			fx.As(new(port.OTPStore)),
+		),
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
 		http.NewSendOtpController,
