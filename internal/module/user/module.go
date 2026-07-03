@@ -19,5 +19,6 @@ var Module = fx.Module(
 			fx.As(new(port.UserRepository)),
 		),
 		usecase.NewRegisterUserUsecase,
+		usecase.NewFindUserByPhoneUsecase,
 	),
 )

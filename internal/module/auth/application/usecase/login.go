@@ -32,7 +32,7 @@ type LoginParams struct {
 	Config              *config.Config
 	AccessTokenProvider port.AccessTokenProvider
 	PasswordHasher      port.PasswordHasher
-	userFinderByPhone   port.UserFinderByPhone
+	UserFinderByPhone   port.UserFinderByPhone
 }
 
 func NewLoginUsecase(p LoginParams) *LoginUsecase {
@@ -40,7 +40,7 @@ func NewLoginUsecase(p LoginParams) *LoginUsecase {
 		accessTokenProvider: p.AccessTokenProvider,
 		passwordHasher:      p.PasswordHasher,
 		accessTokenDuration: p.Config.JWT.AccessTTL,
-		userFinderByPhone:   p.userFinderByPhone,
+		userFinderByPhone:   p.UserFinderByPhone,
 	}
 }
 

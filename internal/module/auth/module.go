@@ -44,9 +44,11 @@ var Module = fx.Module(
 		usecase.NewLoginUsecase,
 		http.NewSendOtpController,
 		http.NewVerifyOTPAndRegisterController,
+		http.NewLoginController,
 	),
 	fx.Invoke(
 		http.RegisterSendOtpController,
 		http.RegisterVerifyOTPAndRegisterController,
+		http.RegisterLoginController,
 	),
 )

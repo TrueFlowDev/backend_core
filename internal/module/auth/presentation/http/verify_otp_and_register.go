@@ -47,7 +47,7 @@ func RegisterVerifyOTPAndRegisterController(
 //	@Accept			json
 //	@Produce		json
 //	@Param			request	body		VerifyOTPAndRegisterControllerInput	true	"Register request"
-//	@Success		200		{object}	VerifyOTPAndRegisterControllerOutput
+//	@Success		201		{object}	VerifyOTPAndRegisterControllerOutput
 //	@Failure		400		{object}	xerr.SwaggerErrOutput
 //	@Failure		500		{object}	xerr.SwaggerErrOutput
 //	@Router			/auth/verify-otp [post]
@@ -78,7 +78,7 @@ func (c *VerifyOTPAndRegisterController) VerifyOTPAndRegister(ctx *gin.Context) 
 		return
 	}
 
-	ctx.JSON(http.StatusOK, VerifyOTPAndRegisterControllerOutput{
+	ctx.JSON(http.StatusCreated, VerifyOTPAndRegisterControllerOutput{
 		AccessToken: output.AccessToken,
 	})
 }
