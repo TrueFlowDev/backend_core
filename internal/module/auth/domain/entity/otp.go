@@ -39,6 +39,18 @@ func NewOTP(
 	return OTP{code: code, attempts: 0, expiresAt: expiresAt}, nil
 }
 
+func RestoreOTP(
+	code string,
+	attempts uint8,
+	expiresAt time.Time,
+) OTP {
+	return OTP{
+		code:      code,
+		attempts:  attempts,
+		expiresAt: expiresAt,
+	}
+}
+
 // <-- Getters -->
 
 func (o *OTP) Code() string         { return o.code }

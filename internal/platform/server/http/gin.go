@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
 	"github.com/gin-gonic/gin"
@@ -32,6 +33,25 @@ func RequestID() gin.HandlerFunc {
 	}
 }
 
+func ErrorHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+
+		if len(c.Errors) == 0 {
+			return
+		}
+
+		err := c.Errors.Last().Err
+
+		if xe, ok := errors.AsType[*xerr.Error](err); ok {
+			c.JSON(xe.HTTPStatus(), xe)
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, xerr.New(xerr.CodeInternalError, xerr.WithMessage("unknown error")))
+	}
+}
+
 func Logger(logger port.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
@@ -52,7 +72,13 @@ func Logger(logger port.Logger) gin.HandlerFunc {
 		}
 
 		if len(c.Errors) > 0 {
-			args = append(args, "errors", c.Errors.String())
+			errorsLog := make([]string, 0, len(c.Errors))
+
+			for _, e := range c.Errors {
+				errorsLog = append(errorsLog, e.Err.Error())
+			}
+
+			args = append(args, "errors", errorsLog)
 		}
 
 		switch status := c.Writer.Status(); {
@@ -75,10 +101,10 @@ func toString(v any) string {
 }
 
 func NewGinEngine(cfg *config.Config, logger port.Logger) *gin.Engine {
-	if cfg.App.Mode == "production" {
-		gin.SetMode(gin.ReleaseMode)
-	} else {
+	if cfg.App.Mode == "dev" {
 		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 
 	router := gin.New()
@@ -87,6 +113,7 @@ func NewGinEngine(cfg *config.Config, logger port.Logger) *gin.Engine {
 		gin.Recovery(),
 		RequestID(),
 		Logger(logger),
+		ErrorHandler(),
 	)
 
 	return router
