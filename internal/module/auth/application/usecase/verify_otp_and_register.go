@@ -63,6 +63,8 @@ func (u *VerifyOTPAndRegisterUsecase) Execute(ctx context.Context, input VerifyO
 		return VerifyOTPAndRegisterOutput{}, err
 	}
 
+	_ = u.otpStore.Delete(ctx, phone)
+
 	newUserHashedPassword, err := u.passwordHasher.Hash(input.Password)
 	if err != nil {
 		return VerifyOTPAndRegisterOutput{}, err
