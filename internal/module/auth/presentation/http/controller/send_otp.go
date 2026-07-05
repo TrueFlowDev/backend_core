@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
-	validation2 "github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
+	"github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -42,10 +42,10 @@ func (receiver *SendOtpController) SendOTP(c *gin.Context) {
 	var input SendOtpControllerInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		if validationErrs, ok := errors.AsType[validator.ValidationErrors](err); ok {
-			_ = c.Error(validation2.ToValidationError(validationErrs))
+			_ = c.Error(validation.ToValidationError(validationErrs))
 			return
 		}
-		_ = c.Error(validation2.NewRequestBindingError("send otp", validation2.JSON))
+		_ = c.Error(validation.NewRequestBindingError("send otp", validation.JSON))
 		return
 	}
 
