@@ -32,7 +32,6 @@ func RegisterSendOtpController(r *gin.Engine, sendOtpController *SendOtpControll
 //	@Description	Sends a one-time password (OTP) to the specified phone number.
 //	@Tags			Authentication
 //	@Accept			json
-//	@Produce		json
 //	@Param			request	body	SendOtpControllerInput	true	"Send OTP request"
 //	@Success		204		"OTP sent successfully"
 //	@Failure		400		{object}	xerr.SwaggerErrOutput

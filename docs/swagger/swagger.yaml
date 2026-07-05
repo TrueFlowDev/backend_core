@@ -15,6 +15,17 @@ definitions:
           field: username
         type: object
     type: object
+  GetMeOutput:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: string
+    type: object
   LoginInput:
     properties:
       password:
@@ -110,8 +121,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/SendOtpInput'
-      produces:
-      - application/json
       responses:
         "204":
           description: OTP sent successfully
@@ -156,6 +165,29 @@ paths:
       summary: Register user
       tags:
       - Authentication
+  /user/me:
+    get:
+      description: Returns the authenticated user's profile.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetMeOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - User
 securityDefinitions:
   BearerAuth:
     description: Enter the JWT token with the `Bearer ` prefix
