@@ -8,8 +8,8 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
-	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/dao"
-	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/mapper"
+	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/dao"
+	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/mapper"
 	"gorm.io/gorm"
 )
 
