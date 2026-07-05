@@ -49,9 +49,7 @@ func (u *RegisterUserUsecase) Execute(ctx context.Context, input RegisterUserInp
 	if err != nil {
 		return RegisterUserOutput{}, err
 	}
-	if newUser != nil {
-		newUser.ChangePassword(newUserHashedPassword)
-	}
+	newUser.UpdatePassword(&newUserHashedPassword)
 
 	if err := u.userRepository.Create(ctx, newUser); err != nil {
 		return RegisterUserOutput{}, err

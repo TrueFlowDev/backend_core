@@ -30,22 +30,31 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 		deletedAt = &m.DeletedAt.Time
 	}
 
-	user := entity.RestoreUser(userID, userPhone, createdAt, updatedAt, deletedAt)
+	params := entity.RestoreUserParams{
+		ID:        userID,
+		Phone:     userPhone,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
+		DeletedAt: deletedAt,
+	}
 
 	if m.Password != nil {
 		userPassword, err := value_object.NewHashedPassword(*m.Password)
 		if err != nil {
 			return nil, err
 		}
-		user.ChangePassword(userPassword)
+		params.Password = &userPassword
 	}
+
+	user := entity.RestoreUser(params)
 
 	return user, nil
 }
 
 func UserEntityToModel(e *entity.User) *model.User {
 	var userPassword *string
-	if pw := e.Password().Value(); pw != "" {
+	if password := e.Password(); password != nil {
+		pw := password.Value()
 		userPassword = &pw
 	}
 
