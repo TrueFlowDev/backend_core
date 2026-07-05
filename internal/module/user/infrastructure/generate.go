@@ -38,6 +38,9 @@ func main() {
 	})
 
 	g.UseDB(db)
-	g.ApplyBasic(g.GenerateModel("users"))
+	g.ApplyBasic(
+		g.GenerateModel("users"),
+		g.GenerateModel("users_profile"),
+	)
 	g.Execute()
 }
