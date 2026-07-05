@@ -10,7 +10,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Logger(logger port.Logger) gin.HandlerFunc {
+var sensitiveQueryParams = map[string]bool{
+	"token": true, "code": true, "password": true, "secret": true, "otp": true,
+}
+
+type Logger struct {
+	logger port.Logger
+}
+
+func NewLogger(logger port.Logger) *Logger {
+	return &Logger{
+		logger: logger,
+	}
+}
+
+func (l *Logger) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.URL.Path == "/healthz" {
 			c.Next()
@@ -24,14 +38,14 @@ func Logger(logger port.Logger) gin.HandlerFunc {
 		reqID, exists := c.Get(RequestIDKey)
 		reqIDStr := "unknown"
 		if exists {
-			reqIDStr = toString(reqID)
+			reqIDStr = l.toString(reqID)
 		}
 
 		args := []any{
 			"request_id", reqIDStr,
 			"method", c.Request.Method,
 			"path", c.Request.URL.Path,
-			"query", sanitizeQuery(c.Request.URL.RawQuery),
+			"query", l.sanitizeQuery(c.Request.URL.RawQuery),
 			"status", c.Writer.Status(),
 			"latency", time.Since(start),
 			"client_ip", c.ClientIP(),
@@ -50,16 +64,16 @@ func Logger(logger port.Logger) gin.HandlerFunc {
 
 		switch status := c.Writer.Status(); {
 		case status >= http.StatusInternalServerError:
-			logger.Error("http request", args...)
+			l.logger.Error("http request", args...)
 		case status >= http.StatusBadRequest:
-			logger.Warn("http request", args...)
+			l.logger.Warn("http request", args...)
 		default:
-			logger.Info("http request", args...)
+			l.logger.Info("http request", args...)
 		}
 	}
 }
 
-func toString(v any) string {
+func (l *Logger) toString(v any) string {
 	s, ok := v.(string)
 	if !ok {
 		return ""
@@ -67,11 +81,7 @@ func toString(v any) string {
 	return s
 }
 
-var sensitiveQueryParams = map[string]bool{
-	"token": true, "code": true, "password": true, "secret": true, "otp": true,
-}
-
-func sanitizeQuery(rawQuery string) string {
+func (l *Logger) sanitizeQuery(rawQuery string) string {
 	values, err := url.ParseQuery(rawQuery)
 	if err != nil {
 		return ""

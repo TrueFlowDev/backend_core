@@ -8,7 +8,13 @@ import (
 const RequestIDHeader = "X-Request-ID"
 const RequestIDKey = "request_id"
 
-func RequestID() gin.HandlerFunc {
+type RequestID struct{}
+
+func NewRequestID() *RequestID {
+	return &RequestID{}
+}
+
+func (m *RequestID) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		reqID := c.GetHeader(RequestIDHeader)
 		if reqID == "" {

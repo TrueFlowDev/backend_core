@@ -4,7 +4,8 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/infrastructure/adapter"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http"
+	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/controller"
+	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/middleware"
 	"go.uber.org/fx"
 )
 
@@ -42,13 +43,14 @@ var Module = fx.Module(
 		usecase.NewSendOtpUsecase,
 		usecase.NewVerifyOTPAndRegisterUsecase,
 		usecase.NewLoginUsecase,
-		http.NewSendOtpController,
-		http.NewVerifyOTPAndRegisterController,
-		http.NewLoginController,
+		controller.NewSendOtpController,
+		controller.NewVerifyOTPAndRegisterController,
+		controller.NewLoginController,
+		middleware.NewAuthenticated,
 	),
 	fx.Invoke(
-		http.RegisterSendOtpController,
-		http.RegisterVerifyOTPAndRegisterController,
-		http.RegisterLoginController,
+		controller.RegisterSendOtpController,
+		controller.RegisterVerifyOTPAndRegisterController,
+		controller.RegisterLoginController,
 	),
 )

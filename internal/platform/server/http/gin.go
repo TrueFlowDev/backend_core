@@ -15,7 +15,13 @@ import (
 	"go.uber.org/fx"
 )
 
-func NewGinEngine(cfg *config.Config, log port.Logger) *gin.Engine {
+func NewGinEngine(
+	cfg *config.Config,
+	log port.Logger,
+	requestID *middleware.RequestID,
+	logger *middleware.Logger,
+	errorHandler *middleware.ErrorHandler,
+) *gin.Engine {
 	if cfg.App.Mode == "dev" {
 		gin.SetMode(gin.DebugMode)
 	} else {
@@ -26,9 +32,9 @@ func NewGinEngine(cfg *config.Config, log port.Logger) *gin.Engine {
 
 	router.Use(
 		gin.Recovery(),
-		middleware.RequestID(),
-		middleware.Logger(log),
-		middleware.ErrorHandler(),
+		requestID.Handle(),
+		logger.Handle(),
+		errorHandler.Handle(),
 	)
 
 	return router
