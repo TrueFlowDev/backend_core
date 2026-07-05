@@ -23,6 +23,6 @@ func ErrorHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, xerr.New(xerr.CodeInternalError, xerr.WithMessage("unknown error_handling")))
+		c.JSON(http.StatusInternalServerError, xerr.New(xerr.CodeInternalError, xerr.WithMessage("unknown error")))
 	}
 }

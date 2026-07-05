@@ -28,7 +28,7 @@ func (r *UserRepository) Create(ctx context.Context, user *entity.User) error {
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
 			return port.ErrUserAlreadyExists
 		}
-		return xerr.Wrap(err, port.ErrUserRepository.Code())
+		return xerr.Wrap(err, port.ErrUserRepository.Code(), xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_create"))
 	}
 
 	return nil
@@ -42,7 +42,7 @@ func (r *UserRepository) FindByID(ctx context.Context, id value_object.UserID) (
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, port.ErrUserNotFound
 		}
-		return nil, xerr.Wrap(err, port.ErrUserRepository.Code())
+		return nil, xerr.Wrap(err, port.ErrUserRepository.Code(), xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_find_by_id"))
 	}
 	mappedUser, err := mapper.UserModelToEntity(model)
 	if err != nil {
@@ -59,7 +59,7 @@ func (r *UserRepository) FindByPhone(ctx context.Context, phone value_object.Pho
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, port.ErrUserNotFound
 		}
-		return nil, xerr.Wrap(err, port.ErrUserRepository.Code())
+		return nil, xerr.Wrap(err, port.ErrUserRepository.Code(), xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_find_by_phone"))
 	}
 	mappedUser, err := mapper.UserModelToEntity(model)
 	if err != nil {
