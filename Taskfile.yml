@@ -119,10 +119,10 @@ tasks:
   gen:dao:
     desc: Generate DAO code for all modules
     sources:
-      - internal/module/*/infrastructure/dao/generate.go
+      - internal/module/*/infrastructure/generate.go
     cmds:
       - for: sources
-        cmd: go run {{.ITEM}}
+        cmd: go run {{.ITEM | toSlash}}
 
   gen:swag:
     desc: Generate Swagger documentation
