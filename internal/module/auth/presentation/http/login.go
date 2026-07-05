@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
-	"github.com/TrueFlowDev/Backend/internal/shared/presentation/validation"
+	validation2 "github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -54,12 +54,12 @@ func (c *LoginController) Login(ctx *gin.Context) {
 	var input LoginControllerInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		if validationErrs, ok := errors.AsType[validator.ValidationErrors](err); ok {
-			_ = ctx.Error(validation.ToValidationError(validationErrs))
+			_ = ctx.Error(validation2.ToValidationError(validationErrs))
 			return
 		}
-		_ = ctx.Error(validation.NewRequestBindingError(
+		_ = ctx.Error(validation2.NewRequestBindingError(
 			"login",
-			validation.JSON,
+			validation2.JSON,
 		))
 		return
 	}

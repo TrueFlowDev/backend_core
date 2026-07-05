@@ -9,9 +9,7 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
-	"github.com/TrueFlowDev/Backend/internal/platform/error_handling"
-	"github.com/TrueFlowDev/Backend/internal/platform/logger"
-	"github.com/TrueFlowDev/Backend/internal/platform/tracing"
+	"github.com/TrueFlowDev/Backend/internal/platform/server/http/middleware"
 	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
@@ -28,9 +26,9 @@ func NewGinEngine(cfg *config.Config, log port.Logger) *gin.Engine {
 
 	router.Use(
 		gin.Recovery(),
-		tracing.RequestID(),
-		logger.Logger(log),
-		error_handling.ErrorHandler(),
+		middleware.RequestID(),
+		middleware.Logger(log),
+		middleware.ErrorHandler(),
 	)
 
 	return router

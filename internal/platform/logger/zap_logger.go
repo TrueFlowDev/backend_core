@@ -1,4 +1,4 @@
-package adapter
+package logger
 
 import (
 	"github.com/TrueFlowDev/Backend/internal/platform/config"

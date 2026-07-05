@@ -4,13 +4,19 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/platform/cache"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"github.com/TrueFlowDev/Backend/internal/platform/database"
+	"github.com/TrueFlowDev/Backend/internal/platform/logger"
 	"github.com/TrueFlowDev/Backend/internal/platform/server/http"
+	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
 	"go.uber.org/fx"
 )
 
 var Module = fx.Module(
 	"platform",
 	fx.Provide(
+		fx.Annotate(
+			logger.NewZapLogger,
+			fx.As(new(port.Logger)),
+		),
 		config.NewConfig,
 		database.NewPostgres,
 		cache.NewRedis,

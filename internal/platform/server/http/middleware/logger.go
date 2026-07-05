@@ -1,10 +1,9 @@
-package logger
+package middleware
 
 import (
 	"net/http"
 	"time"
 
-	"github.com/TrueFlowDev/Backend/internal/platform/tracing"
 	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +14,7 @@ func Logger(logger port.Logger) gin.HandlerFunc {
 
 		c.Next()
 
-		reqID, _ := c.Get(tracing.RequestIDKey)
+		reqID, _ := c.Get(RequestIDKey)
 
 		args := []any{
 			"request_id", toString(reqID),
