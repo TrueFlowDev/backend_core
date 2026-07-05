@@ -3,7 +3,7 @@ module github.com/TrueFlowDev/Backend
 go 1.26
 
 require (
-	github.com/Ali127Dev/xerr v1.2.3
+	github.com/Ali127Dev/xerr v1.2.4
 	github.com/avast/retry-go/v5 v5.0.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-playground/validator/v10 v10.30.3
