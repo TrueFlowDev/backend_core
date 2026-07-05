@@ -23,7 +23,7 @@ func (m *Authenticated) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			c.Error(port.ErrInvalidToken)
+			_ = c.Error(port.ErrInvalidToken)
 			c.Abort()
 			return
 		}
@@ -31,7 +31,7 @@ func (m *Authenticated) Handle() gin.HandlerFunc {
 		const prefix = "Bearer "
 
 		if !strings.HasPrefix(authHeader, prefix) {
-			c.Error(port.ErrInvalidToken)
+			_ = c.Error(port.ErrInvalidToken)
 			c.Abort()
 			return
 		}
@@ -40,7 +40,7 @@ func (m *Authenticated) Handle() gin.HandlerFunc {
 
 		claims, err := m.accessTokenProvider.Verify(token)
 		if err != nil {
-			c.Error(err)
+			_ = c.Error(err)
 			c.Abort()
 			return
 		}
