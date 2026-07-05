@@ -22,7 +22,11 @@ func (g *OtpCodeGenerator) Generate() (string, error) {
 	for i := range code {
 		n, err := rand.Int(rand.Reader, big.NewInt(int64(len(digits))))
 		if err != nil {
-			return "", xerr.Wrap(err, port.ErrFailedToGenerateOtp.Code())
+			return "", xerr.Wrap(
+				err,
+				port.ErrFailedToGenerateOtp.Code(),
+				xerr.WithDiagnostics(xerr.DiagnosticOperation, "otp_generate"),
+			)
 		}
 		code[i] = digits[n.Int64()]
 	}

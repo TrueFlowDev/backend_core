@@ -7,7 +7,8 @@ import (
 
 var (
 	ErrFailedToSignToken = xerr.New(xerr.CodeInternalError)
-	InvalidToken         = xerr.New(xerr.CodeInvalidToken, xerr.WithMeta("token", xerr.ErrorReasonInvalidFormat))
+	ErrTokenExpired      = xerr.New(xerr.CodeInvalidToken, xerr.WithMeta("token", xerr.ErrorReasonExpired))
+	ErrInvalidToken      = xerr.New(xerr.CodeInvalidToken, xerr.WithMeta("token", xerr.ErrorReasonInvalidFormat))
 )
 
 type AccessTokenProvider interface {

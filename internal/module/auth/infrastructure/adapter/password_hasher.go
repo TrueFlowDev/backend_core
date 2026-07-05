@@ -37,7 +37,10 @@ func NewPasswordHasher() *PasswordHasher { return &PasswordHasher{params: defaul
 func (p *PasswordHasher) Hash(password string) (string, error) {
 	salt := make([]byte, p.params.saltLength)
 	if _, err := rand.Read(salt); err != nil {
-		return "", xerr.Wrap(err, port.ErrInvalidHash.Code())
+		return "", xerr.Wrap(
+			err, port.ErrInvalidHash.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "salt_generate"),
+		)
 	}
 
 	hash := argon2.IDKey(
@@ -68,7 +71,10 @@ func (p *PasswordHasher) Hash(password string) (string, error) {
 func (p *PasswordHasher) Validate(password string, hashedPassword string) error {
 	params, salt, hash, err := decodeHash(hashedPassword)
 	if err != nil {
-		return xerr.Wrap(err, port.ErrInvalidHash.Code())
+		return xerr.Wrap(
+			err, port.ErrInvalidHash.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticReason, "invalid_hash_format"),
+		)
 	}
 
 	computedHash := argon2.IDKey(
