@@ -8,7 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ErrorHandler() gin.HandlerFunc {
+type ErrorHandler struct{}
+
+func NewErrorHandler() *ErrorHandler {
+	return &ErrorHandler{}
+}
+
+func (h *ErrorHandler) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 
@@ -23,6 +29,12 @@ func ErrorHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusInternalServerError, xerr.New(xerr.CodeInternalError, xerr.WithMessage("unknown error")))
+		c.JSON(
+			http.StatusInternalServerError,
+			xerr.New(
+				xerr.CodeInternalError,
+				xerr.WithMessage("unknown error"),
+			),
+		)
 	}
 }
