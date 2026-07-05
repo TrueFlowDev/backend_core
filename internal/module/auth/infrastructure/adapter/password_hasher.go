@@ -37,7 +37,10 @@ func NewPasswordHasher() *PasswordHasher { return &PasswordHasher{params: defaul
 func (p *PasswordHasher) Hash(password string) (string, error) {
 	salt := make([]byte, p.params.saltLength)
 	if _, err := rand.Read(salt); err != nil {
-		return "", xerr.Wrap(err, port.ErrInvalidHash.Code())
+		return "", xerr.Wrap(
+			err, port.ErrInvalidHash.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "salt_generate"),
+		)
 	}
 
 	hash := argon2.IDKey(
@@ -65,10 +68,13 @@ func (p *PasswordHasher) Hash(password string) (string, error) {
 	return encoded, nil
 }
 
-func (p *PasswordHasher) Validate(password string, hashedPassword string) (bool, error) {
+func (p *PasswordHasher) Validate(password string, hashedPassword string) error {
 	params, salt, hash, err := decodeHash(hashedPassword)
 	if err != nil {
-		return false, xerr.Wrap(err, port.ErrInvalidHash.Code())
+		return xerr.Wrap(
+			err, port.ErrInvalidHash.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticReason, "invalid_hash_format"),
+		)
 	}
 
 	computedHash := argon2.IDKey(
@@ -77,10 +83,10 @@ func (p *PasswordHasher) Validate(password string, hashedPassword string) (bool,
 	)
 
 	if subtle.ConstantTimeCompare(hash, computedHash) != 1 {
-		return false, port.ErrPasswordMismatch
+		return port.ErrPasswordMismatch
 	}
 
-	return true, nil
+	return nil
 }
 
 func decodeHash(encoded string) (argon2Params, []byte, []byte, error) {

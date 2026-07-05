@@ -9,7 +9,6 @@ vars:
   OUT: "{{.BIN_DIR}}/{{.APP_NAME}}"
   SWAGGER_DOCS_DIR: docs/swagger
   MAIN_PATH: cmd/server/main.go
-  DAO_GEN_PATH: cmd/gorm_gen/main.go
   DB_URL: 'postgres://{{.DB_POSTGRES_USER}}:{{.DB_POSTGRES_PASSWORD}}@{{.DB_POSTGRES_HOST}}:{{.DB_POSTGRES_PORT}}/{{.DB_POSTGRES_DB}}?sslmode=disable'
 
 tasks:
@@ -104,19 +103,28 @@ tasks:
       - goose -dir ./migrations postgres "{{.DB_URL}}" status
 
   # ---------------------------------------------------------------------------
-  # Models
+  # Dependencies
   # ---------------------------------------------------------------------------
 
-  gen:
-    desc: Generates dao
+  deps:
+    desc: Tidy and verify Go modules
     cmds:
-      - go run {{.DAO_GEN_PATH}}
+      - go mod tidy
+      - go mod verify
 
   # ---------------------------------------------------------------------------
-  # Documentation
+  # Code Generation
   # ---------------------------------------------------------------------------
 
-  swag:
+  gen:dao:
+    desc: Generate DAO code for all modules
+    sources:
+      - internal/module/*/infrastructure/generate.go
+    cmds:
+      - for: sources
+        cmd: go run {{.ITEM | toSlash}}
+
+  gen:swag:
     desc: Generate Swagger documentation
     cmds:
       - |
@@ -126,12 +134,8 @@ tasks:
           --parseDependency \
           --parseInternal
 
-  # ---------------------------------------------------------------------------
-  # Dependencies
-  # ---------------------------------------------------------------------------
-
-  deps:
-    desc: Tidy and verify Go modules
+  gen:
+    desc: Run all code generators
     cmds:
-      - go mod tidy
-      - go mod verify
+      - task: gen:dao
+      - task: gen:swag

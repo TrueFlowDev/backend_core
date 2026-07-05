@@ -1,6 +1,7 @@
 package adapter
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/Ali127Dev/xerr"
@@ -40,7 +41,11 @@ func (p *JwtProvider) Generate(
 
 	signedToken, err := token.SignedString(p.secret)
 	if err != nil {
-		return "", xerr.Wrap(err, port.ErrFailedToSignToken.Code())
+		return "", xerr.Wrap(
+			err,
+			port.ErrFailedToSignToken.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "jwt_generate"),
+		)
 	}
 
 	return signedToken, nil
@@ -54,19 +59,30 @@ func (p *JwtProvider) Verify(
 		&tokenClaims{},
 		func(token *jwt.Token) (any, error) {
 			if token.Method != jwt.SigningMethodHS256 {
-				return nil, xerr.Wrap(fmt.Errorf("invalid method: %v", token.Method), port.InvalidToken.Code())
+				return nil, fmt.Errorf("invalid method: %v", token.Method)
 			}
 			return p.secret, nil
 		},
 	)
 
 	if err != nil {
-		return value_object.AccessTokenClaims{}, xerr.Wrap(err, port.InvalidToken.Code())
+		sentinel, reason := classifyJwtError(err)
+		return value_object.AccessTokenClaims{}, xerr.Wrap(
+			err,
+			sentinel.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "jwt_verify"),
+			xerr.WithDiagnostics(xerr.DiagnosticReason, reason),
+		)
 	}
 
 	c, ok := token.Claims.(*tokenClaims)
 	if !ok || !token.Valid {
-		return value_object.AccessTokenClaims{}, port.InvalidToken
+		return value_object.AccessTokenClaims{}, xerr.Wrap(
+			port.ErrInvalidToken,
+			port.ErrInvalidToken.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "jwt_verify"),
+			xerr.WithDiagnostics(xerr.DiagnosticReason, "invalid_claims_type"),
+		)
 	}
 
 	return value_object.NewAccessTokenClaims(
@@ -74,4 +90,21 @@ func (p *JwtProvider) Verify(
 		c.IssuedAt.Time,
 		c.ExpiresAt.Time,
 	), nil
+}
+
+func classifyJwtError(err error) (*xerr.Error, string) {
+	switch {
+	case errors.Is(err, jwt.ErrTokenExpired):
+		return port.ErrTokenExpired, "token_expired"
+	case errors.Is(err, jwt.ErrTokenNotValidYet):
+		return port.ErrTokenExpired, "token_not_valid_yet"
+	case errors.Is(err, jwt.ErrTokenSignatureInvalid):
+		return port.ErrInvalidToken, "invalid_signature"
+	case errors.Is(err, jwt.ErrTokenMalformed):
+		return port.ErrInvalidToken, "malformed"
+	case errors.Is(err, jwt.ErrTokenInvalidClaims):
+		return port.ErrInvalidToken, "invalid_claims"
+	default:
+		return port.ErrInvalidToken, "unknown"
+	}
 }

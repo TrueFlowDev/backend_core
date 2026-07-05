@@ -15,6 +15,21 @@ definitions:
           field: username
         type: object
     type: object
+  LoginInput:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - password
+    - phone
+    type: object
+  LoginOutput:
+    properties:
+      accessToken:
+        type: string
+    type: object
   SendOtpInput:
     properties:
       phone:
@@ -53,6 +68,36 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: TrueFlow Api Document
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Logins the user and returns an access token.
+      parameters:
+      - description: Register request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      summary: Login user
+      tags:
+      - Authentication
   /auth/send-otp:
     post:
       consumes:
@@ -96,8 +141,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/VerifyOTPAndRegisterOutput'
         "400":
