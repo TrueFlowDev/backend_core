@@ -57,26 +57,18 @@ func NewProfile(
 	email value_object.Email,
 	firstName, lastName string,
 ) (*Profile, error) {
-	firstName = strings.TrimSpace(firstName)
-	lastName = strings.TrimSpace(lastName)
-
-	firstNameLength := len([]rune(firstName))
-	if firstNameLength < MinNameLength {
-		return nil, ErrFirstNameTooShort
-	}
-	if firstNameLength > MaxNameLength {
-		return nil, ErrFirstNameTooLong
+	firstName, err := validateFirstName(firstName)
+	if err != nil {
+		return nil, err
 	}
 
-	lastNameLength := len([]rune(lastName))
-	if lastNameLength < MinNameLength {
-		return nil, ErrLastNameTooShort
-	}
-	if lastNameLength > MaxNameLength {
-		return nil, ErrLastNameTooLong
+	lastName, err = validateLastName(lastName)
+	if err != nil {
+		return nil, err
 	}
 
 	now := time.Now().UTC()
+
 	return &Profile{
 		userID:    userID,
 		email:     email,
@@ -138,7 +130,6 @@ func (p *Profile) UpdateHeadline(newHeadline string) error {
 	p.touch()
 	return nil
 }
-
 func (p *Profile) UpdateBio(newBio string) error {
 	newBio = strings.TrimSpace(newBio)
 	if len([]rune(newBio)) > MaxBioLength {
@@ -152,9 +143,65 @@ func (p *Profile) UpdateBio(newBio string) error {
 	p.touch()
 	return nil
 }
+func (p *Profile) UpdateFirstName(newFirstName string) error {
+	firstName, err := validateFirstName(newFirstName)
+	if err != nil {
+		return err
+	}
+
+	if p.firstName == firstName {
+		return nil
+	}
+
+	p.firstName = firstName
+	p.touch()
+
+	return nil
+}
+func (p *Profile) UpdateLastName(newLastName string) error {
+	lastName, err := validateLastName(newLastName)
+	if err != nil {
+		return err
+	}
+
+	if p.lastName == lastName {
+		return nil
+	}
+
+	p.lastName = lastName
+	p.touch()
+
+	return nil
+}
 
 // <-- Helpers -->
 
 func (p *Profile) touch() {
 	p.updatedAt = time.Now().UTC()
+}
+func validateFirstName(firstName string) (string, error) {
+	firstName = strings.TrimSpace(firstName)
+
+	length := len([]rune(firstName))
+	if length < MinNameLength {
+		return "", ErrFirstNameTooShort
+	}
+	if length > MaxNameLength {
+		return "", ErrFirstNameTooLong
+	}
+
+	return firstName, nil
+}
+func validateLastName(lastName string) (string, error) {
+	lastName = strings.TrimSpace(lastName)
+
+	length := len([]rune(lastName))
+	if length < MinNameLength {
+		return "", ErrLastNameTooShort
+	}
+	if length > MaxNameLength {
+		return "", ErrLastNameTooLong
+	}
+
+	return lastName, nil
 }

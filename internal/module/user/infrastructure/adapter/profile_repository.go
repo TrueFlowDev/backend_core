@@ -46,8 +46,8 @@ func (r *ProfileRepository) Save(ctx context.Context, profile *entity.Profile) e
 		}).
 		Create(mappedProfile); err != nil {
 		return xerr.Wrap(
-			err, port.ErrUserRepository.Code(),
-			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_profile_create"),
+			err, port.ErrProfileRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_profile_save"),
 		)
 	}
 
@@ -60,10 +60,10 @@ func (r *ProfileRepository) FindByUserID(ctx context.Context, id value_object.Us
 		First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, port.ErrUserNotFound
+			return nil, port.ErrProfileNotFound
 		}
 		return nil, xerr.Wrap(
-			err, port.ErrProfileNotFound.Code(),
+			err, port.ErrProfileRepository.Code(),
 			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_profile_find_by_user_id"),
 		)
 	}

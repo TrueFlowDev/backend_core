@@ -19,10 +19,15 @@ var Module = fx.Module(
 			adapter.NewUserRepository,
 			fx.As(new(port.UserRepository)),
 		),
+		fx.Annotate(
+			adapter.NewProfileRepository,
+			fx.As(new(port.ProfileRepository)),
+		),
 		usecase.NewRegisterUserUsecase,
 		usecase.NewFindUserByPhoneUsecase,
 		usecase.NewFindUserByIDUsecase,
 		usecase.NewFindProfileByUserIDUsecase,
+		usecase.NewSaveProfileUsecase,
 		controller.NewGetMeController,
 	),
 	fx.Invoke(
