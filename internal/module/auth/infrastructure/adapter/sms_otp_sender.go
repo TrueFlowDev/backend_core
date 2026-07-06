@@ -5,9 +5,12 @@ import (
 	"fmt"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
+	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
 	notificationUsecase "github.com/TrueFlowDev/Backend/internal/module/notification/application/usecase"
 )
+
+var _ port.SmsOtpSender = (*SmsOtpSender)(nil)
 
 type SmsOtpSender struct {
 	sendSMSUsecase *notificationUsecase.SendSMSUsecase

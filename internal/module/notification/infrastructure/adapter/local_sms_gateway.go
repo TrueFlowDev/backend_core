@@ -3,7 +3,11 @@ package adapter
 import (
 	"context"
 	"fmt"
+
+	"github.com/TrueFlowDev/Backend/internal/module/notification/domain/port"
 )
+
+var _ port.SMSGateway = (*LocalSmsGateway)(nil)
 
 type LocalSmsGateway struct{}
 

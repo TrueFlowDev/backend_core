@@ -13,6 +13,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+var _ port.OTPStore = (*OTPStore)(nil)
+
 type otpDTO struct {
 	Code      string    `json:"code"`
 	Attempts  uint8     `json:"attempts"`

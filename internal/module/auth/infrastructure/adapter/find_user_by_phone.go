@@ -7,6 +7,8 @@ import (
 	userUsecase "github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 )
 
+var _ port.UserFinderByPhone = (*UserFinderByPhone)(nil)
+
 type UserFinderByPhone struct {
 	usecase *userUsecase.FindUserByPhoneUsecase
 }
