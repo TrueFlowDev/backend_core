@@ -29,8 +29,10 @@ var Module = fx.Module(
 		usecase.NewFindProfileByUserIDUsecase,
 		usecase.NewSaveProfileUsecase,
 		controller.NewGetMeController,
+		controller.NewGetMyProfileController,
 	),
 	fx.Invoke(
 		controller.RegisterGetMeController,
+		controller.RegisterGetMyProfileController,
 	),
 )

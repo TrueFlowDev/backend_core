@@ -16,7 +16,7 @@ type LoginControllerInput struct {
 } //	@name	LoginInput
 
 type LoginControllerOutput struct {
-	AccessToken string `json:"accessToken"`
+	AccessToken string `json:"access_token"`
 } //	@name	LoginOutput
 
 type LoginController struct {
