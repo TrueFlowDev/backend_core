@@ -14,8 +14,8 @@ type GetMyProfileControllerOutput struct {
 	Email     string `json:"email"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Headline  string `json:"headline"`
-	Bio       string `json:"bio"`
+	Headline  string `json:"headline,omitempty"`
+	Bio       string `json:"bio,omitempty"`
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

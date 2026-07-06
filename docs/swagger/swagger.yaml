@@ -60,6 +60,23 @@ definitions:
       access_token:
         type: string
     type: object
+  SaveMyProfileInput:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      headline:
+        type: string
+      last_name:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    type: object
   SendOtpInput:
     properties:
       phone:
@@ -232,6 +249,37 @@ paths:
       security:
       - BearerAuth: []
       summary: Get current user's profile
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Creates or updates the authenticated user's profile.
+      parameters:
+      - description: Profile
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/SaveMyProfileInput'
+      responses:
+        "204":
+          description: Profile updated successfully
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create or update current user's profile
       tags:
       - User
 securityDefinitions:
