@@ -27,7 +27,6 @@ var (
 )
 
 type Profile struct {
-	id        value_object.ProfileID
 	userID    value_object.UserID
 	email     value_object.Email
 	firstName string
@@ -41,7 +40,6 @@ type Profile struct {
 }
 
 type RestoreProfileParams struct {
-	ID        value_object.ProfileID
 	UserID    value_object.UserID
 	Email     value_object.Email
 	FirstName string
@@ -55,7 +53,6 @@ type RestoreProfileParams struct {
 }
 
 func NewProfile(
-	id value_object.ProfileID,
 	userID value_object.UserID,
 	email value_object.Email,
 	firstName, lastName string,
@@ -81,7 +78,6 @@ func NewProfile(
 
 	now := time.Now().UTC()
 	return &Profile{
-		id:        id,
 		userID:    userID,
 		email:     email,
 		firstName: firstName,
@@ -95,7 +91,6 @@ func RestoreProfile(
 	params RestoreProfileParams,
 ) *Profile {
 	return &Profile{
-		id:        params.ID,
 		userID:    params.UserID,
 		email:     params.Email,
 		firstName: params.FirstName,
@@ -110,7 +105,6 @@ func RestoreProfile(
 
 // <-- Getters -->
 
-func (p *Profile) ID() value_object.ProfileID  { return p.id }
 func (p *Profile) UserID() value_object.UserID { return p.userID }
 func (p *Profile) Email() value_object.Email   { return p.email }
 func (p *Profile) FirstName() string           { return p.firstName }
@@ -124,6 +118,10 @@ func (p *Profile) DeletedAt() *time.Time       { return p.deletedAt }
 // <-- Setters -->
 
 func (p *Profile) UpdateEmail(newEmail value_object.Email) {
+	if p.email == newEmail {
+		return
+	}
+
 	p.email = newEmail
 	p.touch()
 }

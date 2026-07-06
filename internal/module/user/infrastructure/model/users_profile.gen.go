@@ -14,15 +14,14 @@ const TableNameUsersProfile = "users_profile"
 
 // UsersProfile mapped from table <users_profile>
 type UsersProfile struct {
-	ID        string         `gorm:"column:id;primaryKey" json:"id"`
-	UserID    string         `gorm:"column:user_id;not null" json:"user_id"`
+	UserID    string         `gorm:"column:user_id;primaryKey" json:"user_id"`
 	Email     string         `gorm:"column:email;not null" json:"email"`
 	FirstName string         `gorm:"column:first_name;not null" json:"first_name"`
 	LastName  string         `gorm:"column:last_name;not null" json:"last_name"`
 	Headline  string         `gorm:"column:headline;not null" json:"headline"`
 	Bio       string         `gorm:"column:bio;not null" json:"bio"`
-	CreatedAt *time.Time     `gorm:"column:created_at;not null;default:now()" json:"created_at"`
-	UpdatedAt *time.Time     `gorm:"column:updated_at;not null;default:now()" json:"updated_at"`
+	CreatedAt time.Time      `gorm:"column:created_at;not null" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;not null" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 

@@ -27,7 +27,6 @@ func newUsersProfile(db *gorm.DB, opts ...gen.DOOption) usersProfile {
 
 	tableName := _usersProfile.usersProfileDo.TableName()
 	_usersProfile.ALL = field.NewAsterisk(tableName)
-	_usersProfile.ID = field.NewString(tableName, "id")
 	_usersProfile.UserID = field.NewString(tableName, "user_id")
 	_usersProfile.Email = field.NewString(tableName, "email")
 	_usersProfile.FirstName = field.NewString(tableName, "first_name")
@@ -47,7 +46,6 @@ type usersProfile struct {
 	usersProfileDo usersProfileDo
 
 	ALL       field.Asterisk
-	ID        field.String
 	UserID    field.String
 	Email     field.String
 	FirstName field.String
@@ -73,7 +71,6 @@ func (u usersProfile) As(alias string) *usersProfile {
 
 func (u *usersProfile) updateTableName(table string) *usersProfile {
 	u.ALL = field.NewAsterisk(table)
-	u.ID = field.NewString(table, "id")
 	u.UserID = field.NewString(table, "user_id")
 	u.Email = field.NewString(table, "email")
 	u.FirstName = field.NewString(table, "first_name")
@@ -111,8 +108,7 @@ func (u *usersProfile) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (u *usersProfile) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 10)
-	u.fieldMap["id"] = u.ID
+	u.fieldMap = make(map[string]field.Expr, 9)
 	u.fieldMap["user_id"] = u.UserID
 	u.fieldMap["email"] = u.Email
 	u.fieldMap["first_name"] = u.FirstName

@@ -17,14 +17,6 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 		return nil, err
 	}
 
-	var createdAt, updatedAt time.Time
-	if m.CreatedAt != nil {
-		createdAt = *m.CreatedAt
-	}
-	if m.UpdatedAt != nil {
-		updatedAt = *m.UpdatedAt
-	}
-
 	var deletedAt *time.Time
 	if m.DeletedAt.Valid {
 		deletedAt = &m.DeletedAt.Time
@@ -33,8 +25,8 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 	params := entity.RestoreUserParams{
 		ID:        userID,
 		Phone:     userPhone,
-		CreatedAt: createdAt,
-		UpdatedAt: updatedAt,
+		CreatedAt: m.CreatedAt,
+		UpdatedAt: m.UpdatedAt,
 		DeletedAt: deletedAt,
 	}
 
@@ -54,8 +46,7 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 func UserEntityToModel(e *entity.User) *model.User {
 	var userPassword *string
 	if password := e.Password(); password != nil {
-		pw := password.Value()
-		userPassword = &pw
+		userPassword = new(password.Value())
 	}
 
 	var deletedAt gorm.DeletedAt
@@ -67,8 +58,8 @@ func UserEntityToModel(e *entity.User) *model.User {
 		ID:        e.ID().Value(),
 		Phone:     e.Phone().Value(),
 		Password:  userPassword,
-		CreatedAt: new(e.CreatedAt()),
-		UpdatedAt: new(e.UpdatedAt()),
+		CreatedAt: e.CreatedAt(),
+		UpdatedAt: e.UpdatedAt(),
 		DeletedAt: deletedAt,
 	}
 }
