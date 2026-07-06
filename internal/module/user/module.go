@@ -22,6 +22,7 @@ var Module = fx.Module(
 		usecase.NewRegisterUserUsecase,
 		usecase.NewFindUserByPhoneUsecase,
 		usecase.NewFindUserByIDUsecase,
+		usecase.NewFindProfileByUserIDUsecase,
 		controller.NewGetMeController,
 	),
 	fx.Invoke(
