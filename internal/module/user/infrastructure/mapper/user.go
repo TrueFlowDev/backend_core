@@ -17,36 +17,36 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 		return nil, err
 	}
 
-	var createdAt, updatedAt time.Time
-	if m.CreatedAt != nil {
-		createdAt = *m.CreatedAt
-	}
-	if m.UpdatedAt != nil {
-		updatedAt = *m.UpdatedAt
-	}
-
 	var deletedAt *time.Time
 	if m.DeletedAt.Valid {
 		deletedAt = &m.DeletedAt.Time
 	}
 
-	user := entity.RestoreUser(userID, userPhone, createdAt, updatedAt, deletedAt)
+	params := entity.RestoreUserParams{
+		ID:        userID,
+		Phone:     userPhone,
+		CreatedAt: m.CreatedAt,
+		UpdatedAt: m.UpdatedAt,
+		DeletedAt: deletedAt,
+	}
 
 	if m.Password != nil {
 		userPassword, err := value_object.NewHashedPassword(*m.Password)
 		if err != nil {
 			return nil, err
 		}
-		user.ChangePassword(userPassword)
+		params.Password = &userPassword
 	}
+
+	user := entity.RestoreUser(params)
 
 	return user, nil
 }
 
 func UserEntityToModel(e *entity.User) *model.User {
 	var userPassword *string
-	if pw := e.Password().Value(); pw != "" {
-		userPassword = &pw
+	if password := e.Password(); password != nil {
+		userPassword = new(password.Value())
 	}
 
 	var deletedAt gorm.DeletedAt
@@ -58,8 +58,8 @@ func UserEntityToModel(e *entity.User) *model.User {
 		ID:        e.ID().Value(),
 		Phone:     e.Phone().Value(),
 		Password:  userPassword,
-		CreatedAt: new(e.CreatedAt()),
-		UpdatedAt: new(e.UpdatedAt()),
+		CreatedAt: e.CreatedAt(),
+		UpdatedAt: e.UpdatedAt(),
 		DeletedAt: deletedAt,
 	}
 }

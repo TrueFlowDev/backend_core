@@ -9,6 +9,8 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 )
 
+var _ port.OtpCodeGenerator = (*OtpCodeGenerator)(nil)
+
 const digits = "0123456789"
 
 type OtpCodeGenerator struct{ length int }

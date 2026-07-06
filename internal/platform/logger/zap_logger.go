@@ -7,6 +7,8 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+var _ port.Logger = (*ZapLogger)(nil)
+
 type ZapLogger struct {
 	logger *zap.SugaredLogger
 }

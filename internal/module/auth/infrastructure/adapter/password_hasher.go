@@ -12,6 +12,8 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
+var _ port.PasswordHasher = (*PasswordHasher)(nil)
+
 type argon2Params struct {
 	memory      uint32
 	iterations  uint32

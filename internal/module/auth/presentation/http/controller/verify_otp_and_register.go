@@ -17,7 +17,7 @@ type VerifyOTPAndRegisterControllerInput struct {
 } //	@name	VerifyOTPAndRegisterInput
 
 type VerifyOTPAndRegisterControllerOutput struct {
-	AccessToken string `json:"accessToken"`
+	AccessToken string `json:"access_token"`
 } //	@name	VerifyOTPAndRegisterOutput
 
 type VerifyOTPAndRegisterController struct {

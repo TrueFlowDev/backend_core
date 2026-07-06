@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
@@ -16,31 +17,46 @@ type SendOtpInput struct {
 }
 
 type SendOtpUsecase struct {
-	otpCodeGenerator port.OtpCodeGenerator
-	otpStore         port.OTPStore
-	otpSender        port.SmsOtpSender
-	otpTTL           time.Duration
+	otpCodeGenerator  port.OtpCodeGenerator
+	otpStore          port.OTPStore
+	otpSender         port.SmsOtpSender
+	otpTTL            time.Duration
+	userFinderByPhone port.UserFinderByPhone
 }
 
 type SendOtpParams struct {
 	fx.In
 
-	Config           *config.Config
-	OtpCodeGenerator port.OtpCodeGenerator
-	OtpStore         port.OTPStore
-	OtpSender        port.SmsOtpSender
+	Config            *config.Config
+	OtpCodeGenerator  port.OtpCodeGenerator
+	OtpStore          port.OTPStore
+	OtpSender         port.SmsOtpSender
+	UserFinderByPhone port.UserFinderByPhone
 }
 
 func NewSendOtpUsecase(p SendOtpParams) *SendOtpUsecase {
 	return &SendOtpUsecase{
-		otpCodeGenerator: p.OtpCodeGenerator,
-		otpStore:         p.OtpStore,
-		otpSender:        p.OtpSender,
-		otpTTL:           p.Config.OTP.TTL,
+		otpCodeGenerator:  p.OtpCodeGenerator,
+		otpStore:          p.OtpStore,
+		otpSender:         p.OtpSender,
+		otpTTL:            p.Config.OTP.TTL,
+		userFinderByPhone: p.UserFinderByPhone,
 	}
 }
 
 func (u *SendOtpUsecase) Execute(ctx context.Context, input SendOtpInput) error {
+	_, err := u.userFinderByPhone.FindByPhone(
+		ctx,
+		port.UserFinderByPhoneInput{Phone: input.Phone},
+	)
+	if err != nil {
+		if !errors.Is(err, port.ErrUserNotFound) {
+			return err
+		}
+	} else {
+		return port.ErrUserAlreadyExists
+	}
+
 	phone, err := value_object.NewPhone(input.Phone)
 	if err != nil {
 		return err

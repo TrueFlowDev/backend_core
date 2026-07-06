@@ -11,6 +11,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+var _ port.AccessTokenProvider = (*JwtProvider)(nil)
+
 type tokenClaims struct {
 	jwt.RegisteredClaims
 }

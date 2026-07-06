@@ -26,6 +26,25 @@ definitions:
       updated_at:
         type: string
     type: object
+  GetMyProfileOutput:
+    properties:
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      headline:
+        type: string
+      last_name:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
   LoginInput:
     properties:
       password:
@@ -38,8 +57,25 @@ definitions:
     type: object
   LoginOutput:
     properties:
-      accessToken:
+      access_token:
         type: string
+    type: object
+  SaveMyProfileInput:
+    properties:
+      bio:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      headline:
+        type: string
+      last_name:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
     type: object
   SendOtpInput:
     properties:
@@ -63,7 +99,7 @@ definitions:
     type: object
   VerifyOTPAndRegisterOutput:
     properties:
-      accessToken:
+      access_token:
         type: string
     type: object
 info:
@@ -186,6 +222,64 @@ paths:
       security:
       - BearerAuth: []
       summary: Get current user
+      tags:
+      - User
+  /user/me/profile:
+    get:
+      description: Returns the authenticated user's profile information.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetMyProfileOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Get current user's profile
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Creates or updates the authenticated user's profile.
+      parameters:
+      - description: Profile
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/SaveMyProfileInput'
+      responses:
+        "204":
+          description: Profile updated successfully
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create or update current user's profile
       tags:
       - User
 securityDefinitions:

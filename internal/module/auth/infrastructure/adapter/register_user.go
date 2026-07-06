@@ -7,6 +7,8 @@ import (
 	userUsecase "github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 )
 
+var _ port.UserRegisterer = (*UserRegisterer)(nil)
+
 type UserRegisterer struct {
 	registerUserUsecase *userUsecase.RegisterUserUsecase
 }
