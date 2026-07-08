@@ -18,6 +18,10 @@ var Module = fx.Module(
 			logger.NewZapLogger,
 			fx.As(new(port.Logger)),
 		),
+		fx.Annotate(
+			database.NewTxManager,
+			fx.As(new(port.TxManager)),
+		),
 		config.NewConfig,
 		database.NewPostgres,
 		cache.NewRedis,

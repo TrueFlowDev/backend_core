@@ -10,23 +10,25 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/dao"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/mapper"
+	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/database"
 	"gorm.io/gorm"
 )
 
 var _ port.UserRepository = (*UserRepository)(nil)
 
 type UserRepository struct {
-	db  *gorm.DB
-	dao *dao.Query
+	*database.BaseRepo
 }
 
-func NewUserRepository(db *gorm.DB) *UserRepository {
-	return &UserRepository{db: db, dao: dao.Use(db)}
+func NewUserRepository(base *database.BaseRepo) *UserRepository {
+	return &UserRepository{BaseRepo: base}
 }
 
 func (r *UserRepository) Create(ctx context.Context, user *entity.User) error {
+	q := dao.Use(r.Executor(ctx))
+
 	mappedUser := mapper.UserEntityToModel(user)
-	if err := r.dao.WithContext(ctx).User.Create(mappedUser); err != nil {
+	if err := q.WithContext(ctx).User.Create(mappedUser); err != nil {
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
 			return port.ErrUserAlreadyExists
 		}
@@ -37,8 +39,10 @@ func (r *UserRepository) Create(ctx context.Context, user *entity.User) error {
 }
 
 func (r *UserRepository) FindByID(ctx context.Context, id value_object.UserID) (*entity.User, error) {
-	model, err := r.dao.WithContext(ctx).User.
-		Where(r.dao.User.ID.Eq(id.Value())).
+	q := dao.Use(r.Executor(ctx))
+
+	model, err := q.WithContext(ctx).User.
+		Where(q.User.ID.Eq(id.Value())).
 		First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -54,8 +58,10 @@ func (r *UserRepository) FindByID(ctx context.Context, id value_object.UserID) (
 }
 
 func (r *UserRepository) FindByPhone(ctx context.Context, phone value_object.Phone) (*entity.User, error) {
-	model, err := r.dao.WithContext(ctx).User.
-		Where(r.dao.User.Phone.Eq(phone.Value())).
+	q := dao.Use(r.Executor(ctx))
+
+	model, err := q.WithContext(ctx).User.
+		Where(q.User.Phone.Eq(phone.Value())).
 		First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
