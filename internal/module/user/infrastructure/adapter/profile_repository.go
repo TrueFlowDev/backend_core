@@ -10,6 +10,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/dao"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/mapper"
+	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/database"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -17,17 +18,18 @@ import (
 var _ port.ProfileRepository = (*ProfileRepository)(nil)
 
 type ProfileRepository struct {
-	db  *gorm.DB
-	dao *dao.Query
+	*database.BaseRepo
 }
 
-func NewProfileRepository(db *gorm.DB) *ProfileRepository {
-	return &ProfileRepository{db: db, dao: dao.Use(db)}
+func NewProfileRepository(base *database.BaseRepo) *ProfileRepository {
+	return &ProfileRepository{BaseRepo: base}
 }
 
 func (r *ProfileRepository) Save(ctx context.Context, profile *entity.Profile) error {
+	q := dao.Use(r.Executor(ctx))
+
 	mappedProfile := mapper.ProfileEntityToModel(profile)
-	if err := r.dao.WithContext(ctx).
+	if err := q.WithContext(ctx).
 		UsersProfile.
 		Clauses(clause.OnConflict{
 			Columns: []clause.Column{
@@ -55,8 +57,10 @@ func (r *ProfileRepository) Save(ctx context.Context, profile *entity.Profile) e
 }
 
 func (r *ProfileRepository) FindByUserID(ctx context.Context, id value_object.UserID) (*entity.Profile, error) {
-	model, err := r.dao.WithContext(ctx).UsersProfile.
-		Where(r.dao.UsersProfile.UserID.Eq(id.Value())).
+	q := dao.Use(r.Executor(ctx))
+
+	model, err := q.WithContext(ctx).UsersProfile.
+		Where(q.UsersProfile.UserID.Eq(id.Value())).
 		First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
