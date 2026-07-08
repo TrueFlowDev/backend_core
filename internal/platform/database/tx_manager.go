@@ -9,8 +9,6 @@ import (
 
 var _ port.TxManager = (*TxManager)(nil)
 
-type txKey struct{}
-
 type TxManager struct{ db *gorm.DB }
 
 func NewTxManager(db *gorm.DB) *TxManager {
@@ -19,7 +17,7 @@ func NewTxManager(db *gorm.DB) *TxManager {
 
 func (t *TxManager) WithinTx(ctx context.Context, fn func(ctx context.Context) error) error {
 	return t.db.Transaction(func(tx *gorm.DB) error {
-		ctxWithTx := context.WithValue(ctx, txKey{}, tx)
+		ctxWithTx := context.WithValue(ctx, port.TxKey{}, tx)
 		return fn(ctxWithTx)
 	})
 }
