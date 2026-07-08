@@ -14,7 +14,7 @@ var (
 )
 
 type OrganizationRepository interface {
-	Save(ctx context.Context, organization *entity.Organization) error
+	Create(ctx context.Context, organization *entity.Organization) error
 
 	FindByID(ctx context.Context, id value_object.OrganizationID) (*entity.Organization, error)
 }

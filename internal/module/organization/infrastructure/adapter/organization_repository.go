@@ -24,7 +24,7 @@ func NewOrganizationRepository(base *database.BaseRepo) *OrganizationRepository 
 	return &OrganizationRepository{BaseRepo: base}
 }
 
-func (o *OrganizationRepository) Save(ctx context.Context, organization *entity.Organization) error {
+func (o *OrganizationRepository) Create(ctx context.Context, organization *entity.Organization) error {
 	q := dao.Use(o.Executor(ctx))
 
 	mappedOrganization := mapper.OrganizationEntityToModel(organization)

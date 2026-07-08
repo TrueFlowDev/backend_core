@@ -1,6 +1,7 @@
 package organization
 
 import (
+	"github.com/TrueFlowDev/Backend/internal/module/organization/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/infrastructure/adapter"
 	"go.uber.org/fx"
@@ -17,5 +18,6 @@ var Module = fx.Module(
 			adapter.NewUUIDGenerator,
 			fx.As(new(port.OrganizationIDGenerator)),
 		),
+		usecase.NewCreateOrganizationUsecase,
 	),
 )
