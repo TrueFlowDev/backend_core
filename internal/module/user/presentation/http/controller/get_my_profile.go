@@ -19,7 +19,7 @@ type GetMyProfileControllerOutput struct {
 
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-} // @name GetMyProfileOutput
+} //	@name	GetMyProfileOutput
 
 type GetMyProfileController struct {
 	usecase                 *usecase.FindProfileByUserIDUsecase
@@ -53,10 +53,10 @@ func RegisterGetMyProfileController(
 //	@Description	Returns the authenticated user's profile information.
 //	@Tags			User
 //	@Produce		json
-//	@Success		200		{object}	GetMyProfileControllerOutput
-//	@Failure		401		{object}	xerr.SwaggerErrOutput
-//	@Failure		404		{object}	xerr.SwaggerErrOutput
-//	@Failure		500		{object}	xerr.SwaggerErrOutput
+//	@Success		200	{object}	GetMyProfileControllerOutput
+//	@Failure		401	{object}	xerr.SwaggerErrOutput
+//	@Failure		404	{object}	xerr.SwaggerErrOutput
+//	@Failure		500	{object}	xerr.SwaggerErrOutput
 //	@Security		BearerAuth
 //	@Router			/user/me/profile [get]
 func (c *GetMyProfileController) GetMyProfile(ctx *gin.Context) {

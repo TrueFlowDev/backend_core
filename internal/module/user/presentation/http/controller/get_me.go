@@ -45,9 +45,9 @@ func RegisterGetMeController(
 //	@Description	Returns the authenticated user's profile.
 //	@Tags			User
 //	@Produce		json
-//	@Success		200		{object}	GetMeControllerOutput
-//	@Failure		401		{object}	xerr.SwaggerErrOutput
-//	@Failure		500		{object}	xerr.SwaggerErrOutput
+//	@Success		200	{object}	GetMeControllerOutput
+//	@Failure		401	{object}	xerr.SwaggerErrOutput
+//	@Failure		500	{object}	xerr.SwaggerErrOutput
 //	@Security		BearerAuth
 //	@Router			/user/me [get]
 func (c *GetMeController) GetMe(ctx *gin.Context) {

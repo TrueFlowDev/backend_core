@@ -14,7 +14,7 @@ type SaveMyProfileControllerInput struct {
 	LastName  string `json:"last_name" binding:"required"`
 	Headline  string `json:"headline,omitempty"`
 	Bio       string `json:"bio,omitempty"`
-} // @name SaveMyProfileInput
+} //	@name	SaveMyProfileInput
 
 type SaveMyProfileController struct {
 	usecase                 *usecase.SaveProfileUsecase
@@ -48,7 +48,7 @@ func RegisterSaveMyProfileController(
 //	@Description	Creates or updates the authenticated user's profile.
 //	@Tags			User
 //	@Accept			json
-//	@Param			request	body		SaveMyProfileControllerInput	true	"Profile"
+//	@Param			request	body	SaveMyProfileControllerInput	true	"Profile"
 //	@Success		204		"Profile updated successfully"
 //	@Failure		400		{object}	xerr.SwaggerErrOutput
 //	@Failure		401		{object}	xerr.SwaggerErrOutput

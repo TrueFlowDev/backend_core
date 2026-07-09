@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/TrueFlowDev/Backend/internal/module/auth"
+	"github.com/TrueFlowDev/Backend/internal/module/employee"
 	"github.com/TrueFlowDev/Backend/internal/module/notification"
 	"github.com/TrueFlowDev/Backend/internal/module/organization"
 	"github.com/TrueFlowDev/Backend/internal/module/user"
@@ -33,6 +34,7 @@ func main() {
 			auth.Module,
 			notification.Module,
 			organization.Module,
+			employee.Module,
 		).
 		Run()
 }
