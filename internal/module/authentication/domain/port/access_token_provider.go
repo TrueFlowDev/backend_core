@@ -2,7 +2,7 @@ package port
 
 import (
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
 )
 
 var (

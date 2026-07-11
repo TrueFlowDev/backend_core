@@ -115,7 +115,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: TrueFlow Api Document
 paths:
-  /auth/login:
+  /authentication/login:
     post:
       consumes:
       - application/json
@@ -145,7 +145,7 @@ paths:
       summary: Login user
       tags:
       - Authentication
-  /auth/send-otp:
+  /authentication/send-otp:
     post:
       consumes:
       - application/json
@@ -171,7 +171,7 @@ paths:
       summary: Send OTP
       tags:
       - Authentication
-  /auth/verify-otp:
+  /authentication/verify-otp:
     post:
       consumes:
       - application/json

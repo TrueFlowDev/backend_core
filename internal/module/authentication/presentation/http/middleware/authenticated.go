@@ -3,7 +3,7 @@ package middleware
 import (
 	"strings"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	"github.com/gin-gonic/gin"
 )
 

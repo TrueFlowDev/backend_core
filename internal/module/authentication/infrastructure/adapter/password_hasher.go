@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	"golang.org/x/crypto/argon2"
 )
 

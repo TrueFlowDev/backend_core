@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -36,7 +36,7 @@ func RegisterSendOtpController(r *gin.Engine, sendOtpController *SendOtpControll
 //	@Success		204		"OTP sent successfully"
 //	@Failure		400		{object}	xerr.SwaggerErrOutput
 //	@Failure		500		{object}	xerr.SwaggerErrOutput
-//	@Router			/auth/send-otp [post]
+//	@Router			/authentication/send-otp [post]
 func (receiver *SendOtpController) SendOTP(c *gin.Context) {
 	var input SendOtpControllerInput
 	if err := c.ShouldBindJSON(&input); err != nil {

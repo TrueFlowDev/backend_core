@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	userUsecase "github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 	user_port "github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
 )

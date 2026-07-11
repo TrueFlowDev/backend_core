@@ -1,16 +1,16 @@
-package auth
+package authentication
 
 import (
-	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/infrastructure/adapter"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/controller"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/middleware"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/application/usecase"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/infrastructure/adapter"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/presentation/http/controller"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/presentation/http/middleware"
 	"go.uber.org/fx"
 )
 
 var Module = fx.Module(
-	"auth",
+	"authentication",
 	fx.Provide(
 		fx.Annotate(
 			adapter.NewSmsOtpSender,

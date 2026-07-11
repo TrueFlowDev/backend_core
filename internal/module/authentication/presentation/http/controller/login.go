@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/application/usecase"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -49,7 +49,7 @@ func RegisterLoginController(
 //	@Success		200		{object}	LoginControllerOutput
 //	@Failure		400		{object}	xerr.SwaggerErrOutput
 //	@Failure		500		{object}	xerr.SwaggerErrOutput
-//	@Router			/auth/login [post]
+//	@Router			/authentication/login [post]
 func (c *LoginController) Login(ctx *gin.Context) {
 	var input LoginControllerInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {

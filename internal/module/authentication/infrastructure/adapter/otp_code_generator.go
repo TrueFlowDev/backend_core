@@ -5,7 +5,7 @@ import (
 	"math/big"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 )
 

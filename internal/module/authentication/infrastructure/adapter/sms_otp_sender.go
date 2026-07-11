@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
 	notificationUsecase "github.com/TrueFlowDev/Backend/internal/module/notification/application/usecase"
 )
 

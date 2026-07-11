@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/middleware"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/presentation/http/middleware"
 	"github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 	"github.com/gin-gonic/gin"
 )

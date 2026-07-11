@@ -3,7 +3,7 @@ package adapter
 import (
 	"context"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	userUsecase "github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 )
 

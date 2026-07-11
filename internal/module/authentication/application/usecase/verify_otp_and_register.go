@@ -5,8 +5,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"go.uber.org/fx"
 )

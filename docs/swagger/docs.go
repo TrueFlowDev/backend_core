@@ -23,7 +23,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
+        "/authentication/login": {
             "post": {
                 "description": "Logins the user and returns an access token.",
                 "consumes": [
@@ -69,7 +69,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/send-otp": {
+        "/authentication/send-otp": {
             "post": {
                 "description": "Sends a one-time password (OTP) to the specified phone number.",
                 "consumes": [
@@ -109,7 +109,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/verify-otp": {
+        "/authentication/verify-otp": {
             "post": {
                 "description": "Verifies OTP, registers the user and returns an access token.",
                 "consumes": [

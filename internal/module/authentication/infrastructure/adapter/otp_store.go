@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/auth/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
 	"github.com/redis/go-redis/v9"
 )
 
