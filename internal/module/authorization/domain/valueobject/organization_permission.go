@@ -1,29 +1,36 @@
 package valueobject
 
+var organizationCategory = PermissionCategory("organization")
+
 var (
 	PermissionOrganizationList = Permission{
-		value: "organization.list",
-		title: "مشاهده فهرست سازمان‌ها",
+		category: organizationCategory,
+		value:    "organization.list",
+		title:    "مشاهده فهرست سازمان‌ها",
 	}
 
 	PermissionOrganizationRead = Permission{
-		value: "organization.read",
-		title: "مشاهده اطلاعات سازمان",
+		category: organizationCategory,
+		value:    "organization.read",
+		title:    "مشاهده اطلاعات سازمان",
 	}
 
 	PermissionOrganizationCreate = Permission{
-		value: "organization.create",
-		title: "ایجاد سازمان",
+		category: organizationCategory,
+		value:    "organization.create",
+		title:    "ایجاد سازمان",
 	}
 
 	PermissionOrganizationUpdate = Permission{
-		value: "organization.update",
-		title: "ویرایش سازمان",
+		category: organizationCategory,
+		value:    "organization.update",
+		title:    "ویرایش سازمان",
 	}
 
 	PermissionOrganizationDelete = Permission{
-		value: "organization.delete",
-		title: "حذف سازمان",
+		category: organizationCategory,
+		value:    "organization.delete",
+		title:    "حذف سازمان",
 	}
 )
 

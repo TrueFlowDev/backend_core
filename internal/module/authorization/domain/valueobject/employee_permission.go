@@ -1,29 +1,36 @@
 package valueobject
 
+var employeeCategory = PermissionCategory("employee")
+
 var (
 	PermissionEmployeeList = Permission{
-		value: "employee.list",
-		title: "مشاهده فهرست کارکنان",
+		category: employeeCategory,
+		value:    "employee.list",
+		title:    "مشاهده فهرست کارکنان",
 	}
 
 	PermissionEmployeeRead = Permission{
-		value: "employee.read",
-		title: "مشاهده اطلاعات کارکنان",
+		category: employeeCategory,
+		value:    "employee.read",
+		title:    "مشاهده اطلاعات کارکنان",
 	}
 
 	PermissionEmployeeCreate = Permission{
-		value: "employee.create",
-		title: "ایجاد کارمند",
+		category: employeeCategory,
+		value:    "employee.create",
+		title:    "ایجاد کارمند",
 	}
 
 	PermissionEmployeeUpdate = Permission{
-		value: "employee.update",
-		title: "ویرایش کارمند",
+		category: employeeCategory,
+		value:    "employee.update",
+		title:    "ویرایش کارمند",
 	}
 
 	PermissionEmployeeDelete = Permission{
-		value: "employee.delete",
-		title: "حذف کارمند",
+		category: employeeCategory,
+		value:    "employee.delete",
+		title:    "حذف کارمند",
 	}
 )
 
