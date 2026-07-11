@@ -10,7 +10,7 @@ import (
 )
 
 func OrganizationModelToEntity(m *model.Organization) (*entity.Organization, error) {
-	category, err := valueobject.NewOrganizationCategory(m.Category)
+	category, err := valueobject.ParseOrganizationCategory(m.Category)
 	if err != nil {
 		return nil, err
 	}

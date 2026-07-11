@@ -23,21 +23,28 @@ var (
 	MembershipStatusTerminated = MembershipStatus{"terminated"}
 )
 
-func NewMembershipStatus(raw string) (MembershipStatus, error) {
-	switch raw {
-	case MembershipStatusActive.value:
-		return MembershipStatusActive, nil
-	case MembershipStatusOnLeave.value:
-		return MembershipStatusOnLeave, nil
-	case MembershipStatusSuspended.value:
-		return MembershipStatusSuspended, nil
-	case MembershipStatusResigned.value:
-		return MembershipStatusResigned, nil
-	case MembershipStatusTerminated.value:
-		return MembershipStatusTerminated, nil
-	default:
+var membershipStatuses = buildMembershipStatusMap(
+	MembershipStatusActive,
+	MembershipStatusOnLeave,
+	MembershipStatusSuspended,
+	MembershipStatusResigned,
+	MembershipStatusTerminated,
+)
+
+func buildMembershipStatusMap(statuses ...MembershipStatus) map[string]MembershipStatus {
+	m := make(map[string]MembershipStatus, len(statuses))
+	for _, s := range statuses {
+		m[s.value] = s
+	}
+	return m
+}
+
+func ParseMembershipStatus(raw string) (MembershipStatus, error) {
+	s, ok := membershipStatuses[raw]
+	if !ok {
 		return MembershipStatus{}, ErrInvalidMembershipStatus
 	}
+	return s, nil
 }
 
 func (s MembershipStatus) Value() string {

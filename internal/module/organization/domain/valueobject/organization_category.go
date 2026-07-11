@@ -21,21 +21,28 @@ var (
 	OrganizationCategoryOther         = OrganizationCategory{"other"}
 )
 
-func NewOrganizationCategory(raw string) (OrganizationCategory, error) {
-	switch raw {
-	case OrganizationCategoryTechnology.value:
-		return OrganizationCategoryTechnology, nil
-	case OrganizationCategoryFinance.value:
-		return OrganizationCategoryFinance, nil
-	case OrganizationCategoryRetail.value:
-		return OrganizationCategoryRetail, nil
-	case OrganizationCategoryManufacturing.value:
-		return OrganizationCategoryManufacturing, nil
-	case OrganizationCategoryOther.value:
-		return OrganizationCategoryOther, nil
-	default:
+var organizationCategories = buildOrganizationCategoryMap(
+	OrganizationCategoryTechnology,
+	OrganizationCategoryFinance,
+	OrganizationCategoryRetail,
+	OrganizationCategoryManufacturing,
+	OrganizationCategoryOther,
+)
+
+func buildOrganizationCategoryMap(categories ...OrganizationCategory) map[string]OrganizationCategory {
+	m := make(map[string]OrganizationCategory, len(categories))
+	for _, c := range categories {
+		m[c.value] = c
+	}
+	return m
+}
+
+func ParseOrganizationCategory(raw string) (OrganizationCategory, error) {
+	c, ok := organizationCategories[raw]
+	if !ok {
 		return OrganizationCategory{}, ErrInvalidOrganizationCategory
 	}
+	return c, nil
 }
 
 func (c OrganizationCategory) Value() string {

@@ -35,12 +35,12 @@ func NewCreateOrganizationUsecase(
 func (u *CreateOrganizationUsecase) Execute(ctx context.Context, input CreateOrganizationInput) (CreateOrganizationOutput, error) {
 	newOrganizationID := u.organizationIDGenerator.Generate()
 
-	newOrganizationCategory, err := valueobject.NewOrganizationCategory(input.Category)
+	organizationCategory, err := valueobject.ParseOrganizationCategory(input.Category)
 	if err != nil {
 		return CreateOrganizationOutput{}, err
 	}
 
-	newOrganization, err := entity.NewOrganization(newOrganizationID, input.Name, newOrganizationCategory)
+	newOrganization, err := entity.NewOrganization(newOrganizationID, input.Name, organizationCategory)
 	if err != nil {
 		return CreateOrganizationOutput{}, err
 	}

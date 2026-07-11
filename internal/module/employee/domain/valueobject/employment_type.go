@@ -24,25 +24,31 @@ var (
 	EmploymentTypeConsultant = EmploymentType{"consultant"}
 )
 
-func NewEmploymentType(raw string) (EmploymentType, error) {
-	switch raw {
-	case EmploymentTypeFullTime.value:
-		return EmploymentTypeFullTime, nil
-	case EmploymentTypePartTime.value:
-		return EmploymentTypePartTime, nil
-	case EmploymentTypeContract.value:
-		return EmploymentTypeContract, nil
-	case EmploymentTypeIntern.value:
-		return EmploymentTypeIntern, nil
-	case EmploymentTypeTemporary.value:
-		return EmploymentTypeTemporary, nil
-	case EmploymentTypeConsultant.value:
-		return EmploymentTypeConsultant, nil
-	default:
+var employmentTypes = buildEmploymentTypeMap(
+	EmploymentTypeFullTime,
+	EmploymentTypePartTime,
+	EmploymentTypeContract,
+	EmploymentTypeIntern,
+	EmploymentTypeTemporary,
+	EmploymentTypeConsultant,
+)
+
+func ParseEmploymentType(raw string) (EmploymentType, error) {
+	e, ok := employmentTypes[raw]
+	if !ok {
 		return EmploymentType{}, ErrInvalidEmploymentType
 	}
+	return e, nil
 }
 
 func (e EmploymentType) Value() string {
 	return e.value
+}
+
+func buildEmploymentTypeMap(types ...EmploymentType) map[string]EmploymentType {
+	m := make(map[string]EmploymentType, len(types))
+	for _, t := range types {
+		m[t.value] = t
+	}
+	return m
 }
