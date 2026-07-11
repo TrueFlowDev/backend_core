@@ -1,6 +1,8 @@
 package valueobject
 
 import (
+	"sort"
+
 	"github.com/Ali127Dev/xerr"
 )
 
@@ -36,6 +38,16 @@ func ParsePermission(raw string) (Permission, error) {
 func (p Permission) Category() PermissionCategory { return p.category }
 func (p Permission) Title() string                { return p.title }
 func (p Permission) Value() string                { return p.value }
+func All() []Permission {
+	result := make([]Permission, 0, len(allPermissions))
+	for _, p := range allPermissions {
+		result = append(result, p)
+	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].value < result[j].value
+	})
+	return result
+}
 
 func (c PermissionCategory) String() string { return string(c) }
 

@@ -35,7 +35,7 @@ func RegisterLoginController(
 	r *gin.Engine,
 	controller *LoginController,
 ) {
-	r.POST("/auth/login", controller.Login)
+	r.POST("/authentication/login", controller.Login)
 }
 
 // Login godoc

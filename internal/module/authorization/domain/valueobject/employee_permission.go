@@ -1,6 +1,6 @@
 package valueobject
 
-var employeeCategory = PermissionCategory("employee")
+var employeeCategory = PermissionCategory("کارکنان")
 
 var (
 	PermissionEmployeeList = Permission{

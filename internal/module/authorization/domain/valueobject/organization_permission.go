@@ -1,6 +1,6 @@
 package valueobject
 
-var organizationCategory = PermissionCategory("organization")
+var organizationCategory = PermissionCategory("سازمان")
 
 var (
 	PermissionOrganizationList = Permission{

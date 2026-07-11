@@ -23,7 +23,7 @@ func NewSendOtpController(usecase *usecase.SendOtpUsecase) *SendOtpController {
 }
 
 func RegisterSendOtpController(r *gin.Engine, sendOtpController *SendOtpController) {
-	r.POST("/auth/send-otp", sendOtpController.SendOTP)
+	r.POST("/authentication/send-otp", sendOtpController.SendOTP)
 }
 
 // SendOTP godoc

@@ -36,7 +36,7 @@ func RegisterVerifyOTPAndRegisterController(
 	r *gin.Engine,
 	controller *VerifyOTPAndRegisterController,
 ) {
-	r.POST("/auth/verify-otp", controller.VerifyOTPAndRegister)
+	r.POST("/authentication/verify-otp", controller.VerifyOTPAndRegister)
 }
 
 // VerifyOTPAndRegister godoc
