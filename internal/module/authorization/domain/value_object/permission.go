@@ -11,17 +11,18 @@ var (
 	)
 )
 
-var AllPermissions = mergePermissions(
+var allPermissions = mergePermissions(
 	OrganizationPermissions,
 	EmployeePermissions,
 )
 
 type Permission struct {
+	title string
 	value string
 }
 
 func NewPermission(raw string) (Permission, error) {
-	p, ok := AllPermissions[raw]
+	p, ok := allPermissions[raw]
 	if !ok {
 		return Permission{}, ErrInvalidPermission
 	}
@@ -29,9 +30,8 @@ func NewPermission(raw string) (Permission, error) {
 	return p, nil
 }
 
-func (p Permission) Value() string {
-	return p.value
-}
+func (p Permission) Title() string { return p.title }
+func (p Permission) Value() string { return p.value }
 
 func mergePermissions(maps ...map[string]Permission) map[string]Permission {
 	result := make(map[string]Permission)

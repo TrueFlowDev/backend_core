@@ -1,11 +1,30 @@
 package value_object
 
 var (
-	PermissionOrganizationList   = Permission{"organization.list"}
-	PermissionOrganizationRead   = Permission{"organization.read"}
-	PermissionOrganizationCreate = Permission{"organization.create"}
-	PermissionOrganizationUpdate = Permission{"organization.update"}
-	PermissionOrganizationDelete = Permission{"organization.delete"}
+	PermissionOrganizationList = Permission{
+		value: "organization.list",
+		title: "مشاهده فهرست سازمان‌ها",
+	}
+
+	PermissionOrganizationRead = Permission{
+		value: "organization.read",
+		title: "مشاهده اطلاعات سازمان",
+	}
+
+	PermissionOrganizationCreate = Permission{
+		value: "organization.create",
+		title: "ایجاد سازمان",
+	}
+
+	PermissionOrganizationUpdate = Permission{
+		value: "organization.update",
+		title: "ویرایش سازمان",
+	}
+
+	PermissionOrganizationDelete = Permission{
+		value: "organization.delete",
+		title: "حذف سازمان",
+	}
 )
 
 var OrganizationPermissions = map[string]Permission{
