@@ -21,7 +21,7 @@ type Permission struct {
 	value string
 }
 
-func NewPermission(raw string) (Permission, error) {
+func ParsePermission(raw string) (Permission, error) {
 	p, ok := allPermissions[raw]
 	if !ok {
 		return Permission{}, ErrInvalidPermission
@@ -42,5 +42,13 @@ func mergePermissions(maps ...map[string]Permission) map[string]Permission {
 		}
 	}
 
+	return result
+}
+
+func buildPermissionMap(perms ...Permission) map[string]Permission {
+	result := make(map[string]Permission, len(perms))
+	for _, p := range perms {
+		result[p.value] = p
+	}
 	return result
 }

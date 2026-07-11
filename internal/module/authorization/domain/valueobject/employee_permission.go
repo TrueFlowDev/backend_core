@@ -27,10 +27,10 @@ var (
 	}
 )
 
-var EmployeePermissions = map[string]Permission{
-	"employee.list":   PermissionEmployeeList,
-	"employee.read":   PermissionEmployeeRead,
-	"employee.create": PermissionEmployeeCreate,
-	"employee.update": PermissionEmployeeUpdate,
-	"employee.delete": PermissionEmployeeDelete,
-}
+var EmployeePermissions = buildPermissionMap(
+	PermissionEmployeeList,
+	PermissionEmployeeRead,
+	PermissionEmployeeCreate,
+	PermissionEmployeeUpdate,
+	PermissionEmployeeDelete,
+)

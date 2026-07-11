@@ -27,10 +27,10 @@ var (
 	}
 )
 
-var OrganizationPermissions = map[string]Permission{
-	"organization.list":   PermissionOrganizationList,
-	"organization.read":   PermissionOrganizationRead,
-	"organization.create": PermissionOrganizationCreate,
-	"organization.update": PermissionOrganizationUpdate,
-	"organization.delete": PermissionOrganizationDelete,
-}
+var OrganizationPermissions = buildPermissionMap(
+	PermissionOrganizationList,
+	PermissionOrganizationRead,
+	PermissionOrganizationCreate,
+	PermissionOrganizationUpdate,
+	PermissionOrganizationDelete,
+)
