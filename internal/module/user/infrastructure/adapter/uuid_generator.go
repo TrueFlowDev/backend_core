@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-var _ port.UserIdGenerator = (*UUIDGenerator)(nil)
+var _ port.UserIDGenerator = (*UUIDGenerator)(nil)
 
 type UUIDGenerator struct{}
 

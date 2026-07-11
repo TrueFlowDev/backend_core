@@ -18,16 +18,16 @@ type RegisterUserOutput struct {
 }
 
 type RegisterUserUsecase struct {
-	userIdGenerator port.UserIdGenerator
+	userIDGenerator port.UserIDGenerator
 	userRepository  port.UserRepository
 }
 
 func NewRegisterUserUsecase(
-	userIdGenerator port.UserIdGenerator,
+	userIDGenerator port.UserIDGenerator,
 	userRepository port.UserRepository,
 ) *RegisterUserUsecase {
 	return &RegisterUserUsecase{
-		userIdGenerator: userIdGenerator,
+		userIDGenerator: userIDGenerator,
 		userRepository:  userRepository,
 	}
 }
@@ -43,7 +43,7 @@ func (u *RegisterUserUsecase) Execute(ctx context.Context, input RegisterUserInp
 		return RegisterUserOutput{}, err
 	}
 
-	newUserID := u.userIdGenerator.Generate()
+	newUserID := u.userIDGenerator.Generate()
 
 	newUser, err := entity.NewUser(newUserID, newUserPhone)
 	if err != nil {

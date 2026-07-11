@@ -25,6 +25,7 @@ linters:
     staticcheck:
       checks:
         - all
+        - -ST1000
         - -ST1018
 
     revive:
