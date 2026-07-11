@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"go.uber.org/fx"
 )
@@ -56,7 +56,7 @@ func (u *LoginUsecase) Execute(ctx context.Context, input LoginInput) (LoginOutp
 
 	now := time.Now().UTC()
 	expiresAt := now.Add(u.accessTokenDuration)
-	tokenClaims := value_object.NewAccessTokenClaims(user.ID, now, expiresAt)
+	tokenClaims := valueobject.NewAccessTokenClaims(user.ID, now, expiresAt)
 
 	accessToken, err := u.accessTokenProvider.Generate(tokenClaims)
 	if err != nil {

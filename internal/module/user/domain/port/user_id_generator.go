@@ -1,7 +1,7 @@
 package port
 
-import "github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+import "github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 
 type UserIDGenerator interface {
-	Generate() value_object.UserID
+	Generate() valueobject.UserID
 }

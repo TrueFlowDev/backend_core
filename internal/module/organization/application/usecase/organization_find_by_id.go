@@ -5,7 +5,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 )
 
 type FindOrganizationByIDInput struct {
@@ -28,7 +28,7 @@ func (u *FindOrganizationByIDUsecase) Execute(
 	ctx context.Context,
 	input FindOrganizationByIDInput,
 ) (*entity.Organization, error) {
-	organizationID := value_object.NewOrganizationID(input.ID)
+	organizationID := valueobject.NewOrganizationID(input.ID)
 
 	organization, err := u.organizationRepository.FindByID(ctx, organizationID)
 	if err != nil {

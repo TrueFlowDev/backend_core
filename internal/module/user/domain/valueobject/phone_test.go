@@ -1,10 +1,10 @@
-package value_object_test
+package valueobject_test
 
 import (
 	"errors"
 	"testing"
 
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/pkg/phonenumber"
 )
 
@@ -30,7 +30,7 @@ func TestNewPhone(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			phone, err := value_object.NewPhone(tt.input)
+			phone, err := valueobject.NewPhone(tt.input)
 
 			if !errors.Is(err, tt.wantError) {
 				t.Fatalf("expected error_handling %v, got %v", tt.wantError, err)

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"go.uber.org/fx"
 )
@@ -50,7 +50,7 @@ func NewVerifyOTPAndRegisterUsecase(p VerifyOTPAndRegisterParams) *VerifyOTPAndR
 }
 
 func (u *VerifyOTPAndRegisterUsecase) Execute(ctx context.Context, input VerifyOTPAndRegisterInput) (VerifyOTPAndRegisterOutput, error) {
-	phone, err := value_object.NewPhone(input.Phone)
+	phone, err := valueobject.NewPhone(input.Phone)
 	if err != nil {
 		return VerifyOTPAndRegisterOutput{}, err
 	}
@@ -85,7 +85,7 @@ func (u *VerifyOTPAndRegisterUsecase) Execute(ctx context.Context, input VerifyO
 
 	now := time.Now().UTC()
 	expiresAt := now.Add(u.accessTokenDuration)
-	tokenClaims := value_object.NewAccessTokenClaims(output.ID, now, expiresAt)
+	tokenClaims := valueobject.NewAccessTokenClaims(output.ID, now, expiresAt)
 
 	accessToken, err := u.accessTokenProvider.Generate(tokenClaims)
 	if err != nil {

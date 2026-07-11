@@ -1,10 +1,10 @@
-package value_object_test
+package valueobject_test
 
 import (
 	"errors"
 	"testing"
 
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 func TestNewEmail(t *testing.T) {
@@ -16,15 +16,15 @@ func TestNewEmail(t *testing.T) {
 		wantErr error
 	}{
 		{"valid email", "Ali@test.com", nil},
-		{"empty email", "", value_object.ErrEmailRequired},
-		{"invalid email", "invalid", value_object.ErrEmailInvalidFormat},
+		{"empty email", "", valueobject.ErrEmailRequired},
+		{"invalid email", "invalid", valueobject.ErrEmailInvalidFormat},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 
-			_, err := value_object.NewEmail(tt.input)
+			_, err := valueobject.NewEmail(tt.input)
 
 			if !errors.Is(err, tt.wantErr) {
 				t.Fatalf("expected %v, got %v", tt.wantErr, err)

@@ -9,7 +9,7 @@ import (
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -31,7 +31,7 @@ func NewOTPStore(client *redis.Client) *OTPStore {
 
 func (s *OTPStore) Set(
 	ctx context.Context,
-	key value_object.Phone,
+	key valueobject.Phone,
 	value entity.OTP,
 ) error {
 	otp := otpDTO{
@@ -61,7 +61,7 @@ func (s *OTPStore) Set(
 
 func (s *OTPStore) Get(
 	ctx context.Context,
-	key value_object.Phone,
+	key valueobject.Phone,
 ) (entity.OTP, error) {
 	var dto otpDTO
 
@@ -91,7 +91,7 @@ func (s *OTPStore) Get(
 
 func (s *OTPStore) Delete(
 	ctx context.Context,
-	key value_object.Phone,
+	key valueobject.Phone,
 ) error {
 	if err := s.client.Del(ctx, key.Value()).Err(); err != nil {
 		return xerr.Wrap(

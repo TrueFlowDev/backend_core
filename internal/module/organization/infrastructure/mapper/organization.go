@@ -4,13 +4,13 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/infrastructure/model"
 	"gorm.io/gorm"
 )
 
 func OrganizationModelToEntity(m *model.Organization) (*entity.Organization, error) {
-	category, err := value_object.NewOrganizationCategory(m.Category)
+	category, err := valueobject.NewOrganizationCategory(m.Category)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +20,7 @@ func OrganizationModelToEntity(m *model.Organization) (*entity.Organization, err
 		deletedAt = &m.DeletedAt.Time
 	}
 	organization := entity.RestoreOrganization(entity.RestoreOrganizationParams{
-		ID:        value_object.NewOrganizationID(m.ID),
+		ID:        valueobject.NewOrganizationID(m.ID),
 		Category:  category,
 		Name:      m.Name,
 		Active:    m.Active,

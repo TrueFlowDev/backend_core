@@ -2,7 +2,7 @@ package adapter
 
 import (
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 	"github.com/google/uuid"
 )
 
@@ -12,6 +12,6 @@ type UUIDGenerator struct{}
 
 func NewUUIDGenerator() *UUIDGenerator { return &UUIDGenerator{} }
 
-func (g *UUIDGenerator) Generate() value_object.OrganizationID {
-	return value_object.NewOrganizationID(uuid.NewString())
+func (g *UUIDGenerator) Generate() valueobject.OrganizationID {
+	return valueobject.NewOrganizationID(uuid.NewString())
 }

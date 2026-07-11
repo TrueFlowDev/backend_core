@@ -6,7 +6,7 @@ import (
 
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -28,7 +28,7 @@ func NewJwtProvider(cfg *config.Config) *JwtProvider {
 }
 
 func (p *JwtProvider) Generate(
-	claims value_object.AccessTokenClaims,
+	claims valueobject.AccessTokenClaims,
 ) (string, error) {
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
@@ -55,7 +55,7 @@ func (p *JwtProvider) Generate(
 
 func (p *JwtProvider) Verify(
 	tokenString string,
-) (value_object.AccessTokenClaims, error) {
+) (valueobject.AccessTokenClaims, error) {
 	token, err := jwt.ParseWithClaims(
 		tokenString,
 		&tokenClaims{},
@@ -69,7 +69,7 @@ func (p *JwtProvider) Verify(
 
 	if err != nil {
 		sentinel, reason := classifyJwtError(err)
-		return value_object.AccessTokenClaims{}, xerr.Wrap(
+		return valueobject.AccessTokenClaims{}, xerr.Wrap(
 			err,
 			sentinel.Code(),
 			xerr.WithDiagnostics(xerr.DiagnosticOperation, "jwt_verify"),
@@ -79,7 +79,7 @@ func (p *JwtProvider) Verify(
 
 	c, ok := token.Claims.(*tokenClaims)
 	if !ok || !token.Valid {
-		return value_object.AccessTokenClaims{}, xerr.Wrap(
+		return valueobject.AccessTokenClaims{}, xerr.Wrap(
 			port.ErrInvalidToken,
 			port.ErrInvalidToken.Code(),
 			xerr.WithDiagnostics(xerr.DiagnosticOperation, "jwt_verify"),
@@ -87,7 +87,7 @@ func (p *JwtProvider) Verify(
 		)
 	}
 
-	return value_object.NewAccessTokenClaims(
+	return valueobject.NewAccessTokenClaims(
 		c.Subject,
 		c.IssuedAt.Time,
 		c.ExpiresAt.Time,

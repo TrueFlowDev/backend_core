@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 )
 
 const (
@@ -26,8 +26,8 @@ var (
 )
 
 type Organization struct {
-	id       value_object.OrganizationID
-	category value_object.OrganizationCategory
+	id       valueobject.OrganizationID
+	category valueobject.OrganizationCategory
 	name     string
 	active   bool
 
@@ -37,8 +37,8 @@ type Organization struct {
 }
 
 type RestoreOrganizationParams struct {
-	ID       value_object.OrganizationID
-	Category value_object.OrganizationCategory
+	ID       valueobject.OrganizationID
+	Category valueobject.OrganizationCategory
 	Name     string
 	Active   bool
 
@@ -48,9 +48,9 @@ type RestoreOrganizationParams struct {
 }
 
 func NewOrganization(
-	id value_object.OrganizationID,
+	id valueobject.OrganizationID,
 	name string,
-	category value_object.OrganizationCategory,
+	category valueobject.OrganizationCategory,
 ) (*Organization, error) {
 	name, err := validateOrganizationName(name)
 	if err != nil {
@@ -84,13 +84,13 @@ func RestoreOrganization(
 
 // <-- Getters -->
 
-func (o *Organization) ID() value_object.OrganizationID             { return o.id }
-func (o *Organization) Category() value_object.OrganizationCategory { return o.category }
-func (o *Organization) Name() string                                { return o.name }
-func (o *Organization) Active() bool                                { return o.active }
-func (o *Organization) CreatedAt() time.Time                        { return o.createdAt }
-func (o *Organization) UpdatedAt() time.Time                        { return o.updatedAt }
-func (o *Organization) DeletedAt() *time.Time                       { return o.deletedAt }
+func (o *Organization) ID() valueobject.OrganizationID             { return o.id }
+func (o *Organization) Category() valueobject.OrganizationCategory { return o.category }
+func (o *Organization) Name() string                               { return o.name }
+func (o *Organization) Active() bool                               { return o.active }
+func (o *Organization) CreatedAt() time.Time                       { return o.createdAt }
+func (o *Organization) UpdatedAt() time.Time                       { return o.updatedAt }
+func (o *Organization) DeletedAt() *time.Time                      { return o.deletedAt }
 
 // <-- Helpers -->
 

@@ -5,7 +5,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 )
 
 type CreateOrganizationInput struct {
@@ -35,7 +35,7 @@ func NewCreateOrganizationUsecase(
 func (u *CreateOrganizationUsecase) Execute(ctx context.Context, input CreateOrganizationInput) (CreateOrganizationOutput, error) {
 	newOrganizationID := u.organizationIDGenerator.Generate()
 
-	newOrganizationCategory, err := value_object.NewOrganizationCategory(input.Category)
+	newOrganizationCategory, err := valueobject.NewOrganizationCategory(input.Category)
 	if err != nil {
 		return CreateOrganizationOutput{}, err
 	}

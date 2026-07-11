@@ -7,7 +7,7 @@ import (
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/dao"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/mapper"
 	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/database"
@@ -56,7 +56,7 @@ func (r *ProfileRepository) Save(ctx context.Context, profile *entity.Profile) e
 	return nil
 }
 
-func (r *ProfileRepository) FindByUserID(ctx context.Context, id value_object.UserID) (*entity.Profile, error) {
+func (r *ProfileRepository) FindByUserID(ctx context.Context, id valueobject.UserID) (*entity.Profile, error) {
 	q := dao.Use(r.Executor(ctx))
 
 	model, err := q.WithContext(ctx).UsersProfile.

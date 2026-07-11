@@ -2,7 +2,7 @@ package port
 
 import (
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 )
 
 var (
@@ -12,6 +12,6 @@ var (
 )
 
 type AccessTokenProvider interface {
-	Generate(claims value_object.AccessTokenClaims) (string, error)
-	Verify(token string) (value_object.AccessTokenClaims, error)
+	Generate(claims valueobject.AccessTokenClaims) (string, error)
+	Verify(token string) (valueobject.AccessTokenClaims, error)
 }

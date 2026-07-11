@@ -4,15 +4,15 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/model"
 	"gorm.io/gorm"
 )
 
 func ProfileModelToEntity(m *model.UsersProfile) (*entity.Profile, error) {
-	userID := value_object.NewUserID(m.UserID)
+	userID := valueobject.NewUserID(m.UserID)
 
-	email, err := value_object.NewEmail(m.Email)
+	email, err := valueobject.NewEmail(m.Email)
 	if err != nil {
 		return nil, err
 	}

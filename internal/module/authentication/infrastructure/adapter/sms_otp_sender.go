@@ -6,7 +6,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	notificationUsecase "github.com/TrueFlowDev/Backend/internal/module/notification/application/usecase"
 )
 
@@ -20,7 +20,7 @@ func NewSmsOtpSender(sendSMSUsecase *notificationUsecase.SendSMSUsecase) *SmsOtp
 	return &SmsOtpSender{sendSMSUsecase: sendSMSUsecase}
 }
 
-func (a *SmsOtpSender) Send(ctx context.Context, phone value_object.Phone, otp entity.OTP) error {
+func (a *SmsOtpSender) Send(ctx context.Context, phone valueobject.Phone, otp entity.OTP) error {
 	message := fmt.Sprintf("OTP Code: %s", otp.Code())
 
 	if err := a.sendSMSUsecase.Execute(ctx, notificationUsecase.SendSmsInput{

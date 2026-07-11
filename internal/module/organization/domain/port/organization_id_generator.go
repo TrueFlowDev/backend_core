@@ -1,7 +1,7 @@
 package port
 
-import "github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+import "github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 
 type OrganizationIDGenerator interface {
-	Generate() value_object.OrganizationID
+	Generate() valueobject.OrganizationID
 }

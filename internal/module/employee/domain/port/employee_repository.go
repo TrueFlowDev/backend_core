@@ -5,7 +5,7 @@ import (
 
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/employee/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/employee/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/employee/domain/valueobject"
 )
 
 var (
@@ -16,5 +16,5 @@ var (
 type EmployeeRepository interface {
 	Create(ctx context.Context, employee *entity.Employee) error
 
-	FindByID(ctx context.Context, id value_object.EmployeeID) (*entity.Employee, error)
+	FindByID(ctx context.Context, id valueobject.EmployeeID) (*entity.Employee, error)
 }

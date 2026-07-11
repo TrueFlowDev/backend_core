@@ -5,7 +5,7 @@ import (
 
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 )
 
 var (
@@ -16,5 +16,5 @@ var (
 type OrganizationRepository interface {
 	Create(ctx context.Context, organization *entity.Organization) error
 
-	FindByID(ctx context.Context, id value_object.OrganizationID) (*entity.Organization, error)
+	FindByID(ctx context.Context, id valueobject.OrganizationID) (*entity.Organization, error)
 }

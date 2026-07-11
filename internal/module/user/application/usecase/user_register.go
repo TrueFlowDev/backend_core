@@ -5,7 +5,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 type RegisterUserInput struct {
@@ -33,12 +33,12 @@ func NewRegisterUserUsecase(
 }
 
 func (u *RegisterUserUsecase) Execute(ctx context.Context, input RegisterUserInput) (RegisterUserOutput, error) {
-	newUserPhone, err := value_object.NewPhone(input.Phone)
+	newUserPhone, err := valueobject.NewPhone(input.Phone)
 	if err != nil {
 		return RegisterUserOutput{}, err
 	}
 
-	newUserHashedPassword, err := value_object.NewHashedPassword(input.HashedPassword)
+	newUserHashedPassword, err := valueobject.NewHashedPassword(input.HashedPassword)
 	if err != nil {
 		return RegisterUserOutput{}, err
 	}

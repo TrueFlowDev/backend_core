@@ -5,7 +5,7 @@ import (
 
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 var (
@@ -17,6 +17,6 @@ var (
 type UserRepository interface {
 	Create(ctx context.Context, user *entity.User) error
 
-	FindByID(ctx context.Context, id value_object.UserID) (*entity.User, error)
-	FindByPhone(ctx context.Context, phone value_object.Phone) (*entity.User, error)
+	FindByID(ctx context.Context, id valueobject.UserID) (*entity.User, error)
+	FindByPhone(ctx context.Context, phone valueobject.Phone) (*entity.User, error)
 }

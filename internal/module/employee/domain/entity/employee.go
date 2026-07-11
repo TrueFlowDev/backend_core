@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/employee/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/employee/domain/valueobject"
 )
 
 const (
@@ -26,13 +26,13 @@ var (
 )
 
 type Employee struct {
-	id             value_object.EmployeeID
-	userID         value_object.UserID
-	organizationID value_object.OrganizationID
+	id             valueobject.EmployeeID
+	userID         valueobject.UserID
+	organizationID valueobject.OrganizationID
 
 	jobTitle         string
-	membershipStatus value_object.MembershipStatus
-	employmentType   value_object.EmploymentType
+	membershipStatus valueobject.MembershipStatus
+	employmentType   valueobject.EmploymentType
 
 	createdAt time.Time
 	updatedAt time.Time
@@ -40,13 +40,13 @@ type Employee struct {
 }
 
 type RestoreEmployeeParams struct {
-	ID             value_object.EmployeeID
-	UserID         value_object.UserID
-	OrganizationID value_object.OrganizationID
+	ID             valueobject.EmployeeID
+	UserID         valueobject.UserID
+	OrganizationID valueobject.OrganizationID
 
 	JobTitle         string
-	MembershipStatus value_object.MembershipStatus
-	EmploymentType   value_object.EmploymentType
+	MembershipStatus valueobject.MembershipStatus
+	EmploymentType   valueobject.EmploymentType
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -54,12 +54,12 @@ type RestoreEmployeeParams struct {
 }
 
 func NewEmployee(
-	id value_object.EmployeeID,
-	userID value_object.UserID,
-	organizationID value_object.OrganizationID,
+	id valueobject.EmployeeID,
+	userID valueobject.UserID,
+	organizationID valueobject.OrganizationID,
 	jobTitle string,
-	membershipStatus value_object.MembershipStatus,
-	employmentType value_object.EmploymentType,
+	membershipStatus valueobject.MembershipStatus,
+	employmentType valueobject.EmploymentType,
 ) (*Employee, error) {
 	jobTitle, err := validateJobTitle(jobTitle)
 	if err != nil {
@@ -98,15 +98,15 @@ func RestoreEmployee(
 
 // <-- Getters -->
 
-func (e *Employee) ID() value_object.EmployeeID                     { return e.id }
-func (e *Employee) UserID() value_object.UserID                     { return e.userID }
-func (e *Employee) OrganizationID() value_object.OrganizationID     { return e.organizationID }
-func (e *Employee) JobTitle() string                                { return e.jobTitle }
-func (e *Employee) MembershipStatus() value_object.MembershipStatus { return e.membershipStatus }
-func (e *Employee) EmploymentType() value_object.EmploymentType     { return e.employmentType }
-func (e *Employee) CreatedAt() time.Time                            { return e.createdAt }
-func (e *Employee) UpdatedAt() time.Time                            { return e.updatedAt }
-func (e *Employee) DeletedAt() *time.Time                           { return e.deletedAt }
+func (e *Employee) ID() valueobject.EmployeeID                     { return e.id }
+func (e *Employee) UserID() valueobject.UserID                     { return e.userID }
+func (e *Employee) OrganizationID() valueobject.OrganizationID     { return e.organizationID }
+func (e *Employee) JobTitle() string                               { return e.jobTitle }
+func (e *Employee) MembershipStatus() valueobject.MembershipStatus { return e.membershipStatus }
+func (e *Employee) EmploymentType() valueobject.EmploymentType     { return e.employmentType }
+func (e *Employee) CreatedAt() time.Time                           { return e.createdAt }
+func (e *Employee) UpdatedAt() time.Time                           { return e.updatedAt }
+func (e *Employee) DeletedAt() *time.Time                          { return e.deletedAt }
 
 // <-- Helpers -->
 

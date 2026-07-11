@@ -5,7 +5,7 @@ import (
 
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 )
 
 var (
@@ -14,7 +14,7 @@ var (
 )
 
 type OTPStore interface {
-	Set(ctx context.Context, key value_object.Phone, value entity.OTP) error
-	Get(ctx context.Context, key value_object.Phone) (entity.OTP, error)
-	Delete(ctx context.Context, key value_object.Phone) error
+	Set(ctx context.Context, key valueobject.Phone, value entity.OTP) error
+	Get(ctx context.Context, key valueobject.Phone) (entity.OTP, error)
+	Delete(ctx context.Context, key valueobject.Phone) error
 }

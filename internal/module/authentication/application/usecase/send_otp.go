@@ -7,7 +7,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"go.uber.org/fx"
 )
@@ -57,7 +57,7 @@ func (u *SendOtpUsecase) Execute(ctx context.Context, input SendOtpInput) error 
 		return port.ErrUserAlreadyExists
 	}
 
-	phone, err := value_object.NewPhone(input.Phone)
+	phone, err := valueobject.NewPhone(input.Phone)
 	if err != nil {
 		return err
 	}

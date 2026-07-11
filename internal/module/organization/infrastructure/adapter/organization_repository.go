@@ -7,7 +7,7 @@ import (
 	"github.com/Ali127Dev/xerr"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/infrastructure/dao"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/infrastructure/mapper"
 	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/database"
@@ -36,7 +36,7 @@ func (o *OrganizationRepository) Create(ctx context.Context, organization *entit
 	return nil
 }
 
-func (o *OrganizationRepository) FindByID(ctx context.Context, id value_object.OrganizationID) (*entity.Organization, error) {
+func (o *OrganizationRepository) FindByID(ctx context.Context, id valueobject.OrganizationID) (*entity.Organization, error) {
 	q := dao.Use(o.Executor(ctx))
 
 	model, err := q.WithContext(ctx).Organization.
