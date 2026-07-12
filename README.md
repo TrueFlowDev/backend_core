@@ -1,89 +1,75 @@
-<div align="center">
+# TrueFlow Backend
 
-# TrueFlow
+Backend foundation for TrueFlow — an open-source organization and access management platform.
 
-**Smarter HR, task, and workforce management — built for modern teams.**
+TrueFlow provides the core building blocks required to manage organizations, members, roles, and permissions in modern applications.
 
-</div>
-
----
-
-## About TrueFlow
-
-TrueFlow is a modern platform for HR management, task tracking, team collaboration, and workforce organization. We help
-companies bring structure, speed, and clarity to how they manage people, projects, and daily operations — all in one
-connected ecosystem.
-
-TrueFlow is licensed under the Apache License 2.0.
-
-The name "TrueFlow" and its logo are trademarks of the project owners. See TRADEMARK.md for details.
-
-## What We Build
-
-- **Employee Management** — from onboarding to org structure
-- **Task & Work Management** — create, assign, track, deliver
-- **Team Management** — clear ownership, clear responsibilities
-- **Project & Workflow Organization** — structure without the overhead
-- **HR Operations** — attendance, departments, internal processes
-- **Productivity Tracking** — visibility into how work actually flows
-- **Role & Permission Management** — secure access, at scale
-- **Internal Collaboration** — teams working in sync, not in silos
-
-## Core Vision
-
-We believe great companies are built on clear communication, organized workflows, transparent responsibilities, strong
-collaboration, and efficient human resource management. TrueFlow exists to turn that belief into working software.
-
-## Focus Areas
-
-**HR Management**
-Manage employees, positions, departments, attendance, and internal processes with ease.
-
-**Task Management**
-Create, assign, track, and monitor tasks across teams and projects.
-
-**Team Management**
-Organize teams, define responsibilities, and improve collaboration.
-
-**Performance & Productivity**
-Measure progress, monitor workloads, and improve operational efficiency.
-
-**Access Control**
-Secure, scalable, role-based access for every user and department.
-
-## Why This Organization Exists
-
-This organization hosts the source code, services, tools, and infrastructure behind the TrueFlow platform — frontend
-applications, backend services, internal tools, shared packages, documentation, and deployment resources, developed and
-maintained in one place.
-
-## Our Goals
-
-- Build scalable and maintainable systems
-- Improve the workforce management experience
-- Deliver clean, modern user experiences
-- Support growing teams and businesses
-- Centralize HR and operational workflows
-
-## Engineering Philosophy
-
-We care about clean architecture, scalable systems, developer experience, product quality, and long-term
-maintainability — in that order of priority, not as an afterthought.
-
-## Looking Ahead
-
-We're continuously evolving TrueFlow toward smarter HR workflows, better team coordination, advanced reporting and
-analytics, automation of repetitive operations, and stronger business process management.
-
-## Final Note
-
-We're building more than software — we're building a better way for teams and companies to work together.
+The project is designed to help developers build systems that require multi-tenant organization structures and flexible permission-based access control.
 
 ---
 
-<div align="center">
+## Features
 
-**If you're part of this organization, welcome aboard.**
-Let's build something impactful together.
+Current capabilities:
 
-</div>
+- Organization management
+- Member management
+- Adding and removing organization members
+- Role management
+- Permission management
+- Role-based access control (RBAC)
+
+---
+
+## Overview
+
+Many applications need a reliable foundation for managing:
+
+- organizations
+- teams
+- users
+- roles
+- permissions
+
+Instead of rebuilding these components repeatedly, TrueFlow provides a reusable backend foundation that developers can integrate into their own applications.
+
+---
+
+## Design Goals
+
+TrueFlow focuses on:
+
+- simplicity
+- flexibility
+- maintainability
+- secure access management
+- reusable organization-based architecture
+
+---
+
+## Future Direction
+
+TrueFlow is evolving toward a broader workplace automation platform.
+
+Future improvements may include:
+
+- workflow automation
+- employee lifecycle management
+- external service integrations
+- advanced organization operations
+
+---
+
+## Contributing
+
+Contributions, suggestions, and discussions are welcome.
+
+If you want to propose a major change, please open an issue first to discuss the idea before submitting a pull request.
+
+---
+
+## License
+
+This project is licensed under the Apache License 2.0.
+
+See the [LICENSE](./LICENSE) file for more information.
