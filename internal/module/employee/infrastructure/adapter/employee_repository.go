@@ -92,3 +92,25 @@ func (r *EmployeeRepository) ListActiveByUserID(
 
 	return employees, nil
 }
+
+func (r *EmployeeRepository) FindByUserIDAndOrganizationID(
+	ctx context.Context, userID valueobject.UserID, organizationID valueobject.OrganizationID,
+) (*entity.Employee, error) {
+	q := dao.Use(r.Executor(ctx))
+
+	model, err := q.WithContext(ctx).Employee.
+		Where(
+			q.Employee.UserID.Eq(userID.Value()),
+			q.Employee.OrganizationID.Eq(organizationID.Value()),
+		).
+		First()
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, port.ErrEmployeeNotFound
+		}
+		return nil, xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_find_by_user_and_organization"))
+	}
+
+	return mapper.EmployeeModelToEntity(model)
+}
