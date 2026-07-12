@@ -30,12 +30,9 @@ var Module = fx.Module(
 		usecase.NewCreateOrganizationWithOwnerUsecase,
 		usecase.NewFindOrganizationByIDUsecase,
 		usecase.NewFindOrganizationsByIDsUsecase,
-		usecase.NewUpdateOrganizationUsecase,
 		controller.NewCreateOrganizationController,
-		controller.NewUpdateOrganizationController,
 	),
 	fx.Invoke(
 		controller.RegisterCreateOrganizationController,
-		controller.RegisterUpdateOrganizationController,
 	),
 )
