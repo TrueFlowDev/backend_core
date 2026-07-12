@@ -47,7 +47,7 @@ func (o *OrganizationRepository) FindByID(ctx context.Context, id valueobject.Or
 			return nil, port.ErrOrganizationNotFound
 		}
 		return nil, xerr.Wrap(err, port.ErrOrganizationRepository.Code(),
-			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_find_by_id"))
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "organization_find_by_id"))
 	}
 	mappedUser, err := mapper.OrganizationModelToEntity(model)
 	if err != nil {
