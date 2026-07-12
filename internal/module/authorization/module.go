@@ -16,6 +16,7 @@ var Module = fx.Module(
 			fx.As(new(port.RoleRepository)),
 		),
 		usecase.NewListPermissionsUseCase,
+		usecase.NewCreateRoleUsecase,
 		controller.NewListPermissionsController,
 	),
 	fx.Invoke(
