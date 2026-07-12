@@ -75,3 +75,35 @@ func (r *UserRepository) FindByPhone(ctx context.Context, phone valueobject.Phon
 	}
 	return mappedUser, nil
 }
+
+func (r *UserRepository) FindByIDs(ctx context.Context, ids []valueobject.UserID) ([]*entity.User, error) {
+	if len(ids) == 0 {
+		return nil, nil
+	}
+
+	q := dao.Use(r.Executor(ctx))
+
+	rawIDs := make([]string, len(ids))
+	for i, id := range ids {
+		rawIDs[i] = id.Value()
+	}
+
+	models, err := q.WithContext(ctx).User.
+		Where(q.User.ID.In(rawIDs...)).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrUserRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_find_by_ids"))
+	}
+
+	users := make([]*entity.User, 0, len(models))
+	for _, m := range models {
+		u, err := mapper.UserModelToEntity(m)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
+
+	return users, nil
+}

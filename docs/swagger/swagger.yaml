@@ -1,4 +1,28 @@
 definitions:
+  AddEmployeeInput:
+    properties:
+      employment_type:
+        type: string
+      job_title:
+        type: string
+      membership_status:
+        type: string
+      phone:
+        type: string
+      role_id:
+        type: string
+    required:
+    - employment_type
+    - job_title
+    - membership_status
+    - phone
+    - role_id
+    type: object
+  AddEmployeeOutput:
+    properties:
+      id:
+        type: string
+    type: object
   CreateOrganizationInput:
     properties:
       category:
@@ -71,6 +95,27 @@ definitions:
       organization_name:
         type: string
       role_id:
+        type: string
+    type: object
+  EmployeeOutput:
+    properties:
+      employment_type:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      job_title:
+        type: string
+      last_name:
+        type: string
+      membership_status:
+        type: string
+      phone:
+        type: string
+      role_id:
+        type: string
+      user_id:
         type: string
     type: object
   Error:
@@ -207,6 +252,22 @@ definitions:
         type: string
     required:
     - phone
+    type: object
+  UpdateEmployeeInput:
+    properties:
+      employment_type:
+        type: string
+      job_title:
+        type: string
+      membership_status:
+        type: string
+      role_id:
+        type: string
+    required:
+    - employment_type
+    - job_title
+    - membership_status
+    - role_id
     type: object
   UpdateOrganizationInput:
     properties:
@@ -499,6 +560,182 @@ paths:
       summary: Update organization
       tags:
       - Organization
+  /organization/{organization_id}/employee:
+    get:
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/EmployeeOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: List employees
+      tags:
+      - Employee
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Add employee request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/AddEmployeeInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/AddEmployeeOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Add employee
+      tags:
+      - Employee
+  /organization/{organization_id}/employee/{employee_id}:
+    delete:
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Employee ID
+        in: path
+        name: employee_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Remove employee
+      tags:
+      - Employee
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Employee ID
+        in: path
+        name: employee_id
+        required: true
+        type: string
+      - description: Update employee request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateEmployeeInput'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Update employee
+      tags:
+      - Employee
   /organization/{organization_id}/role:
     get:
       description: Returns every role defined for an organization.

@@ -23,6 +23,20 @@ var (
 		xerr.CodeBadRequest,
 		xerr.WithMeta("job_title", xerr.ErrorReasonTooLong),
 	)
+
+	ErrOwnerRoleCannotBeReassigned = xerr.New(
+		xerr.CodeBadRequest,
+		xerr.WithMeta("role", xerr.ErrorReasonInvalidFormat),
+	)
+
+	ErrCannotRemoveOwner = xerr.New(
+		xerr.CodeBadRequest,
+		xerr.WithMeta("employee", xerr.ErrorReasonInvalidFormat),
+	)
+
+	ErrCannotRemoveSelf = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("employee", xerr.ErrorReasonInvalidFormat))
+
+	ErrCannotChangeSelfRole = xerr.New(xerr.CodeBadRequest, xerr.WithMeta("role", xerr.ErrorReasonInvalidFormat))
 )
 
 type Employee struct {
@@ -113,6 +127,28 @@ func (e *Employee) EmploymentType() valueobject.EmploymentType     { return e.em
 func (e *Employee) CreatedAt() time.Time                           { return e.createdAt }
 func (e *Employee) UpdatedAt() time.Time                           { return e.updatedAt }
 func (e *Employee) DeletedAt() *time.Time                          { return e.deletedAt }
+
+// <-- Setters -->
+
+func (e *Employee) Update(
+	jobTitle string,
+	roleID valueobject.RoleID,
+	membershipStatus valueobject.MembershipStatus,
+	employmentType valueobject.EmploymentType,
+) error {
+	validatedJobTitle, err := validateJobTitle(jobTitle)
+	if err != nil {
+		return err
+	}
+
+	e.jobTitle = validatedJobTitle
+	e.roleID = roleID
+	e.membershipStatus = membershipStatus
+	e.employmentType = employmentType
+	e.updatedAt = time.Now().UTC()
+
+	return nil
+}
 
 // <-- Helpers -->
 

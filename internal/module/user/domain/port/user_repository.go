@@ -18,5 +18,6 @@ type UserRepository interface {
 	Create(ctx context.Context, user *entity.User) error
 
 	FindByID(ctx context.Context, id valueobject.UserID) (*entity.User, error)
+	FindByIDs(ctx context.Context, ids []valueobject.UserID) ([]*entity.User, error)
 	FindByPhone(ctx context.Context, phone valueobject.Phone) (*entity.User, error)
 }

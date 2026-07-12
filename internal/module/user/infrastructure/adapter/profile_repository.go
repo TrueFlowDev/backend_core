@@ -77,3 +77,35 @@ func (r *ProfileRepository) FindByUserID(ctx context.Context, id valueobject.Use
 	}
 	return mappedProfile, nil
 }
+
+func (r *ProfileRepository) FindByUserIDs(ctx context.Context, ids []valueobject.UserID) ([]*entity.Profile, error) {
+	if len(ids) == 0 {
+		return nil, nil
+	}
+
+	q := dao.Use(r.Executor(ctx))
+
+	rawIDs := make([]string, len(ids))
+	for i, id := range ids {
+		rawIDs[i] = id.Value()
+	}
+
+	models, err := q.WithContext(ctx).UsersProfile.
+		Where(q.UsersProfile.UserID.In(rawIDs...)).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrProfileRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "user_profile_find_by_user_ids"))
+	}
+
+	profiles := make([]*entity.Profile, 0, len(models))
+	for _, m := range models {
+		p, err := mapper.ProfileModelToEntity(m)
+		if err != nil {
+			return nil, err
+		}
+		profiles = append(profiles, p)
+	}
+
+	return profiles, nil
+}

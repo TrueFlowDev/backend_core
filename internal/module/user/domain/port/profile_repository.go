@@ -17,4 +17,5 @@ type ProfileRepository interface {
 	Save(ctx context.Context, profile *entity.Profile) error
 
 	FindByUserID(ctx context.Context, id valueobject.UserID) (*entity.Profile, error)
+	FindByUserIDs(ctx context.Context, ids []valueobject.UserID) ([]*entity.Profile, error)
 }

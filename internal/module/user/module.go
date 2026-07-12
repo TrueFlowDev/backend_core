@@ -28,6 +28,8 @@ var Module = fx.Module(
 		usecase.NewFindUserByIDUsecase,
 		usecase.NewFindProfileByUserIDUsecase,
 		usecase.NewSaveProfileUsecase,
+		usecase.NewFindUsersByIDsUsecase,
+		usecase.NewFindProfilesByUserIDsUsecase,
 		controller.NewGetMeController,
 		controller.NewGetMyProfileController,
 		controller.NewSaveMyProfileController,

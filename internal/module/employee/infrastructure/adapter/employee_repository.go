@@ -133,3 +133,72 @@ func (r *EmployeeRepository) FindByUserIDAndOrganizationID(
 
 	return mapper.EmployeeModelToEntity(model)
 }
+
+func (r *EmployeeRepository) Update(ctx context.Context, employee *entity.Employee) error {
+	q := dao.Use(r.Executor(ctx))
+
+	employeeModel := mapper.EmployeeEntityToModel(employee)
+
+	result, err := q.WithContext(ctx).Employee.
+		Where(
+			q.Employee.ID.Eq(employeeModel.ID),
+			q.Employee.OrganizationID.Eq(employeeModel.OrganizationID),
+		).
+		Updates(employeeModel)
+	if err != nil {
+		return xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_update"))
+	}
+	if result.RowsAffected == 0 {
+		return port.ErrEmployeeNotFound
+	}
+
+	return nil
+}
+
+func (r *EmployeeRepository) Delete(
+	ctx context.Context, id valueobject.EmployeeID, organizationID valueobject.OrganizationID,
+) error {
+	q := dao.Use(r.Executor(ctx))
+
+	result, err := q.WithContext(ctx).Employee.
+		Where(
+			q.Employee.ID.Eq(id.Value()),
+			q.Employee.OrganizationID.Eq(organizationID.Value()),
+		).
+		Delete()
+	if err != nil {
+		return xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_delete"))
+	}
+	if result.RowsAffected == 0 {
+		return port.ErrEmployeeNotFound
+	}
+
+	return nil
+}
+
+func (r *EmployeeRepository) ListByOrganizationID(
+	ctx context.Context, organizationID valueobject.OrganizationID,
+) ([]*entity.Employee, error) {
+	q := dao.Use(r.Executor(ctx))
+
+	models, err := q.WithContext(ctx).Employee.
+		Where(q.Employee.OrganizationID.Eq(organizationID.Value())).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_list_by_organization_id"))
+	}
+
+	employees := make([]*entity.Employee, 0, len(models))
+	for _, m := range models {
+		e, err := mapper.EmployeeModelToEntity(m)
+		if err != nil {
+			return nil, err
+		}
+		employees = append(employees, e)
+	}
+
+	return employees, nil
+}
