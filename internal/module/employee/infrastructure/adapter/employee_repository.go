@@ -39,6 +39,25 @@ func (r *EmployeeRepository) Create(ctx context.Context, employee *entity.Employ
 	return nil
 }
 
+func (r *EmployeeRepository) CountActiveByRoleID(
+	ctx context.Context, roleID valueobject.RoleID,
+) (int64, error) {
+	q := dao.Use(r.Executor(ctx))
+
+	count, err := q.WithContext(ctx).Employee.
+		Where(
+			q.Employee.RoleID.Eq(roleID.Value()),
+			q.Employee.MembershipStatus.Eq(valueobject.MembershipStatusActive.Value()),
+		).
+		Count()
+	if err != nil {
+		return 0, xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_count_active_by_role_id"))
+	}
+
+	return count, nil
+}
+
 func (r *EmployeeRepository) FindByID(
 	ctx context.Context, id valueobject.EmployeeID,
 	organizationID valueobject.OrganizationID,

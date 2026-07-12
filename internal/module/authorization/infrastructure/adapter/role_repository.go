@@ -124,3 +124,64 @@ func (r *RoleRepository) ListByOrganizationID(
 
 	return roles, nil
 }
+
+func (r *RoleRepository) Update(ctx context.Context, role *entity.Role) error {
+	q := dao.Use(r.Executor(ctx))
+
+	roleModel, permissionModels := mapper.RoleEntityToModel(role)
+
+	if _, err := q.WithContext(ctx).Role.
+		Where(
+			q.Role.ID.Eq(roleModel.ID),
+			q.Role.OrganizationID.Eq(roleModel.OrganizationID),
+		).
+		Updates(roleModel); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_update"))
+	}
+
+	if _, err := q.WithContext(ctx).RolePermission.
+		Where(q.RolePermission.RoleID.Eq(roleModel.ID)).
+		Delete(); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_delete_before_update"))
+	}
+
+	if len(permissionModels) > 0 {
+		if err := q.WithContext(ctx).RolePermission.Create(permissionModels...); err != nil {
+			return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+				xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_create_on_update"))
+		}
+	}
+
+	return nil
+}
+
+func (r *RoleRepository) Delete(
+	ctx context.Context, id valueobject.RoleID, organizationID valueobject.OrganizationID,
+) error {
+	q := dao.Use(r.Executor(ctx))
+
+	if _, err := q.WithContext(ctx).RolePermission.
+		Where(q.RolePermission.RoleID.Eq(id.Value())).
+		Delete(); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_delete_on_role_delete"))
+	}
+
+	result, err := q.WithContext(ctx).Role.
+		Where(
+			q.Role.ID.Eq(id.Value()),
+			q.Role.OrganizationID.Eq(organizationID.Value()),
+		).
+		Delete()
+	if err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_delete"))
+	}
+	if result.RowsAffected == 0 {
+		return port.ErrRoleNotFound
+	}
+
+	return nil
+}

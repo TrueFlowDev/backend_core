@@ -14,9 +14,23 @@ var (
 		value:    "role.create",
 		title:    "ایجاد نقش",
 	}
+
+	PermissionRoleUpdate = Permission{
+		category: roleCategory,
+		value:    "role.update",
+		title:    "ویرایش نقش",
+	}
+
+	PermissionRoleDelete = Permission{
+		category: roleCategory,
+		value:    "role.delete",
+		title:    "حذف نقش",
+	}
 )
 
 var RolePermissions = buildPermissionMap(
 	PermissionRoleList,
 	PermissionRoleCreate,
+	PermissionRoleUpdate,
+	PermissionRoleDelete,
 )

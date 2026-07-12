@@ -26,6 +26,7 @@ var Module = fx.Module(
 		usecase.NewCreateEmployeeUsecase,
 		usecase.NewListMyDashboardsUsecase,
 		usecase.NewFindEmployeeRoleUsecase,
+		usecase.NewCountActiveEmployeesByRoleUsecase,
 		controller.NewListMyDashboardsController,
 	),
 	fx.Invoke(
