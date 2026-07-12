@@ -13,5 +13,9 @@ var Module = fx.Module(
 			adapter.NewEmployeeRepository,
 			fx.As(new(port.EmployeeRepository)),
 		),
+		fx.Annotate(
+			adapter.NewUUIDGenerator,
+			fx.As(new(port.EmployeeIDGenerator)),
+		),
 	),
 )
