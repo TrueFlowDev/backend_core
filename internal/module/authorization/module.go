@@ -15,6 +15,10 @@ var Module = fx.Module(
 			adapter.NewRoleRepository,
 			fx.As(new(port.RoleRepository)),
 		),
+		fx.Annotate(
+			adapter.NewUUIDGenerator,
+			fx.As(new(port.RoleIDGenerator)),
+		),
 		usecase.NewListPermissionsUseCase,
 		usecase.NewCreateRoleUsecase,
 		usecase.NewFindRoleByIDUsecase,

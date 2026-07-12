@@ -1,4 +1,43 @@
 definitions:
+  CreateOrganizationInput:
+    properties:
+      category:
+        enum:
+        - technology
+        - finance
+        - retail
+        - manufacturing
+        - other
+        type: string
+      name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      owner_employment_type:
+        enum:
+        - full_time
+        - part_time
+        - contract
+        type: string
+      owner_job_title:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - category
+    - name
+    - owner_employment_type
+    - owner_job_title
+    type: object
+  CreateOrganizationOutput:
+    properties:
+      employee_id:
+        type: string
+      organization_id:
+        type: string
+      role_id:
+        type: string
+    type: object
   Error:
     properties:
       code:
@@ -217,6 +256,42 @@ paths:
       summary: Register user
       tags:
       - Authentication
+  /organization:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new organization and makes the caller its owner.
+      parameters:
+      - description: Create organization request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateOrganizationInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/CreateOrganizationOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create organization
+      tags:
+      - Organization
   /permission:
     get:
       description: Returns all permissions grouped by category.
