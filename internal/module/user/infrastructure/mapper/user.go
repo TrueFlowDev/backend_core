@@ -4,15 +4,15 @@ import (
 	"time"
 
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/user/infrastructure/model"
 	"gorm.io/gorm"
 )
 
 func UserModelToEntity(m *model.User) (*entity.User, error) {
-	userID := value_object.NewUserID(m.ID)
+	userID := valueobject.NewUserID(m.ID)
 
-	userPhone, err := value_object.NewPhone(m.Phone)
+	userPhone, err := valueobject.NewPhone(m.Phone)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func UserModelToEntity(m *model.User) (*entity.User, error) {
 	}
 
 	if m.Password != nil {
-		userPassword, err := value_object.NewHashedPassword(*m.Password)
+		userPassword, err := valueobject.NewHashedPassword(*m.Password)
 		if err != nil {
 			return nil, err
 		}

@@ -1,12 +1,13 @@
 package config
 
 import (
-	"github.com/TrueFlowDev/Backend/internal/shared/domain/port"
+	"log"
+
 	"github.com/joho/godotenv"
 )
 
-func LoadFromEnvFile(logger port.Logger) {
+func LoadFromEnvFile() {
 	if err := godotenv.Load(); err != nil {
-		logger.Warn("envs are not been loaded from .env file")
+		log.Println("envs are not been loaded from .env file")
 	}
 }

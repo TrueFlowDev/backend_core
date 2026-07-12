@@ -25,7 +25,7 @@ func NewRedis(lc fx.Lifecycle, cfg *config.Config) (*redis.Client, error) {
 		host:     cfg.Cache.RedisHost,
 		port:     cfg.Cache.RedisPort,
 		password: cfg.Cache.RedisPassword,
-		db:       cfg.Cache.RedisDb,
+		db:       cfg.Cache.RedisDB,
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)

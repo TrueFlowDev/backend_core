@@ -3,13 +3,13 @@ package entity
 import (
 	"time"
 
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 type User struct {
-	id       value_object.UserID
-	phone    value_object.Phone
-	password *value_object.HashedPassword
+	id       valueobject.UserID
+	phone    valueobject.Phone
+	password *valueobject.HashedPassword
 
 	createdAt time.Time
 	updatedAt time.Time
@@ -17,9 +17,9 @@ type User struct {
 }
 
 type RestoreUserParams struct {
-	ID       value_object.UserID
-	Phone    value_object.Phone
-	Password *value_object.HashedPassword
+	ID       valueobject.UserID
+	Phone    valueobject.Phone
+	Password *valueobject.HashedPassword
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -27,8 +27,8 @@ type RestoreUserParams struct {
 }
 
 func NewUser(
-	id value_object.UserID,
-	phone value_object.Phone,
+	id valueobject.UserID,
+	phone valueobject.Phone,
 ) (*User, error) {
 	now := time.Now().UTC()
 	return &User{
@@ -54,16 +54,16 @@ func RestoreUser(
 
 // <-- Getters -->
 
-func (u *User) ID() value_object.UserID                { return u.id }
-func (u *User) Phone() value_object.Phone              { return u.phone }
-func (u *User) Password() *value_object.HashedPassword { return u.password }
-func (u *User) CreatedAt() time.Time                   { return u.createdAt }
-func (u *User) UpdatedAt() time.Time                   { return u.updatedAt }
-func (u *User) DeletedAt() *time.Time                  { return u.deletedAt }
+func (u *User) ID() valueobject.UserID                { return u.id }
+func (u *User) Phone() valueobject.Phone              { return u.phone }
+func (u *User) Password() *valueobject.HashedPassword { return u.password }
+func (u *User) CreatedAt() time.Time                  { return u.createdAt }
+func (u *User) UpdatedAt() time.Time                  { return u.updatedAt }
+func (u *User) DeletedAt() *time.Time                 { return u.deletedAt }
 
 // <-- Setters -->
 
-func (u *User) UpdatePassword(newPassword *value_object.HashedPassword) {
+func (u *User) UpdatePassword(newPassword *valueobject.HashedPassword) {
 	u.password = newPassword
 	u.touch()
 }

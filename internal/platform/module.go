@@ -30,7 +30,6 @@ var Module = fx.Module(
 		middleware.NewRequestID,
 	),
 	fx.Invoke(
-		config.LoadFromEnvFile,
 		http.RegisterSwagger,
 	),
 )

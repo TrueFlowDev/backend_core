@@ -13,7 +13,7 @@ var Module = fx.Module(
 	fx.Provide(
 		fx.Annotate(
 			adapter.NewUUIDGenerator,
-			fx.As(new(port.UserIdGenerator)),
+			fx.As(new(port.UserIDGenerator)),
 		),
 		fx.Annotate(
 			adapter.NewUserRepository,

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/TrueFlowDev/Backend/internal/module/auth/presentation/http/middleware"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication/presentation/http/middleware"
 	"github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
 	"github.com/gin-gonic/gin"
 )
@@ -45,9 +45,9 @@ func RegisterGetMeController(
 //	@Description	Returns the authenticated user's profile.
 //	@Tags			User
 //	@Produce		json
-//	@Success		200		{object}	GetMeControllerOutput
-//	@Failure		401		{object}	xerr.SwaggerErrOutput
-//	@Failure		500		{object}	xerr.SwaggerErrOutput
+//	@Success		200	{object}	GetMeControllerOutput
+//	@Failure		401	{object}	xerr.SwaggerErrOutput
+//	@Failure		500	{object}	xerr.SwaggerErrOutput
 //	@Security		BearerAuth
 //	@Router			/user/me [get]
 func (c *GetMeController) GetMe(ctx *gin.Context) {

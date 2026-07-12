@@ -5,7 +5,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/entity"
 	"github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 type FindProfileByUserIDInput struct {
@@ -25,7 +25,7 @@ func NewFindProfileByUserIDUsecase(
 }
 
 func (u *FindProfileByUserIDUsecase) Execute(ctx context.Context, input FindProfileByUserIDInput) (*entity.Profile, error) {
-	userID := value_object.NewUserID(input.UserID)
+	userID := valueobject.NewUserID(input.UserID)
 
 	profile, err := u.profileRepository.FindByUserID(ctx, userID)
 	if err != nil {

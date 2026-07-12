@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users_profile
     ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX uq_users_profile_email ON users_profile(email);
+CREATE UNIQUE INDEX uq_users_profile_email ON users_profile(email) WHERE deleted_at IS NULL;
 
 
 -- +goose Down

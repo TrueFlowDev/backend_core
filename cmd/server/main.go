@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/TrueFlowDev/Backend/internal/module/auth"
+	"github.com/TrueFlowDev/Backend/internal/module/authentication"
+	"github.com/TrueFlowDev/Backend/internal/module/authorization"
+	"github.com/TrueFlowDev/Backend/internal/module/employee"
 	"github.com/TrueFlowDev/Backend/internal/module/notification"
+	"github.com/TrueFlowDev/Backend/internal/module/organization"
 	"github.com/TrueFlowDev/Backend/internal/module/user"
 	"github.com/TrueFlowDev/Backend/internal/platform"
+	"github.com/TrueFlowDev/Backend/internal/platform/config"
 	"github.com/TrueFlowDev/Backend/internal/shared"
 	"go.uber.org/fx"
 )
@@ -24,13 +28,18 @@ import (
 // @name						Authorization
 // @description				Enter the JWT token with the `Bearer ` prefix
 func main() {
+	config.LoadFromEnvFile()
+
 	fx.
 		New(
 			shared.Module,
 			platform.Module,
+			authentication.Module,
+			authorization.Module,
 			user.Module,
-			auth.Module,
 			notification.Module,
+			organization.Module,
+			employee.Module,
 		).
 		Run()
 }

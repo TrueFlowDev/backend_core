@@ -23,7 +23,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/login": {
+        "/authentication/login": {
             "post": {
                 "description": "Logins the user and returns an access token.",
                 "consumes": [
@@ -69,7 +69,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/send-otp": {
+        "/authentication/send-otp": {
             "post": {
                 "description": "Sends a one-time password (OTP) to the specified phone number.",
                 "consumes": [
@@ -109,7 +109,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/verify-otp": {
+        "/authentication/verify-otp": {
             "post": {
                 "description": "Verifies OTP, registers the user and returns an access token.",
                 "consumes": [
@@ -142,6 +142,46 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/permission": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all permissions grouped by category.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "List permissions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ListPermissionsOutput"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -355,6 +395,20 @@ const docTemplate = `{
                 }
             }
         },
+        "ListPermissionsOutput": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "permissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PermissionOutput"
+                    }
+                }
+            }
+        },
         "LoginInput": {
             "type": "object",
             "required": [
@@ -374,6 +428,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "access_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "PermissionOutput": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "value": {
                     "type": "string"
                 }
             }

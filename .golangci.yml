@@ -22,6 +22,12 @@ linters:
     - usestdlibvars
 
   settings:
+    staticcheck:
+      checks:
+        - all
+        - -ST1000
+        - -ST1018
+
     revive:
       confidence: 0.8
       rules:

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Ali127Dev/xerr"
-	"github.com/TrueFlowDev/Backend/internal/module/user/domain/value_object"
+	"github.com/TrueFlowDev/Backend/internal/module/user/domain/valueobject"
 )
 
 const (
@@ -27,8 +27,8 @@ var (
 )
 
 type Profile struct {
-	userID    value_object.UserID
-	email     value_object.Email
+	userID    valueobject.UserID
+	email     valueobject.Email
 	firstName string
 	lastName  string
 	headline  string
@@ -40,8 +40,8 @@ type Profile struct {
 }
 
 type RestoreProfileParams struct {
-	UserID    value_object.UserID
-	Email     value_object.Email
+	UserID    valueobject.UserID
+	Email     valueobject.Email
 	FirstName string
 	LastName  string
 	Headline  string
@@ -53,8 +53,8 @@ type RestoreProfileParams struct {
 }
 
 func NewProfile(
-	userID value_object.UserID,
-	email value_object.Email,
+	userID valueobject.UserID,
+	email valueobject.Email,
 	firstName, lastName string,
 ) (*Profile, error) {
 	firstName, err := validateFirstName(firstName)
@@ -97,19 +97,19 @@ func RestoreProfile(
 
 // <-- Getters -->
 
-func (p *Profile) UserID() value_object.UserID { return p.userID }
-func (p *Profile) Email() value_object.Email   { return p.email }
-func (p *Profile) FirstName() string           { return p.firstName }
-func (p *Profile) LastName() string            { return p.lastName }
-func (p *Profile) Headline() string            { return p.headline }
-func (p *Profile) Bio() string                 { return p.bio }
-func (p *Profile) CreatedAt() time.Time        { return p.createdAt }
-func (p *Profile) UpdatedAt() time.Time        { return p.updatedAt }
-func (p *Profile) DeletedAt() *time.Time       { return p.deletedAt }
+func (p *Profile) UserID() valueobject.UserID { return p.userID }
+func (p *Profile) Email() valueobject.Email   { return p.email }
+func (p *Profile) FirstName() string          { return p.firstName }
+func (p *Profile) LastName() string           { return p.lastName }
+func (p *Profile) Headline() string           { return p.headline }
+func (p *Profile) Bio() string                { return p.bio }
+func (p *Profile) CreatedAt() time.Time       { return p.createdAt }
+func (p *Profile) UpdatedAt() time.Time       { return p.updatedAt }
+func (p *Profile) DeletedAt() *time.Time      { return p.deletedAt }
 
 // <-- Setters -->
 
-func (p *Profile) UpdateEmail(newEmail value_object.Email) {
+func (p *Profile) UpdateEmail(newEmail valueobject.Email) {
 	if p.email == newEmail {
 		return
 	}
