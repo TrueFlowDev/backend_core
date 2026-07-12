@@ -33,6 +33,7 @@ func newRole(db *gorm.DB, opts ...gen.DOOption) role {
 	_role.CreatedAt = field.NewTime(tableName, "created_at")
 	_role.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_role.DeletedAt = field.NewField(tableName, "deleted_at")
+	_role.IsOwner = field.NewBool(tableName, "is_owner")
 
 	_role.fillFieldMap()
 
@@ -49,6 +50,7 @@ type role struct {
 	CreatedAt      field.Time
 	UpdatedAt      field.Time
 	DeletedAt      field.Field
+	IsOwner        field.Bool
 
 	fieldMap map[string]field.Expr
 }
@@ -71,6 +73,7 @@ func (r *role) updateTableName(table string) *role {
 	r.CreatedAt = field.NewTime(table, "created_at")
 	r.UpdatedAt = field.NewTime(table, "updated_at")
 	r.DeletedAt = field.NewField(table, "deleted_at")
+	r.IsOwner = field.NewBool(table, "is_owner")
 
 	r.fillFieldMap()
 
@@ -95,13 +98,14 @@ func (r *role) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (r *role) fillFieldMap() {
-	r.fieldMap = make(map[string]field.Expr, 6)
+	r.fieldMap = make(map[string]field.Expr, 7)
 	r.fieldMap["id"] = r.ID
 	r.fieldMap["organization_id"] = r.OrganizationID
 	r.fieldMap["title"] = r.Title
 	r.fieldMap["created_at"] = r.CreatedAt
 	r.fieldMap["updated_at"] = r.UpdatedAt
 	r.fieldMap["deleted_at"] = r.DeletedAt
+	r.fieldMap["is_owner"] = r.IsOwner
 }
 
 func (r role) clone(db *gorm.DB) role {
