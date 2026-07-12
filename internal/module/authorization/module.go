@@ -29,10 +29,15 @@ var Module = fx.Module(
 		usecase.NewFindRoleByIDUsecase,
 		usecase.NewCreateOwnerRoleUsecase,
 		usecase.NewHasPermissionUsecase,
+		usecase.NewListRolesUsecase,
 		controller.NewListPermissionsController,
+		controller.NewCreateRoleController,
+		controller.NewListRolesController,
 		middleware.NewPermissionGuard,
 	),
 	fx.Invoke(
 		controller.RegisterListPermissionsController,
+		controller.RegisterCreateRoleController,
+		controller.RegisterListRolesController,
 	),
 )

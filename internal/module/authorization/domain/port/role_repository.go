@@ -18,4 +18,5 @@ type RoleRepository interface {
 	Create(ctx context.Context, role *entity.Role) error
 
 	FindByID(ctx context.Context, id valueobject.RoleID, organizationID valueobject.OrganizationID) (*entity.Role, error)
+	ListByOrganizationID(ctx context.Context, organizationID valueobject.OrganizationID) ([]*entity.Role, error)
 }

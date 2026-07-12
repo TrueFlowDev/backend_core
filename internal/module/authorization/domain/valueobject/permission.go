@@ -16,6 +16,7 @@ var (
 var allPermissions = mergePermissions(
 	OrganizationPermissions,
 	EmployeePermissions,
+	RolePermissions,
 )
 
 type PermissionCategory string

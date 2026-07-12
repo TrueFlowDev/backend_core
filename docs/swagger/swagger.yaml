@@ -38,6 +38,26 @@ definitions:
       role_id:
         type: string
     type: object
+  CreateRoleInput:
+    properties:
+      permissions:
+        items:
+          type: string
+        minItems: 1
+        type: array
+      title:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - permissions
+    - title
+    type: object
+  CreateRoleOutput:
+    properties:
+      id:
+        type: string
+    type: object
   DashboardOutput:
     properties:
       employee_id:
@@ -128,6 +148,19 @@ definitions:
       title:
         type: string
       value:
+        type: string
+    type: object
+  RoleOutput:
+    properties:
+      id:
+        type: string
+      is_owner:
+        type: boolean
+      permissions:
+        items:
+          type: string
+        type: array
+      title:
         type: string
     type: object
   SaveMyProfileInput:
@@ -339,6 +372,85 @@ paths:
       summary: Create organization
       tags:
       - Organization
+  /organization/{organization_id}/role:
+    get:
+      description: Returns every role defined for an organization.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/RoleOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: List roles
+      tags:
+      - Role
+    post:
+      consumes:
+      - application/json
+      description: Creates a new role for an organization.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Create role request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRoleInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/CreateRoleOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - Role
   /permission:
     get:
       description: Returns all permissions grouped by category.
