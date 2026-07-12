@@ -6,7 +6,7 @@ import (
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/domain/port"
 	userUsecase "github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
-	user_port "github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
+	userport "github.com/TrueFlowDev/Backend/internal/module/user/domain/port"
 )
 
 var _ port.UserFinderByPhone = (*UserFinderByPhone)(nil)
@@ -25,7 +25,7 @@ func (a *UserFinderByPhone) FindByPhone(ctx context.Context, input port.UserFind
 	output, err := a.usecase.Execute(ctx, userUsecase.FindUserByPhoneInput{
 		Phone: input.Phone,
 	})
-	if errors.Is(err, user_port.ErrUserNotFound) {
+	if errors.Is(err, userport.ErrUserNotFound) {
 		return port.UserFinderByPhoneOutput{}, port.ErrUserNotFound
 	}
 	if err != nil {

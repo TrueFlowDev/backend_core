@@ -17,7 +17,6 @@ import (
 
 func NewGinEngine(
 	cfg *config.Config,
-	log port.Logger,
 	requestID *middleware.RequestID,
 	logger *middleware.Logger,
 	errorHandler *middleware.ErrorHandler,
