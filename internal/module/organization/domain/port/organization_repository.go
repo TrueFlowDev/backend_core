@@ -15,6 +15,7 @@ var (
 
 type OrganizationRepository interface {
 	Create(ctx context.Context, organization *entity.Organization) error
+	Update(ctx context.Context, organization *entity.Organization) error
 
 	FindByID(ctx context.Context, id valueobject.OrganizationID) (*entity.Organization, error)
 	FindByIDs(ctx context.Context, ids []valueobject.OrganizationID) ([]*entity.Organization, error)

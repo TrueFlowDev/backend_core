@@ -92,6 +92,21 @@ func (o *Organization) CreatedAt() time.Time                       { return o.cr
 func (o *Organization) UpdatedAt() time.Time                       { return o.updatedAt }
 func (o *Organization) DeletedAt() *time.Time                      { return o.deletedAt }
 
+// <-- Setters -->
+
+func (o *Organization) Update(name string, category valueobject.OrganizationCategory) error {
+	validatedName, err := validateOrganizationName(name)
+	if err != nil {
+		return err
+	}
+
+	o.name = validatedName
+	o.category = category
+	o.updatedAt = time.Now().UTC()
+
+	return nil
+}
+
 // <-- Helpers -->
 
 func validateOrganizationName(name string) (string, error) {
