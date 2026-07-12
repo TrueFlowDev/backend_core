@@ -17,7 +17,7 @@ type FindOrganizationByIDControllerOutput struct {
 	Active    bool      `json:"active"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-} //    @name  OrganizationOutput
+} //	@name	OrganizationOutput
 
 type FindOrganizationByIDController struct {
 	usecase                 *usecase.FindOrganizationByIDUsecase
@@ -50,18 +50,18 @@ func RegisterFindOrganizationByIDController(
 
 // FindOrganizationByID godoc
 //
-//	@Summary        Get organization
-//	@Description    Returns the business details of an organization.
-//	@Tags           Organization
-//	@Produce        json
-//	@Param          organization_id path     string true "Organization ID"
-//	@Success        200             {object} FindOrganizationByIDControllerOutput
-//	@Failure        401             {object} xerr.SwaggerErrOutput
-//	@Failure        403             {object} xerr.SwaggerErrOutput
-//	@Failure        404             {object} xerr.SwaggerErrOutput
-//	@Failure        500             {object} xerr.SwaggerErrOutput
-//	@Security       BearerAuth
-//	@Router         /organization/{organization_id} [get]
+//	@Summary		Get organization
+//	@Description	Returns the business details of an organization.
+//	@Tags			Organization
+//	@Produce		json
+//	@Param			organization_id	path		string	true	"Organization ID"
+//	@Success		200				{object}	FindOrganizationByIDControllerOutput
+//	@Failure		401				{object}	xerr.SwaggerErrOutput
+//	@Failure		403				{object}	xerr.SwaggerErrOutput
+//	@Failure		404				{object}	xerr.SwaggerErrOutput
+//	@Failure		500				{object}	xerr.SwaggerErrOutput
+//	@Security		BearerAuth
+//	@Router			/organization/{organization_id} [get]
 func (c *FindOrganizationByIDController) FindOrganizationByID(ctx *gin.Context) {
 	organization, err := c.usecase.Execute(ctx.Request.Context(), usecase.FindOrganizationByIDInput{
 		ID: ctx.Param("organization_id"),
