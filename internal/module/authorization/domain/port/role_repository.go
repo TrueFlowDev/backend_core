@@ -17,5 +17,5 @@ var (
 type RoleRepository interface {
 	Create(ctx context.Context, role *entity.Role) error
 
-	FindByID(ctx context.Context, id valueobject.RoleID) (*entity.Role, error)
+	FindByID(ctx context.Context, id valueobject.RoleID, organizationID valueobject.OrganizationID) (*entity.Role, error)
 }

@@ -46,11 +46,17 @@ func (r *RoleRepository) Create(ctx context.Context, role *entity.Role) error {
 	return nil
 }
 
-func (r *RoleRepository) FindByID(ctx context.Context, id valueobject.RoleID) (*entity.Role, error) {
+func (r *RoleRepository) FindByID(
+	ctx context.Context, id valueobject.RoleID,
+	organizationID valueobject.OrganizationID,
+) (*entity.Role, error) {
 	q := dao.Use(r.Executor(ctx))
 
 	roleModel, err := q.WithContext(ctx).Role.
-		Where(q.Role.ID.Eq(id.Value())).
+		Where(
+			q.Role.ID.Eq(id.Value()),
+			q.Role.OrganizationID.Eq(organizationID.Value()),
+		).
 		First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
