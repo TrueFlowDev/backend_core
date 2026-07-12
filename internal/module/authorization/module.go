@@ -11,7 +11,7 @@ import (
 var Module = fx.Module(
 	"authorization",
 	fx.Provide(
-		fx.As(
+		fx.Annotate(
 			adapter.NewRoleRepository,
 			fx.As(new(port.RoleRepository)),
 		),
