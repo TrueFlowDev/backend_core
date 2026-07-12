@@ -26,7 +26,7 @@ var Module = fx.Module(
 			adapter.NewEmployeeCreator,
 			fx.As(new(port.EmployeeCreator)),
 		),
-		usecase.NewCreateOrganizationUsecase,
+		usecase.NewCreateOrganizationWithOwnerUsecase,
 		usecase.NewFindOrganizationByIDUsecase,
 	),
 )
