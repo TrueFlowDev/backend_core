@@ -42,6 +42,8 @@ type Role struct {
 	title       string
 	permissions []valueobject.Permission
 
+	isOwner bool
+
 	createdAt time.Time
 	updatedAt time.Time
 	deletedAt *time.Time
@@ -53,6 +55,8 @@ type RestoreRoleParams struct {
 
 	Title       string
 	Permissions []valueobject.Permission
+
+	IsOwner bool
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -86,14 +90,29 @@ func NewRole(
 	}, nil
 }
 
-func RestoreRole(
-	params RestoreRoleParams,
+func NewOwnerRole(
+	id valueobject.RoleID,
+	organizationID valueobject.OrganizationID,
 ) *Role {
+	now := time.Now().UTC()
+
+	return &Role{
+		id:             id,
+		organizationID: organizationID,
+		title:          "مالک",
+		isOwner:        true,
+		createdAt:      now,
+		updatedAt:      now,
+	}
+}
+
+func RestoreRole(params RestoreRoleParams) *Role {
 	return &Role{
 		id:             params.ID,
 		organizationID: params.OrganizationID,
 		title:          params.Title,
 		permissions:    params.Permissions,
+		isOwner:        params.IsOwner,
 		createdAt:      params.CreatedAt,
 		updatedAt:      params.UpdatedAt,
 		deletedAt:      params.DeletedAt,
@@ -106,6 +125,7 @@ func (r *Role) ID() valueobject.RoleID                     { return r.id }
 func (r *Role) OrganizationID() valueobject.OrganizationID { return r.organizationID }
 func (r *Role) Title() string                              { return r.title }
 func (r *Role) Permissions() []valueobject.Permission      { return r.permissions }
+func (r *Role) IsOwner() bool                              { return r.isOwner }
 func (r *Role) CreatedAt() time.Time                       { return r.createdAt }
 func (r *Role) UpdatedAt() time.Time                       { return r.updatedAt }
 func (r *Role) DeletedAt() *time.Time                      { return r.deletedAt }
