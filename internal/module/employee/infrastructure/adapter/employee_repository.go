@@ -64,3 +64,31 @@ func (r *EmployeeRepository) FindByID(
 	}
 	return mappedUser, nil
 }
+
+func (r *EmployeeRepository) ListActiveByUserID(
+	ctx context.Context, userID valueobject.UserID,
+) ([]*entity.Employee, error) {
+	q := dao.Use(r.Executor(ctx))
+
+	models, err := q.WithContext(ctx).Employee.
+		Where(
+			q.Employee.UserID.Eq(userID.Value()),
+			q.Employee.MembershipStatus.Eq(valueobject.MembershipStatusActive.Value()),
+		).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrEmployeeRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "employee_list_active_by_user_id"))
+	}
+
+	employees := make([]*entity.Employee, 0, len(models))
+	for _, m := range models {
+		e, err := mapper.EmployeeModelToEntity(m)
+		if err != nil {
+			return nil, err
+		}
+		employees = append(employees, e)
+	}
+
+	return employees, nil
+}

@@ -146,6 +146,46 @@
                 }
             }
         },
+        "/employee/me/dashboards": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns every active organization membership for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Employee"
+                ],
+                "summary": "List my dashboards",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/DashboardOutput"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/organization": {
             "post": {
                 "security": [
@@ -420,6 +460,29 @@
                     "type": "string"
                 },
                 "organization_id": {
+                    "type": "string"
+                },
+                "role_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "DashboardOutput": {
+            "type": "object",
+            "properties": {
+                "employee_id": {
+                    "type": "string"
+                },
+                "employment_type": {
+                    "type": "string"
+                },
+                "job_title": {
+                    "type": "string"
+                },
+                "organization_id": {
+                    "type": "string"
+                },
+                "organization_name": {
                     "type": "string"
                 },
                 "role_id": {

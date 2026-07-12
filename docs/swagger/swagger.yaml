@@ -38,6 +38,21 @@ definitions:
       role_id:
         type: string
     type: object
+  DashboardOutput:
+    properties:
+      employee_id:
+        type: string
+      employment_type:
+        type: string
+      job_title:
+        type: string
+      organization_id:
+        type: string
+      organization_name:
+        type: string
+      role_id:
+        type: string
+    type: object
   Error:
     properties:
       code:
@@ -262,6 +277,32 @@ paths:
       summary: Register user
       tags:
       - Authentication
+  /employee/me/dashboards:
+    get:
+      description: Returns every active organization membership for the authenticated
+        user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/DashboardOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: List my dashboards
+      tags:
+      - Employee
   /organization:
     post:
       consumes:

@@ -29,6 +29,7 @@ var Module = fx.Module(
 		),
 		usecase.NewCreateOrganizationWithOwnerUsecase,
 		usecase.NewFindOrganizationByIDUsecase,
+		usecase.NewFindOrganizationsByIDsUsecase,
 		controller.NewCreateOrganizationController,
 	),
 	fx.Invoke(
