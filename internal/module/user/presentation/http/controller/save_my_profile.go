@@ -1,11 +1,14 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/TrueFlowDev/Backend/internal/module/authentication/presentation/http/middleware"
 	"github.com/TrueFlowDev/Backend/internal/module/user/application/usecase"
+	"github.com/TrueFlowDev/Backend/internal/platform/server/http/validation"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type SaveMyProfileControllerInput struct {
@@ -60,7 +63,11 @@ func (c *SaveMyProfileController) SaveMyProfile(ctx *gin.Context) {
 
 	var input SaveMyProfileControllerInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {
-		_ = ctx.Error(err)
+		if validationErrs, ok := errors.AsType[validator.ValidationErrors](err); ok {
+			_ = ctx.Error(validation.ToValidationError(validationErrs))
+			return
+		}
+		_ = ctx.Error(validation.NewRequestBindingError("save my profile", validation.JSON))
 		return
 	}
 
