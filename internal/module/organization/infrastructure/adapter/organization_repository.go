@@ -36,6 +36,25 @@ func (o *OrganizationRepository) Create(ctx context.Context, organization *entit
 	return nil
 }
 
+func (o *OrganizationRepository) Update(ctx context.Context, organization *entity.Organization) error {
+	q := dao.Use(o.Executor(ctx))
+
+	organizationModel := mapper.OrganizationEntityToModel(organization)
+
+	result, err := q.WithContext(ctx).Organization.
+		Where(q.Organization.ID.Eq(organizationModel.ID)).
+		Updates(organizationModel)
+	if err != nil {
+		return xerr.Wrap(err, port.ErrOrganizationRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "organization_update"))
+	}
+	if result.RowsAffected == 0 {
+		return port.ErrOrganizationNotFound
+	}
+
+	return nil
+}
+
 func (o *OrganizationRepository) FindByID(ctx context.Context, id valueobject.OrganizationID) (*entity.Organization, error) {
 	q := dao.Use(o.Executor(ctx))
 
