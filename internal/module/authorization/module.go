@@ -17,6 +17,7 @@ var Module = fx.Module(
 		),
 		usecase.NewListPermissionsUseCase,
 		usecase.NewCreateRoleUsecase,
+		usecase.NewFindRoleByIDUsecase,
 		controller.NewListPermissionsController,
 	),
 	fx.Invoke(
