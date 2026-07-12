@@ -24,6 +24,10 @@ var Module = fx.Module(
 			adapter.NewEmployeeRoleFinder,
 			fx.As(new(port.EmployeeRoleFinder)),
 		),
+		fx.Annotate(
+			adapter.NewEmployeeRoleUsageChecker,
+			fx.As(new(port.EmployeeRoleUsageChecker)),
+		),
 		usecase.NewListPermissionsUseCase,
 		usecase.NewCreateRoleUsecase,
 		usecase.NewFindRoleByIDUsecase,

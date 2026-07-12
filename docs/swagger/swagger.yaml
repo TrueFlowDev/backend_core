@@ -201,6 +201,8 @@ definitions:
         minItems: 1
         type: array
       title:
+        maxLength: 100
+        minLength: 2
         type: string
     required:
     - permissions

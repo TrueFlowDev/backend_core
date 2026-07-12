@@ -986,7 +986,9 @@ const docTemplate = `{
                     }
                 },
                 "title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2
                 }
             }
         },
