@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func RoleModelToEntity(m *model.Role, permissionModels []model.RolePermission) (*entity.Role, error) {
+func RoleModelToEntity(m *model.Role, permissionModels []*model.RolePermission) (*entity.Role, error) {
 	roleID := valueobject.NewRoleID(m.ID)
 	organizationID := valueobject.NewOrganizationID(m.OrganizationID)
 
@@ -38,7 +38,7 @@ func RoleModelToEntity(m *model.Role, permissionModels []model.RolePermission) (
 	}), nil
 }
 
-func RoleEntityToModel(e *entity.Role) (*model.Role, []model.RolePermission) {
+func RoleEntityToModel(e *entity.Role) (*model.Role, []*model.RolePermission) {
 	var deletedAt gorm.DeletedAt
 	if e.DeletedAt() != nil {
 		deletedAt = gorm.DeletedAt{
@@ -56,9 +56,9 @@ func RoleEntityToModel(e *entity.Role) (*model.Role, []model.RolePermission) {
 		DeletedAt:      deletedAt,
 	}
 
-	permissionModels := make([]model.RolePermission, len(e.Permissions()))
+	permissionModels := make([]*model.RolePermission, len(e.Permissions()))
 	for i, p := range e.Permissions() {
-		permissionModels[i] = model.RolePermission{
+		permissionModels[i] = &model.RolePermission{
 			RoleID:          e.ID().Value(),
 			PermissionValue: p.Value(),
 		}
