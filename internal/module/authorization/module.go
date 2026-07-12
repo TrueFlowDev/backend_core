@@ -5,6 +5,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/infrastructure/adapter"
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/presentation/http/controller"
+	"github.com/TrueFlowDev/Backend/internal/module/authorization/presentation/http/middleware"
 	"go.uber.org/fx"
 )
 
@@ -15,12 +16,38 @@ var Module = fx.Module(
 			adapter.NewRoleRepository,
 			fx.As(new(port.RoleRepository)),
 		),
+		fx.Annotate(
+			adapter.NewUUIDGenerator,
+			fx.As(new(port.RoleIDGenerator)),
+		),
+		fx.Annotate(
+			adapter.NewEmployeeRoleFinder,
+			fx.As(new(port.EmployeeRoleFinder)),
+		),
+		fx.Annotate(
+			adapter.NewEmployeeRoleUsageChecker,
+			fx.As(new(port.EmployeeRoleUsageChecker)),
+		),
 		usecase.NewListPermissionsUseCase,
 		usecase.NewCreateRoleUsecase,
 		usecase.NewFindRoleByIDUsecase,
+		usecase.NewCreateOwnerRoleUsecase,
+		usecase.NewHasPermissionUsecase,
+		usecase.NewListRolesUsecase,
+		usecase.NewUpdateRoleUsecase,
+		usecase.NewDeleteRoleUsecase,
 		controller.NewListPermissionsController,
+		controller.NewCreateRoleController,
+		controller.NewListRolesController,
+		controller.NewUpdateRoleController,
+		controller.NewDeleteRoleController,
+		middleware.NewPermissionGuard,
 	),
 	fx.Invoke(
 		controller.RegisterListPermissionsController,
+		controller.RegisterCreateRoleController,
+		controller.RegisterListRolesController,
+		controller.RegisterUpdateRoleController,
+		controller.RegisterDeleteRoleController,
 	),
 )

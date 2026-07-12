@@ -4,6 +4,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/organization/application/usecase"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/domain/port"
 	"github.com/TrueFlowDev/Backend/internal/module/organization/infrastructure/adapter"
+	"github.com/TrueFlowDev/Backend/internal/module/organization/presentation/http/controller"
 	"go.uber.org/fx"
 )
 
@@ -18,7 +19,20 @@ var Module = fx.Module(
 			adapter.NewUUIDGenerator,
 			fx.As(new(port.OrganizationIDGenerator)),
 		),
-		usecase.NewCreateOrganizationUsecase,
+		fx.Annotate(
+			adapter.NewRoleCreator,
+			fx.As(new(port.RoleCreator)),
+		),
+		fx.Annotate(
+			adapter.NewEmployeeCreator,
+			fx.As(new(port.EmployeeCreator)),
+		),
+		usecase.NewCreateOrganizationWithOwnerUsecase,
 		usecase.NewFindOrganizationByIDUsecase,
+		usecase.NewFindOrganizationsByIDsUsecase,
+		controller.NewCreateOrganizationController,
+	),
+	fx.Invoke(
+		controller.RegisterCreateOrganizationController,
 	),
 )

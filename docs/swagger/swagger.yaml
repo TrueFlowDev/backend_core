@@ -1,4 +1,78 @@
 definitions:
+  CreateOrganizationInput:
+    properties:
+      category:
+        enum:
+        - technology
+        - finance
+        - retail
+        - manufacturing
+        - other
+        type: string
+      name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      owner_employment_type:
+        enum:
+        - full_time
+        - part_time
+        - contract
+        type: string
+      owner_job_title:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - category
+    - name
+    - owner_employment_type
+    - owner_job_title
+    type: object
+  CreateOrganizationOutput:
+    properties:
+      employee_id:
+        type: string
+      organization_id:
+        type: string
+      role_id:
+        type: string
+    type: object
+  CreateRoleInput:
+    properties:
+      permissions:
+        items:
+          type: string
+        minItems: 1
+        type: array
+      title:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - permissions
+    - title
+    type: object
+  CreateRoleOutput:
+    properties:
+      id:
+        type: string
+    type: object
+  DashboardOutput:
+    properties:
+      employee_id:
+        type: string
+      employment_type:
+        type: string
+      job_title:
+        type: string
+      organization_id:
+        type: string
+      organization_name:
+        type: string
+      role_id:
+        type: string
+    type: object
   Error:
     properties:
       code:
@@ -76,17 +150,36 @@ definitions:
       value:
         type: string
     type: object
+  RoleOutput:
+    properties:
+      id:
+        type: string
+      is_owner:
+        type: boolean
+      permissions:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
   SaveMyProfileInput:
     properties:
       bio:
+        maxLength: 1000
         type: string
       email:
         type: string
       first_name:
+        maxLength: 50
+        minLength: 2
         type: string
       headline:
+        maxLength: 100
         type: string
       last_name:
+        maxLength: 50
+        minLength: 2
         type: string
     required:
     - email
@@ -99,6 +192,21 @@ definitions:
         type: string
     required:
     - phone
+    type: object
+  UpdateRoleInput:
+    properties:
+      permissions:
+        items:
+          type: string
+        minItems: 1
+        type: array
+      title:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - permissions
+    - title
     type: object
   VerifyOTPAndRegisterInput:
     properties:
@@ -217,6 +325,238 @@ paths:
       summary: Register user
       tags:
       - Authentication
+  /employee/me/dashboards:
+    get:
+      description: Returns every active organization membership for the authenticated
+        user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/DashboardOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: List my dashboards
+      tags:
+      - Employee
+  /organization:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new organization and makes the caller its owner.
+      parameters:
+      - description: Create organization request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateOrganizationInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/CreateOrganizationOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create organization
+      tags:
+      - Organization
+  /organization/{organization_id}/role:
+    get:
+      description: Returns every role defined for an organization.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/RoleOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: List roles
+      tags:
+      - Role
+    post:
+      consumes:
+      - application/json
+      description: Creates a new role for an organization.
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Create role request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRoleInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/CreateRoleOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - Role
+  /organization/{organization_id}/role/{role_id}:
+    delete:
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Role ID
+        in: path
+        name: role_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Delete role
+      tags:
+      - Role
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Organization ID
+        in: path
+        name: organization_id
+        required: true
+        type: string
+      - description: Role ID
+        in: path
+        name: role_id
+        required: true
+        type: string
+      - description: Update role request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateRoleInput'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - BearerAuth: []
+      summary: Update role
+      tags:
+      - Role
   /permission:
     get:
       description: Returns all permissions grouped by category.

@@ -10,6 +10,7 @@ import (
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/domain/valueobject"
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/infrastructure/dao"
 	"github.com/TrueFlowDev/Backend/internal/module/authorization/infrastructure/mapper"
+	"github.com/TrueFlowDev/Backend/internal/module/authorization/infrastructure/model"
 	"github.com/TrueFlowDev/Backend/internal/shared/infrastructure/database"
 	"gorm.io/gorm"
 )
@@ -75,4 +76,112 @@ func (r *RoleRepository) FindByID(
 	}
 
 	return mapper.RoleModelToEntity(roleModel, permissionModels)
+}
+
+func (r *RoleRepository) ListByOrganizationID(
+	ctx context.Context, organizationID valueobject.OrganizationID,
+) ([]*entity.Role, error) {
+	q := dao.Use(r.Executor(ctx))
+
+	roleModels, err := q.WithContext(ctx).Role.
+		Where(q.Role.OrganizationID.Eq(organizationID.Value())).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_list_by_organization_id"))
+	}
+
+	if len(roleModels) == 0 {
+		return []*entity.Role{}, nil
+	}
+
+	roleIDs := make([]string, len(roleModels))
+	for i, m := range roleModels {
+		roleIDs[i] = m.ID
+	}
+
+	permissionModels, err := q.WithContext(ctx).RolePermission.
+		Where(q.RolePermission.RoleID.In(roleIDs...)).
+		Find()
+	if err != nil {
+		return nil, xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_list_by_role_ids"))
+	}
+
+	permissionsByRoleID := make(map[string][]*model.RolePermission, len(roleModels))
+	for _, pm := range permissionModels {
+		permissionsByRoleID[pm.RoleID] = append(permissionsByRoleID[pm.RoleID], pm)
+	}
+
+	roles := make([]*entity.Role, 0, len(roleModels))
+	for _, m := range roleModels {
+		role, err := mapper.RoleModelToEntity(m, permissionsByRoleID[m.ID])
+		if err != nil {
+			return nil, err
+		}
+		roles = append(roles, role)
+	}
+
+	return roles, nil
+}
+
+func (r *RoleRepository) Update(ctx context.Context, role *entity.Role) error {
+	q := dao.Use(r.Executor(ctx))
+
+	roleModel, permissionModels := mapper.RoleEntityToModel(role)
+
+	if _, err := q.WithContext(ctx).Role.
+		Where(
+			q.Role.ID.Eq(roleModel.ID),
+			q.Role.OrganizationID.Eq(roleModel.OrganizationID),
+		).
+		Updates(roleModel); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_update"))
+	}
+
+	if _, err := q.WithContext(ctx).RolePermission.
+		Where(q.RolePermission.RoleID.Eq(roleModel.ID)).
+		Delete(); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_delete_before_update"))
+	}
+
+	if len(permissionModels) > 0 {
+		if err := q.WithContext(ctx).RolePermission.Create(permissionModels...); err != nil {
+			return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+				xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_create_on_update"))
+		}
+	}
+
+	return nil
+}
+
+func (r *RoleRepository) Delete(
+	ctx context.Context, id valueobject.RoleID, organizationID valueobject.OrganizationID,
+) error {
+	q := dao.Use(r.Executor(ctx))
+
+	if _, err := q.WithContext(ctx).RolePermission.
+		Where(q.RolePermission.RoleID.Eq(id.Value())).
+		Delete(); err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_permissions_delete_on_role_delete"))
+	}
+
+	result, err := q.WithContext(ctx).Role.
+		Where(
+			q.Role.ID.Eq(id.Value()),
+			q.Role.OrganizationID.Eq(organizationID.Value()),
+		).
+		Delete()
+	if err != nil {
+		return xerr.Wrap(err, port.ErrRoleRepository.Code(),
+			xerr.WithDiagnostics(xerr.DiagnosticOperation, "role_delete"))
+	}
+	if result.RowsAffected == 0 {
+		return port.ErrRoleNotFound
+	}
+
+	return nil
 }

@@ -19,5 +19,8 @@ var (
 type EmployeeRepository interface {
 	Create(ctx context.Context, employee *entity.Employee) error
 
+	CountActiveByRoleID(ctx context.Context, roleID valueobject.RoleID) (int64, error)
 	FindByID(ctx context.Context, id valueobject.EmployeeID, organizationID valueobject.OrganizationID) (*entity.Employee, error)
+	FindByUserIDAndOrganizationID(ctx context.Context, userID valueobject.UserID, organizationID valueobject.OrganizationID) (*entity.Employee, error)
+	ListActiveByUserID(ctx context.Context, userID valueobject.UserID) ([]*entity.Employee, error)
 }

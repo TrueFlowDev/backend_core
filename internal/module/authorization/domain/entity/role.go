@@ -33,6 +33,11 @@ var (
 		xerr.CodeBadRequest,
 		xerr.WithMeta("permissions", xerr.ErrorReasonRequired),
 	)
+
+	ErrCannotModifyOwnerRole = xerr.New(
+		xerr.CodeBadRequest,
+		xerr.WithMeta("role", xerr.ErrorReasonInvalidFormat),
+	)
 )
 
 type Role struct {
@@ -129,6 +134,29 @@ func (r *Role) IsOwner() bool                              { return r.isOwner }
 func (r *Role) CreatedAt() time.Time                       { return r.createdAt }
 func (r *Role) UpdatedAt() time.Time                       { return r.updatedAt }
 func (r *Role) DeletedAt() *time.Time                      { return r.deletedAt }
+
+// <-- Setters -->
+
+func (r *Role) Update(title string, permissions []valueobject.Permission) error {
+	if r.isOwner {
+		return ErrCannotModifyOwnerRole
+	}
+
+	validatedTitle, err := validateTitle(title)
+	if err != nil {
+		return err
+	}
+
+	if err := validatePermissions(permissions); err != nil {
+		return err
+	}
+
+	r.title = validatedTitle
+	r.permissions = permissions
+	r.updatedAt = time.Now().UTC()
+
+	return nil
+}
 
 // <-- Helpers -->
 

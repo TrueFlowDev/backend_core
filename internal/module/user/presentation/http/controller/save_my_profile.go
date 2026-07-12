@@ -13,10 +13,10 @@ import (
 
 type SaveMyProfileControllerInput struct {
 	Email     string `json:"email" binding:"required,email"`
-	FirstName string `json:"first_name" binding:"required"`
-	LastName  string `json:"last_name" binding:"required"`
-	Headline  string `json:"headline,omitempty"`
-	Bio       string `json:"bio,omitempty"`
+	FirstName string `json:"first_name" binding:"required,min=2,max=50"`
+	LastName  string `json:"last_name" binding:"required,min=2,max=50"`
+	Headline  string `json:"headline,omitempty" binding:"max=100"`
+	Bio       string `json:"bio,omitempty" binding:"max=1000"`
 } //	@name	SaveMyProfileInput
 
 type SaveMyProfileController struct {
