@@ -9,7 +9,8 @@ import (
 )
 
 type FindRoleByIDInput struct {
-	ID string
+	ID             string
+	OrganizationID string
 }
 
 type FindRoleByIDUsecase struct {
@@ -26,8 +27,9 @@ func NewFindRoleByIDUsecase(
 
 func (u *FindRoleByIDUsecase) Execute(ctx context.Context, input FindRoleByIDInput) (*entity.Role, error) {
 	roleID := valueobject.NewRoleID(input.ID)
+	organizationID := valueobject.NewOrganizationID(input.OrganizationID)
 
-	role, err := u.roleRepository.FindByID(ctx, roleID)
+	role, err := u.roleRepository.FindByID(ctx, roleID, organizationID)
 	if err != nil {
 		return nil, err
 	}
