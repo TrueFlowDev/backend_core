@@ -14,8 +14,8 @@ import (
 type CreateOrganizationControllerInput struct {
 	Category            string `json:"category" binding:"required,oneof=technology finance retail manufacturing other"`
 	Name                string `json:"name" binding:"required,min=3,max=100"`
-	OwnerJobTitle       string `json:"owner_job_title,omitempty" binding:"required,min=2,max=100"`
-	OwnerEmploymentType string `json:"owner_employment_type,omitempty" binding:"required,oneof=full_time part_time contract"`
+	OwnerJobTitle       string `json:"owner_job_title" binding:"required,min=2,max=100"`
+	OwnerEmploymentType string `json:"owner_employment_type" binding:"required,oneof=full_time part_time contract"`
 } //	@name	CreateOrganizationInput
 
 type CreateOrganizationControllerOutput struct {

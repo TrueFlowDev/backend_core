@@ -14,7 +14,7 @@ import (
 
 type UpdateRoleControllerInput struct {
 	Title       string   `json:"title" binding:"required,min=2,max=100"`
-	Permissions []string `json:"permissions" binding:"required,min=1"`
+	Permissions []string `json:"permissions" binding:"required,min=1,dive,required"`
 } //	@name	UpdateRoleInput
 
 type UpdateRoleController struct {

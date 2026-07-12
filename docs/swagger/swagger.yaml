@@ -2,10 +2,25 @@ definitions:
   AddEmployeeInput:
     properties:
       employment_type:
+        enum:
+        - full_time
+        - part_time
+        - contract
+        - intern
+        - temporary
+        - consultant
         type: string
       job_title:
+        maxLength: 100
+        minLength: 2
         type: string
       membership_status:
+        enum:
+        - active
+        - on_leave
+        - suspended
+        - resigned
+        - terminated
         type: string
       phone:
         type: string
@@ -176,6 +191,8 @@ definitions:
   LoginInput:
     properties:
       password:
+        maxLength: 72
+        minLength: 8
         type: string
       phone:
         type: string
@@ -256,10 +273,25 @@ definitions:
   UpdateEmployeeInput:
     properties:
       employment_type:
+        enum:
+        - full_time
+        - part_time
+        - contract
+        - intern
+        - temporary
+        - consultant
         type: string
       job_title:
+        maxLength: 100
+        minLength: 2
         type: string
       membership_status:
+        enum:
+        - active
+        - on_leave
+        - suspended
+        - resigned
+        - terminated
         type: string
       role_id:
         type: string
@@ -283,6 +315,9 @@ definitions:
         maxLength: 100
         minLength: 3
         type: string
+    required:
+    - category
+    - name
     type: object
   UpdateRoleInput:
     properties:
@@ -304,6 +339,8 @@ definitions:
       code:
         type: string
       password:
+        maxLength: 72
+        minLength: 8
         type: string
       phone:
         type: string

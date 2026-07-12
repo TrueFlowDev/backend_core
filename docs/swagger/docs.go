@@ -1100,13 +1100,30 @@ const docTemplate = `{
             ],
             "properties": {
                 "employment_type": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "full_time",
+                        "part_time",
+                        "contract",
+                        "intern",
+                        "temporary",
+                        "consultant"
+                    ]
                 },
                 "job_title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2
                 },
                 "membership_status": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "on_leave",
+                        "suspended",
+                        "resigned",
+                        "terminated"
+                    ]
                 },
                 "phone": {
                     "type": "string"
@@ -1352,7 +1369,9 @@ const docTemplate = `{
             ],
             "properties": {
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 72,
+                    "minLength": 8
                 },
                 "phone": {
                     "type": "string"
@@ -1473,13 +1492,30 @@ const docTemplate = `{
             ],
             "properties": {
                 "employment_type": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "full_time",
+                        "part_time",
+                        "contract",
+                        "intern",
+                        "temporary",
+                        "consultant"
+                    ]
                 },
                 "job_title": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 2
                 },
                 "membership_status": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "on_leave",
+                        "suspended",
+                        "resigned",
+                        "terminated"
+                    ]
                 },
                 "role_id": {
                     "type": "string"
@@ -1488,6 +1524,10 @@ const docTemplate = `{
         },
         "UpdateOrganizationInput": {
             "type": "object",
+            "required": [
+                "category",
+                "name"
+            ],
             "properties": {
                 "category": {
                     "type": "string",
@@ -1539,7 +1579,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 72,
+                    "minLength": 8
                 },
                 "phone": {
                     "type": "string"

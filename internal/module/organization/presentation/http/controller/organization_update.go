@@ -13,8 +13,8 @@ import (
 )
 
 type UpdateOrganizationControllerInput struct {
-	Category string `json:"category" binding:"oneof=technology finance retail manufacturing other"`
-	Name     string `json:"name" binding:"min=3,max=100"`
+	Category string `json:"category" binding:"required,oneof=technology finance retail manufacturing other"`
+	Name     string `json:"name" binding:"required,min=3,max=100"`
 } //	@name	UpdateOrganizationInput
 
 type UpdateOrganizationController struct {

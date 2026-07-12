@@ -12,8 +12,8 @@ import (
 
 type VerifyOTPAndRegisterControllerInput struct {
 	Phone    string `json:"phone" binding:"required"`
-	Password string `json:"password" binding:"required"`
-	Code     string `json:"code" binding:"required"`
+	Password string `json:"password" binding:"required,min=8,max=72"`
+	Code     string `json:"code" binding:"required,numeric"`
 } //	@name	VerifyOTPAndRegisterInput
 
 type VerifyOTPAndRegisterControllerOutput struct {

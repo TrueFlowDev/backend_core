@@ -13,10 +13,10 @@ import (
 )
 
 type UpdateEmployeeControllerInput struct {
-	RoleID           string `json:"role_id" binding:"required"`
-	JobTitle         string `json:"job_title" binding:"required"`
-	MembershipStatus string `json:"membership_status" binding:"required"`
-	EmploymentType   string `json:"employment_type" binding:"required"`
+	RoleID           string `json:"role_id" binding:"required,uuid4"`
+	JobTitle         string `json:"job_title" binding:"required,min=2,max=100"`
+	MembershipStatus string `json:"membership_status" binding:"required,oneof=active on_leave suspended resigned terminated"`
+	EmploymentType   string `json:"employment_type" binding:"required,oneof=full_time part_time contract intern temporary consultant"`
 } //	@name	UpdateEmployeeInput
 
 type UpdateEmployeeController struct {

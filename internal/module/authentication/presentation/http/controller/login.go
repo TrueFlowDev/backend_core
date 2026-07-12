@@ -12,7 +12,7 @@ import (
 
 type LoginControllerInput struct {
 	Phone    string `json:"phone" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Password string `json:"password" binding:"required,min=8,max=72"`
 } //	@name	LoginInput
 
 type LoginControllerOutput struct {
