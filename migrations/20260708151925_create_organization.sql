@@ -22,5 +22,5 @@ CREATE TABLE IF NOT EXISTS organizations
 
 
 -- +goose Down
-DROP INDEX IF EXISTS uq_users_phone;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS organizations;
+DROP TYPE IF EXISTS organization_category;

@@ -8,10 +8,17 @@ CREATE TABLE IF NOT EXISTS roles
 
     created_at      TIMESTAMPTZ  NOT NULL,
     updated_at      TIMESTAMPTZ  NOT NULL,
-    deleted_at      TIMESTAMPTZ
-);
+    deleted_at      TIMESTAMPTZ,
 
-CREATE INDEX IF NOT EXISTS idx_roles_organization_id ON roles (organization_id) WHERE deleted_at IS NULL;
+    CONSTRAINT uq_roles_id_organization
+        UNIQUE (id, organization_id),
+
+    CONSTRAINT fk_roles_organization
+        FOREIGN KEY (organization_id)
+            REFERENCES organizations (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+);
 
 CREATE TABLE IF NOT EXISTS role_permissions
 (

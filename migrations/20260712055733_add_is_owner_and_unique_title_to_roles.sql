@@ -2,14 +2,10 @@
 ALTER TABLE roles
     ADD COLUMN IF NOT EXISTS is_owner BOOLEAN NOT NULL DEFAULT false;
 
-DROP INDEX IF EXISTS idx_roles_organization_id;
-
 CREATE UNIQUE INDEX IF NOT EXISTS idx_roles_org_title ON roles (organization_id, title) WHERE deleted_at IS NULL;
 
 -- +goose Down
 DROP INDEX IF EXISTS idx_roles_org_title;
-
-CREATE INDEX IF NOT EXISTS idx_roles_organization_id ON roles (organization_id) WHERE deleted_at IS NULL;
 
 ALTER TABLE roles
     DROP COLUMN IF EXISTS is_owner;
