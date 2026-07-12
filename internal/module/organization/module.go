@@ -18,6 +18,14 @@ var Module = fx.Module(
 			adapter.NewUUIDGenerator,
 			fx.As(new(port.OrganizationIDGenerator)),
 		),
+		fx.Annotate(
+			adapter.NewRoleCreator,
+			fx.As(new(port.RoleCreator)),
+		),
+		fx.Annotate(
+			adapter.NewEmployeeCreator,
+			fx.As(new(port.EmployeeCreator)),
+		),
 		usecase.NewCreateOrganizationUsecase,
 		usecase.NewFindOrganizationByIDUsecase,
 	),
