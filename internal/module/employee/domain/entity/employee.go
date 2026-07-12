@@ -29,6 +29,7 @@ type Employee struct {
 	id             valueobject.EmployeeID
 	userID         valueobject.UserID
 	organizationID valueobject.OrganizationID
+	roleID         valueobject.RoleID
 
 	jobTitle         string
 	membershipStatus valueobject.MembershipStatus
@@ -43,6 +44,7 @@ type RestoreEmployeeParams struct {
 	ID             valueobject.EmployeeID
 	UserID         valueobject.UserID
 	OrganizationID valueobject.OrganizationID
+	RoleID         valueobject.RoleID
 
 	JobTitle         string
 	MembershipStatus valueobject.MembershipStatus
@@ -57,6 +59,7 @@ func NewEmployee(
 	id valueobject.EmployeeID,
 	userID valueobject.UserID,
 	organizationID valueobject.OrganizationID,
+	roleID valueobject.RoleID,
 	jobTitle string,
 	membershipStatus valueobject.MembershipStatus,
 	employmentType valueobject.EmploymentType,
@@ -72,6 +75,7 @@ func NewEmployee(
 		id:               id,
 		userID:           userID,
 		organizationID:   organizationID,
+		roleID:           roleID,
 		jobTitle:         jobTitle,
 		membershipStatus: membershipStatus,
 		employmentType:   employmentType,
@@ -87,6 +91,7 @@ func RestoreEmployee(
 		id:               params.ID,
 		userID:           params.UserID,
 		organizationID:   params.OrganizationID,
+		roleID:           params.RoleID,
 		jobTitle:         params.JobTitle,
 		membershipStatus: params.MembershipStatus,
 		employmentType:   params.EmploymentType,
@@ -101,6 +106,7 @@ func RestoreEmployee(
 func (e *Employee) ID() valueobject.EmployeeID                     { return e.id }
 func (e *Employee) UserID() valueobject.UserID                     { return e.userID }
 func (e *Employee) OrganizationID() valueobject.OrganizationID     { return e.organizationID }
+func (e *Employee) RoleID() valueobject.RoleID                     { return e.roleID }
 func (e *Employee) JobTitle() string                               { return e.jobTitle }
 func (e *Employee) MembershipStatus() valueobject.MembershipStatus { return e.membershipStatus }
 func (e *Employee) EmploymentType() valueobject.EmploymentType     { return e.employmentType }
