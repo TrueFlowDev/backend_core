@@ -562,19 +562,25 @@ const docTemplate = `{
             ],
             "properties": {
                 "bio": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 1000
                 },
                 "email": {
                     "type": "string"
                 },
                 "first_name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 2
                 },
                 "headline": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 100
                 },
                 "last_name": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 2
                 }
             }
         },

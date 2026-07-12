@@ -118,14 +118,20 @@ definitions:
   SaveMyProfileInput:
     properties:
       bio:
+        maxLength: 1000
         type: string
       email:
         type: string
       first_name:
+        maxLength: 50
+        minLength: 2
         type: string
       headline:
+        maxLength: 100
         type: string
       last_name:
+        maxLength: 50
+        minLength: 2
         type: string
     required:
     - email
